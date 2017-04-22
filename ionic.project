@@ -1,0 +1,12 @@
+{
+  "name": "ionic_restaurant",
+  "app_id": "286b6a3e",
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ]
+}

@@ -1,0 +1,56 @@
+<!--
+  This template loads for the 'about_us' state (app.js)
+-->
+<ion-view view-title="About us">
+  <ion-content class="stable-bg">
+    <div class="padding">
+
+      <h2 class="dark">El Gaucho restaurant </h2>
+      <span class="dark">225 Valencia St, San Francisco, CA</span>
+
+      <h3>About us</h3>
+
+      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make
+        a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+        remaining essentially unchanged</p>
+
+      <h3>Open hours</h3>
+
+      <div class="list list-inset">
+        <label class="item item-input item-stacked-label" ng-repeat="day in days">
+          <span class="input-label">{{ day.name }}</span>
+          <span class="data">{{ day.hours }}</span>
+        </label>
+      </div>
+
+      <h3>Get in touch</h3>
+
+      <div class="list card">
+        <a href="tel:{{vm.phoneNumber}}" class="item item-icon-left">
+          <i class="icon ion-ios-telephone"></i> Call us
+        </a>
+        <a class="item item-icon-left">
+          <i class="icon ion-email"></i> Send us and Email</a>
+        <a href="#" class="item item-icon-left">
+          <i class="icon ion-compass"></i> Find us / Get directions</a>
+      </div>
+
+      <h4>Get social with us</h4>
+      <div class="list card">
+        <a class="item item-icon-left">
+          <i class="icon ion-social-facebook"></i> Visit us on Facebook
+        </a>
+        <a class="item item-icon-left">
+          <i class="icon ion-social-instagram-outline"></i> Follow us on Instagram
+        </a>
+        <a class="item item-icon-left">
+          <i class="icon ion-social-twitter"></i> Follow us on Twitter
+        </a>
+        <a class="item item-icon-left"><i class="icon ion-social-pinterest"></i> Follow us on Pinterest
+        </a>
+      </div>
+
+    </div>
+  </ion-content>
+</ion-view>

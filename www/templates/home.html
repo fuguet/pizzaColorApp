@@ -1,0 +1,34 @@
+<!--
+  This template loads for the 'home' state (app.js)
+  Show list of menu
+  categories is a $scope variable on HomeCtrl (controllers.js)
+  The HomeCtrl pulls data from Categories service (service.js)
+  The Categories service returns array  of categories data
+-->
+<ion-view view-title="Home">
+
+  <ion-content class="stable-bg">
+
+    <ion-slide-box auto-play="true">
+      <ion-slide ng-repeat="img in slides">
+        <img class="full-image" ng-src="{{ img }}" alt=""/>
+      </ion-slide>
+    </ion-slide-box>
+
+    <h3 class="text-center">El Gaucho restaurant</h3>
+
+    <div class="list no-padding">
+      <div class="item item-menu" ng-repeat="category in categories" ui-sref="category({id: category.id})">
+
+        <img ng-src="{{ category.thumb }}" alt="{{ category.name }}"/>
+
+        <div class="overlay">
+
+          <span class="pull-left light">
+            {{ category.name }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
