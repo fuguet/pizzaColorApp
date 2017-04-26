@@ -9,8 +9,6 @@ angular.module('starter.controllers', [])
                 disableBack: true
             });
             if (auth.hasToken()) {
-
-
                 $state.go('home', {}, {location: "replace"});
 
             }
@@ -27,8 +25,8 @@ angular.module('starter.controllers', [])
                 {  // Check if the form data is valid or not
 
                     sharedUtils.showLoading();
-                    
-                   debugger;
+
+                    debugger;
 
                     restApi.call(
                             {
@@ -62,13 +60,15 @@ angular.module('starter.controllers', [])
                                     }
                                 },
                                 error: function (r) {
-                                    
-                                     sharedUtils.hideLoading();
-                                        sharedUtils.showAlert("Please note", "Authentication Error");
-                                        alert(r.message);
+
+                                    sharedUtils.hideLoading();
+                                    sharedUtils.showAlert("Please note", "Authentication Error");
+                                    alert(r.message);
 
                                 },
                                 validationError: function (r) {
+                                    sharedUtils.showAlert(r);
+                                    sharedUtils.hideLoading();
 
                                 }
                             });
@@ -97,16 +97,24 @@ angular.module('starter.controllers', [])
         })
 
 // Home controller
-        .controller('HomeCtrl', function ($scope, $state, Menu) {
+        .controller('HomeCtrl', function ($scope, $state, Menu,promo) {
             // get all categories from service
             $scope.categories = Menu.all();
+            
+              promo.getPromos().success(function (response) {
+                  debugger;
+                $scope.promos = response.data;
+            });
+            
+
+
 
             // list images for slider
-            $scope.slides = [
-                "img/categories/fruit.jpg",
-                "img/categories/pizza.jpg",
-                "img/categories/sushi.jpg"
-            ];
+//            $scope.slides = [
+//                "img/categories/fruit.jpg",
+//                "img/categories/pizza.jpg",
+//                "img/categories/sushi.jpg"
+//            ];
         })
 
 // Categories controller

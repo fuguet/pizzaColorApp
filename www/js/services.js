@@ -310,7 +310,7 @@ angular.module('starter.services', [])
                 };
                 return auth;
             }])
-      
+
 
         .service('restApi', ['$http', 'auth', function ($http, auth) {
 
@@ -826,4 +826,30 @@ angular.module('starter.services', [])
                 }
             };
         })
+
+        .factory('promo', ['$http', function ($http) {
+                // Might use a resource here that returns a JSON array
+
+                var dataPromo = {};
+
+                dataPromo.getPromos = function () {
+                    return($http({
+                        url: API.base_url + 'promo/listarslider',
+                        method: "GET"
+                    }).success(function (data, status, headers, config) {
+                        debugger;
+                        datos = JSON.stringify(data);
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
+
+
+
+
+                return dataPromo;
+            }])
 
