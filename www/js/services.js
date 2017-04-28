@@ -320,9 +320,6 @@ angular.module('starter.services', [])
                     headers[API.token_name] = auth.getToken();
 //                                                                  headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
-
-
-
                     var http_config = {
                         method: config.method,
                         url: API.base_url + config.url,
@@ -837,8 +834,7 @@ angular.module('starter.services', [])
                         url: API.base_url + 'promo/listarslider',
                         method: "GET"
                     }).success(function (data, status, headers, config) {
-                        debugger;
-                        datos = JSON.stringify(data);
+                        datos = data.data;
                         return datos;
                     }).error(function (err) {
                         error = err;
@@ -847,9 +843,73 @@ angular.module('starter.services', [])
 
                 };
 
-
-
-
                 return dataPromo;
             }])
+
+        .factory('categoria', ['$http', 'auth', function ($http, auth) {
+                // Might use a resource here that returns a JSON array
+
+                var headers = {};
+                headers[API.token_name] = auth.getToken();
+                var dataCategoria = {};
+
+                dataCategoria.getCategorias = function () {
+                    return($http({
+                        url: API.base_url + 'categoria/listar2',
+                        method: "GET",
+                        headers: headers
+                    }).success(function (data, status, headers, config) {
+                        datos = data.data;
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
+                
+                dataCategoria.getCategoria = function (idCategoria) {
+                    return($http({
+                        url: API.base_url + 'categoria/obtener/'+idCategoria,
+                        method: "GET",
+                        headers: headers
+                    }).success(function (data, status, headers, config) {
+                        datos = data.data;
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
+
+                return dataCategoria;
+            }])
+        
+         .factory('producto', ['$http', 'auth', function ($http, auth) {
+                // Might use a resource here that returns a JSON array
+
+                var headers = {};
+                headers[API.token_name] = auth.getToken();
+                var dataProducto = {};
+
+                dataProducto.getProductoCat = function (idCategoria) {
+                    return($http({
+                        url: API.base_url + '/producto/listarCat2/'+idCategoria,
+                        method: "GET",
+                        headers: headers
+                    }).success(function (data, status, headers, config) {
+                        datos = data.data;
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
+
+                return dataProducto;
+            }])
+
+
 

@@ -97,24 +97,39 @@ angular.module('starter.controllers', [])
         })
 
 // Home controller
-        .controller('HomeCtrl', function ($scope, $state, Menu,promo) {
+        .controller('HomeCtrl', function ($scope, $ionicSlideBoxDelegate, $state, Menu, promo, categoria) {
             // get all categories from service
-            $scope.categories = Menu.all();
-            
-              promo.getPromos().success(function (response) {
-                  debugger;
-                $scope.promos = response.data;
+//            $scope.categories = Menu.all();
+
+            $scope.slides = [];
+
+            categoria.getCategorias().success(function (response) {
+
+                $scope.categories = response.data;
             });
-            
 
 
+
+            promo.getPromos().success(function (response) {
+                $scope.promos = response.data;
+                angular.forEach(response.data, function (value, key) {
+                    $scope.slides.push(value.slider);
+                });
+            });
+
+            //actualizar slider
+            $scope.updateSlider = function () {
+                $ionicSlideBoxDelegate.update(); //or just return the function
+            }
 
             // list images for slider
 //            $scope.slides = [
-//                "img/categories/fruit.jpg",
-//                "img/categories/pizza.jpg",
-//                "img/categories/sushi.jpg"
+//                "http://35.184.187.29/delBo/assets/imagenes/promos/Combo1.jpg",
+//                "http://35.184.187.29/delBo/assets/imagenes/promos/combo2.jpg",
+//                'http://35.184.187.29/delBo/assets/imagenes/promos/combo3.jpg'
 //            ];
+//
+//            debugger;
         })
 
 // Categories controller
@@ -125,11 +140,27 @@ angular.module('starter.controllers', [])
 
 
 // Category controller
-        .controller('CategoryCtrl', function ($scope, $state, Categories, $stateParams) {
+        .controller('CategoryCtrl', function ($scope, $state, Categories, $stateParams, producto, categoria) {
+
+            debugger;
             var id = $stateParams.id;
+            $scope.products = {};
+            $scope.category = {};
+
+            producto.getProductoCat(id).success(function (response) {
+                debugger;
+                $scope.products = response.data;
+
+            });
+            categoria.getCategoria(id).success(function (response) {
+                debugger;
+
+                $scope.category = response;
+            });
+
 
             // get all items from service by category id
-            $scope.category = Categories.get(1);
+//            $scope.category = Categories.get(1);
         })
 
 // Item controller

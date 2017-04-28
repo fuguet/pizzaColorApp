@@ -5,23 +5,24 @@
   The CategoryCtrl pulls data from Categories service (service.js)
   The Categories service returns array of items data
 -->
-<ion-view view-title="{{ category.name }}">
+<ion-view view-title="{{ category.cat_nombre }}">
 
   <ion-content class="stable-bg">
 
     <div class="list no-padding">
-      <div class="item item-menu" ng-repeat="item in category.items" ui-sref="item({id: item.id})">
+      <div class="item item-menu" ng-repeat="item in products" ui-sref="item({id: item.id})">
 
-        <img ng-src="{{ item.thumb }}" alt="{{ item.name }}"/>
+        <img ng-src="{{ item.slider }}" alt="{{ item.prod_nombre }}"/>
 
         <div class="overlay">
 
           <span class="pull-left light">
-            {{ item.name }}
+            {{ item.prod_nombre }}
+           <p>{{item.prod_descripcionProducto}}</p>
           </span>
 
           <span class="pull-right light">
-            ${{ item.price }}
+            ${{ item.prod_precioBase }}
           </span>
         </div>
       </div>
