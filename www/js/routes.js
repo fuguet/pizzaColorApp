@@ -47,6 +47,12 @@ angular.module('starter.routes', [])
                         templateUrl: 'templates/item.html',
                         controller: 'ItemCtrl'
                     })
+                    
+                    .state('itemoffer', {
+                        url: '/itemoffer/:id',
+                        templateUrl: 'templates/itemoffer.html',
+                        controller: 'ItemOfferCtrl'
+                    })
 
                     // View favorite items
                     .state('favorite', {

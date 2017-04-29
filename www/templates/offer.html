@@ -9,22 +9,22 @@
   <ion-content class="stable-bg">
 
     <ion-slide-box class="slide-box-offer">
-      <ion-slide ng-repeat="item in items">
-        <div class="card rlt" ui-sref="item({id: item.id})">
-          <img class="full-image" ng-src="{{ item.thumb }}" alt=""/>
+      <ion-slide ng-repeat="item in promos">
+        <div class="card rlt" ui-sref="itemoffer({id: item.pro_id})">
+          <img class="full-image" ng-src="{{ item.slider }}"  ng-init="updateSlider()" alt=""/>
 
           <div class="card-bottom">
             <span class="dark">
-              {{ item.name }}
+              {{ item.pro_nombre }}
             </span>
 
             <span class="pull-right price assertive">
-              ${{ item.price }}
+              ${{ item.pro_precio }}
             </span>
           </div>
 
           <div class="offer-label">
-            <span class="square text-center light assertive-bg">{{ item.offer }}%</span>
+            <span class="square text-center light assertive-bg">{{ item.pro_descuento }}%</span>
             <i class="triangle"></i>
           </div>
         </div>

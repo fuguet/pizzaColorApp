@@ -148,12 +148,10 @@ angular.module('starter.controllers', [])
             $scope.category = {};
 
             producto.getProductoCat(id).success(function (response) {
-                debugger;
                 $scope.products = response.data;
 
             });
             categoria.getCategoria(id).success(function (response) {
-                debugger;
 
                 $scope.category = response;
             });
@@ -164,11 +162,19 @@ angular.module('starter.controllers', [])
         })
 
 // Item controller
-        .controller('ItemCtrl', function ($scope, $state, Items, $stateParams, $ionicPopup) {
+        .controller('ItemCtrl', function ($scope, $state, Items, $stateParams, $ionicPopup, producto) {
             var id = $stateParams.id;
 
             // get item from service by item id
-            $scope.item = Items.get(1);
+
+            producto.getProducto(id).success(function (response) {
+                debugger;
+
+                $scope.item = response;
+            });
+
+
+//            $scope.item = Items.get(1);
 
             // toggle favorite
             $scope.toggleFav = function () {
@@ -243,9 +249,20 @@ angular.module('starter.controllers', [])
         })
 
 // Offer controller
-        .controller('OfferCtrl', function ($scope, $state, Items, $ionicSideMenuDelegate) {
+        .controller('OfferCtrl', function ($scope, $state, Items, $ionicSideMenuDelegate, $ionicSlideBoxDelegate, promo) {
             // get all items form Items model
-            $scope.items = Items.all();
+//            $scope.items = Items.all();
+
+            promo.getPromos().success(function (response) {
+                $scope.promos = response.data;
+
+
+            });
+
+            //actualizar slider
+            $scope.updateSlider = function () {
+                $ionicSlideBoxDelegate.update(); //or just return the function
+            }
 
             // toggle favorite
             $scope.toggleFav = function () {
@@ -254,6 +271,129 @@ angular.module('starter.controllers', [])
 
             // disabled swipe menu
             $ionicSideMenuDelegate.canDragContent(false);
+        })
+        .controller('ItemOfferCtrl', function ($scope, $state, Items, $stateParams, $ionicPopup, producto, promo) {
+            var id = $stateParams.id;
+
+            // get item from service by item id
+
+            promo.getPromo(id).success(function (response) {
+
+
+                $scope.promo = response;
+            });
+
+            promo.getProductoPromo(id).success(function (response) {
+
+
+                $scope.items = response;
+            });
+
+
+//            $scope.item = Items.get(1);
+
+            // toggle favorite
+            $scope.toggleFav = function () {
+                $scope.item.faved = !$scope.item.faved;
+            }
+            $scope.selOptions = function (optionO) {
+                $scope.data = {
+                    quantity: 1
+                };
+                $scope.options = [];
+
+
+                var idProd = optionO.prod_id;
+
+
+
+                producto.getProducto(idProd).success(function (response) {
+                    $scope.options = response.variedades;
+                    if ($scope.options.length > 0) {
+                        var myPopup = $ionicPopup.show({
+                            templateUrl: 'templates/popup-prodOption.html',
+                            title: 'Seleccione',
+                            scope: $scope,
+                            buttons: [
+                                {text: 'Cancel'},
+                                {
+                                    text: '<b>Save</b>',
+                                    type: 'button-assertive',
+                                    onTap: function (e) {
+                                        debugger;
+                                        if (!$scope.selectedVariedad) {
+                                            //don't allow the user to close unless he enters note
+                                            e.preventDefault();
+                                        } else {
+                                            return $scope.selectedVariedad;
+//                                    return $scope.data.quantity;
+                                        }
+                                    }
+                                },
+                            ]
+                        });
+                        myPopup.then(function (res) {
+//                    $scope.data.quantity = res;
+                            debugger;
+
+                            optionO.selectedVariedad = res;
+
+
+
+                        });
+
+                    }
+                });
+
+                $scope.SelectedVariedadChange = function (variedad) {
+
+
+                    $scope.selectedVariedad = variedad;
+
+
+
+                };
+
+           
+
+
+
+                // An elaborate, custom popup
+
+            };
+            // Show note popup when click to 'Notes to driver'
+
+
+            $scope.addCart = function () {
+                $scope.data = {
+                    quantity: 1
+                }
+
+                // An elaborate, custom popup
+                var myPopup = $ionicPopup.show({
+                    templateUrl: 'templates/popup-quantity.html',
+                    title: 'Quantity',
+                    scope: $scope,
+                    buttons: [
+                        {text: 'Cancel'},
+                        {
+                            text: '<b>Save</b>',
+                            type: 'button-assertive',
+                            onTap: function (e) {
+                                if (!$scope.data.quantity) {
+                                    //don't allow the user to close unless he enters note
+                                    e.preventDefault();
+                                } else {
+                                    return $scope.data.quantity;
+                                }
+                            }
+                        },
+                    ]
+                });
+                myPopup.then(function (res) {
+                    $scope.data.quantity = res;
+                });
+            };
         })
 
 // Checkout controller

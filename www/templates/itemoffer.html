@@ -1,0 +1,64 @@
+<!--
+  This template loads for the 'item' state (app.js)
+  item is a $scope variable on ItemCtrl (controllers.js)
+  The ItemCtrl pulls data from Items service (service.js)
+  The Items service returns array of items data
+-->
+<ion-view view-title="{{ promo.pro_nombre}}">
+
+    <ion-content>
+
+        <!-- Item cover -->
+        <div class="item-cover">
+            <ion-slide-box>
+                <ion-slide >
+                    <img class="full-image" ng-src="{{ promo.slider}}" alt=""/>
+                </ion-slide>
+            </ion-slide-box>
+
+            <div class="overlay">
+                <span class="pull-left light">
+                    {{ promo.pro_descripcion}}
+                </span>
+
+                <span class="pull-right price light">
+                    ${{ promo.pro_precio}}
+                </span>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="row item-button-group">
+            <div class="col button button-stable" ng-click="toggleFav()">
+                <i class="text-2x ion-android-star-outline" ng-hide="item.faved"></i>
+                <i class="text-2x ion-android-star" ng-show="item.faved"></i>
+                <span class="text-sm">ADD TO FAVORITE</span>
+            </div>
+            <div class="col button button-assertive" ng-click="addCart()">
+                <i class="text-2x ion-ios-cart-outline"></i>
+                <span class="text-sm">ADD TO CART</span>
+            </div>
+        </div>
+
+        <ion-list>
+            <ion-item class="item-divider">
+                Descripcion
+            </ion-item>
+            <ion-item>
+                <p align="left">  {{ promo.pro_descripcion}}</p>
+
+            </ion-item>
+            <ion-item class="item-divider">
+                Productos
+            </ion-item>
+            <ion-item ng-repeat="option in items" ng-click="selOptions(option)">
+                <strong>{{ option.prod_nombre}}</strong>
+                <br>
+                <ion-input type="text"  ng-model="option.selectedVariedad.var_nombre" ng-value="option.selectedVariedad"> {{option.selectedVariedad.var_nombre}}</ion-input>
+            </ion-item>
+
+
+        </ion-list>
+
+    </ion-content>
+</ion-view>

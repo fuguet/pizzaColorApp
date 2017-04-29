@@ -842,6 +842,32 @@ angular.module('starter.services', [])
                             )
 
                 };
+                 dataPromo.getPromo = function (idPromo) {
+                    return($http({
+                        url: API.base_url + 'promo/obtenertodo/'+idPromo,
+                        method: "GET"
+                    }).success(function (data, status, headers, config) {
+                        datos = data.data;
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
+                dataPromo.getProductoPromo = function (idPromo) {
+                    return($http({
+                        url: API.base_url + 'promo/listarprod/'+idPromo,
+                        method: "GET"
+                    }).success(function (data, status, headers, config) {
+                        datos = data.data;
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
 
                 return dataPromo;
             }])
@@ -867,10 +893,10 @@ angular.module('starter.services', [])
                             )
 
                 };
-                
+
                 dataCategoria.getCategoria = function (idCategoria) {
                     return($http({
-                        url: API.base_url + 'categoria/obtener/'+idCategoria,
+                        url: API.base_url + 'categoria/obtener/' + idCategoria,
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
@@ -885,8 +911,8 @@ angular.module('starter.services', [])
 
                 return dataCategoria;
             }])
-        
-         .factory('producto', ['$http', 'auth', function ($http, auth) {
+
+        .factory('producto', ['$http', 'auth', function ($http, auth) {
                 // Might use a resource here that returns a JSON array
 
                 var headers = {};
@@ -895,7 +921,7 @@ angular.module('starter.services', [])
 
                 dataProducto.getProductoCat = function (idCategoria) {
                     return($http({
-                        url: API.base_url + '/producto/listarCat2/'+idCategoria,
+                        url: API.base_url + '/producto/listarCat2/' + idCategoria,
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
@@ -907,6 +933,23 @@ angular.module('starter.services', [])
                             )
 
                 };
+
+                dataProducto.getProducto = function (idProducto) {
+                    return($http({
+                        url: API.base_url + '/producto/obtenertodo/' + idProducto,
+                        method: "GET",
+                        headers: headers
+                    }).success(function (data, status, headers, config) {
+                        
+                        datos = data;
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
+
 
                 return dataProducto;
             }])

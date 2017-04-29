@@ -1,0 +1,15 @@
+<!--
+  This template is for entering quantity of item
+-->
+
+<ion-list>
+    <ion-radio
+        ng-repeat="option in options"  
+        ng-model="selectedVariedad" 
+        ng-value="option"
+        ng-change="SelectedVariedadChange(option)"
+        >
+        {{ option.var_nombre}}
+    </ion-radio>
+
+</ion-list>

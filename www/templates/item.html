@@ -4,25 +4,25 @@
   The ItemCtrl pulls data from Items service (service.js)
   The Items service returns array of items data
 -->
-<ion-view view-title="{{ item.name }}">
+<ion-view view-title="{{ item.producto.prod_nombre }}">
 
   <ion-content>
 
     <!-- Item cover -->
     <div class="item-cover">
       <ion-slide-box>
-        <ion-slide ng-repeat="img in item.images">
-          <img class="full-image" ng-src="{{ img }}" alt=""/>
+        <ion-slide >
+          <img class="full-image" ng-src="{{ item.producto.slider }}" alt=""/>
         </ion-slide>
       </ion-slide-box>
 
       <div class="overlay">
         <span class="pull-left light">
-          {{ item.description }}
+          {{ item.producto.prod_descripcionProducto }}
         </span>
 
         <span class="pull-right price light">
-          ${{ item.price }}
+          ${{ item.producto.prod_precioBase }}
         </span>
       </div>
     </div>
@@ -44,17 +44,17 @@
       <ion-item class="item-divider">
         Options
       </ion-item>
-      <ion-checkbox ng-repeat="option in item.options" class="item-checkbox-right checkbox-assertive">{{ option.name }}</ion-checkbox>
+      <ion-checkbox ng-repeat="option in item.componentes" class="item-checkbox-right checkbox-assertive">{{ option.com_nombre }}</ion-checkbox>
 
       <ion-item class="item-divider">
         Extras
       </ion-item>
-      <ion-checkbox ng-repeat="extra in item.extras" class="item-checkbox-right checkbox-assertive">{{ extra.name }}: {{ extra.price | currency}}</ion-checkbox>
+      <ion-checkbox ng-repeat="extra in item.componentes" class="item-checkbox-right checkbox-assertive">{{ extra.com_nombre }}: {{ extra.com_precio | currency}}</ion-checkbox>
 
       <ion-item class="item-divider">
         Sizes
       </ion-item>
-      <ion-radio ng-model="item.size" ng-repeat="size in item.sizes" ng-value="size.id">{{ size.name }}: {{ size.price | currency}}</ion-radio>
+      <ion-radio ng-model="item.size" ng-repeat="size in item.variedades" ng-value="size.var_id">{{ size.var_nombre }}: {{ size.var_precio | currency}}</ion-radio>
     </ion-list>
 
   </ion-content>
