@@ -5,15 +5,12 @@
   <ion-content class="stable-bg">
     <div class="padding">
 
-      <h2 class="dark">El Gaucho restaurant </h2>
-      <span class="dark">225 Valencia St, San Francisco, CA</span>
+      <h2 class="dark">Pizza Color Delivery</h2>
+      <span class="dark">{{contac.dcon_direccion}} , Puerto Iguazu-Misiones</span>
 
-      <h3>About us</h3>
+      <h3>Sobre Nosotros</h3>
 
-      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make
-        a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-        remaining essentially unchanged</p>
+      <p>Algun Texto</p>
 
       <h3>Open hours</h3>
 
@@ -28,10 +25,15 @@
 
       <div class="list card">
           <a ng-repeat="item in tel" href="tel:{{item.tcon_numero}}" class="item item-icon-left">
-          <i class="icon ion-ios-telephone"></i> {{item.tcon_descripcion}} - {{item.tcon_numero}}
+          <i class="icon ion-ios-telephone"></i> 
+          
+          {{item.tcon_descripcion}} - {{item.tcon_numero}}
         </a>
+          
+        <ion-icon name="logo-whatsapp"></ion-icon>
+          
         <a class="item item-icon-left">
-          <i class="icon ion-email"></i>{{ contac.dcon_email}}</a>
+          <i class="icon ion-email"></i>Email: {{ contac.dcon_email}}</a>
         <a href="#" class="item item-icon-left">
           <i class="icon ion-compass"></i>Direccion : {{contac.dcon_direccion}} </a>
       </div>
