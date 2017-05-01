@@ -881,7 +881,7 @@ angular.module('starter.services', [])
 
                 dataCategoria.getCategorias = function () {
                     return($http({
-                        url: API.base_url + 'categoria/listar2',
+                        url: API.base_url + 'categoria/listar3',
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
