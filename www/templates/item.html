@@ -41,12 +41,12 @@
     </div>
 
     <ion-list>
-      <ion-item class="item-divider">
+      <ion-item  ng-if="item.componentes.lenght > 0" class="item-divider">
         Options
       </ion-item>
       <ion-checkbox ng-repeat="option in item.componentes" class="item-checkbox-right checkbox-assertive">{{ option.com_nombre }}</ion-checkbox>
 
-      <ion-item class="item-divider">
+      <ion-item ng-if="item.componentes.lenght > 0" class="item-divider">
         Extras
       </ion-item>
       <ion-checkbox ng-repeat="extra in item.componentes" class="item-checkbox-right checkbox-assertive">{{ extra.com_nombre }}: {{ extra.com_precio | currency}}</ion-checkbox>

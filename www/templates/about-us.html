@@ -19,35 +19,33 @@
 
       <div class="list list-inset">
         <label class="item item-input item-stacked-label" ng-repeat="day in days">
-          <span class="input-label">{{ day.name }}</span>
-          <span class="data">{{ day.hours }}</span>
+          <span class="input-label">{{dias[day.dh_diaSemana]}}</span>
+          <span class="data">{{day.dh_horaApertura}} - {{day.dh_horaCierre}}</span>
         </label>
       </div>
 
       <h3>Get in touch</h3>
 
       <div class="list card">
-        <a href="tel:{{vm.phoneNumber}}" class="item item-icon-left">
-          <i class="icon ion-ios-telephone"></i> Call us
+          <a ng-repeat="item in tel" href="tel:{{item.tcon_numero}}" class="item item-icon-left">
+          <i class="icon ion-ios-telephone"></i> {{item.tcon_descripcion}} - {{item.tcon_numero}}
         </a>
         <a class="item item-icon-left">
-          <i class="icon ion-email"></i> Send us and Email</a>
+          <i class="icon ion-email"></i>{{ contac.dcon_email}}</a>
         <a href="#" class="item item-icon-left">
-          <i class="icon ion-compass"></i> Find us / Get directions</a>
+          <i class="icon ion-compass"></i>Direccion : {{contac.dcon_direccion}} </a>
       </div>
 
       <h4>Get social with us</h4>
+      
       <div class="list card">
         <a class="item item-icon-left">
-          <i class="icon ion-social-facebook"></i> Visit us on Facebook
+          <i class="icon ion-social-facebook" href="{{contac.dcon_facebook}}"></i> {{contac.dcon_facebook}}
         </a>
         <a class="item item-icon-left">
-          <i class="icon ion-social-instagram-outline"></i> Follow us on Instagram
+          <i class="icon ion-social-twitter" href="{{contac.dcon_twitter}}"></i> {{contac.dcon_twitter}}
         </a>
-        <a class="item item-icon-left">
-          <i class="icon ion-social-twitter"></i> Follow us on Twitter
-        </a>
-        <a class="item item-icon-left"><i class="icon ion-social-pinterest"></i> Follow us on Pinterest
+        <a class="item item-icon-left" href="{{contac.dcon_website }}"><i class="icon ion-social-pinterest"></i> {{contac.dcon_website }}
         </a>
       </div>
 

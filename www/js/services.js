@@ -857,7 +857,7 @@ angular.module('starter.services', [])
                 };
                 dataPromo.getProductoPromo = function (idPromo) {
                     return($http({
-                        url: API.base_url + 'promo/listarprod/'+idPromo,
+                        url: API.base_url + 'promo/listarprod2/'+idPromo,
                         method: "GET"
                     }).success(function (data, status, headers, config) {
                         datos = data.data;
@@ -952,6 +952,82 @@ angular.module('starter.services', [])
 
 
                 return dataProducto;
+            }])
+        
+        
+        .factory('empresa', ['$http', 'auth', function ($http, auth) {
+                // Might use a resource here that returns a JSON array
+
+                var headers = {};
+                headers[API.token_name] = auth.getToken();
+                var dataEmpresa = {};
+
+                dataEmpresa.getSucursal = function () {
+                    return($http({
+                        url: API.base_url + 'sucursal/obtener/4',
+                        method: "GET",
+                        headers: headers
+                    }).success(function (data, status, headers, config) {
+                        datos = data.data;
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
+
+                dataEmpresa.getHorarios = function () {
+                    return($http({
+                        url: API.base_url + 'diahorario/listar/4',
+                        method: "GET",
+                        headers: headers
+                    }).success(function (data, status, headers, config) {
+                        
+                        datos = data;
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
+                
+                dataEmpresa.getTelefonos = function () {
+                    return($http({
+                        url: API.base_url + 'datocontacto/listartelsuc/4',
+                        method: "GET",
+                        headers: headers
+                    }).success(function (data, status, headers, config) {
+                        
+                        datos = data;
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
+                
+                dataEmpresa.getDatosContacto = function () {
+                    return($http({
+                        url: API.base_url + 'datocontacto/obtenersuc/4',
+                        method: "GET",
+                        headers: headers
+                    }).success(function (data, status, headers, config) {
+                        
+                        datos = data;
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
+
+
+
+                return dataEmpresa;
             }])
 
 

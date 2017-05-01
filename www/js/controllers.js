@@ -274,12 +274,8 @@ angular.module('starter.controllers', [])
         })
         .controller('ItemOfferCtrl', function ($scope, $state, Items, $stateParams, $ionicPopup, producto, promo) {
             var id = $stateParams.id;
-
             // get item from service by item id
-
             promo.getPromo(id).success(function (response) {
-
-
                 $scope.promo = response;
             });
 
@@ -287,9 +283,10 @@ angular.module('starter.controllers', [])
 
 
                 $scope.items = response;
+                 debugger;
             });
-
-
+            
+           
 //            $scope.item = Items.get(1);
 
             // toggle favorite
@@ -297,16 +294,13 @@ angular.module('starter.controllers', [])
                 $scope.item.faved = !$scope.item.faved;
             }
             $scope.selOptions = function (optionO) {
+                
+                debugger;
                 $scope.data = {
                     quantity: 1
                 };
                 $scope.options = [];
-
-
                 var idProd = optionO.prod_id;
-
-
-
                 producto.getProducto(idProd).success(function (response) {
                     $scope.options = response.variedades;
                     if ($scope.options.length > 0) {
@@ -345,7 +339,7 @@ angular.module('starter.controllers', [])
                     }
                 });
 
-                $scope.SelectedVariedadChange = function (variedad) {
+            $scope.SelectedVariedadChange = function (variedad) {
 
 
                     $scope.selectedVariedad = variedad;
@@ -354,7 +348,7 @@ angular.module('starter.controllers', [])
 
                 };
 
-           
+
 
 
 
@@ -501,36 +495,55 @@ angular.module('starter.controllers', [])
         })
 
 // About controller
-        .controller('AboutCtrl', function ($scope, $state) {
+        .controller('AboutCtrl', function ($scope, $state,empresa) {
             // working hours
-            $scope.days = [
-                {
-                    'name': 'Monday',
-                    'hours': '02:00pm - 10:00pm'
-                },
-                {
-                    'name': 'Tuesday',
-                    'hours': '02:00pm - 10:00pm'
-                },
-                {
-                    'name': 'Wednesday',
-                    'hours': '02:00pm - 10:00pm'
-                },
-                {
-                    'name': 'Thursday',
-                    'hours': '02:00pm - 10:00pm'
-                },
-                {
-                    'name': 'Friday',
-                    'hours': '02:00pm - 10:00pm'
-                },
-                {
-                    'name': 'Saturday',
-                    'hours': '05:00pm - 10:00pm'
-                },
-                {
-                    'name': 'Sunday',
-                    'hours': '05:00pm - 10:00pm'
-                }
-            ];
+        $scope.dias = ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'];
+    
+//            $scope.days = [
+//                {
+//                    'name': 'Monday',
+//                    'hours': '02:00pm - 10:00pm'
+//                },
+//                {
+//                    'name': 'Tuesday',
+//                    'hours': '02:00pm - 10:00pm'
+//                },
+//                {
+//                    'name': 'Wednesday',
+//                    'hours': '02:00pm - 10:00pm'
+//                },
+//                {
+//                    'name': 'Thursday',
+//                    'hours': '02:00pm - 10:00pm'
+//                },
+//                {
+//                    'name': 'Friday',
+//                    'hours': '02:00pm - 10:00pm'
+//                },
+//                {
+//                    'name': 'Saturday',
+//                    'hours': '05:00pm - 10:00pm'
+//                },
+//                {
+//                    'name': 'Sunday',
+//                    'hours': '05:00pm - 10:00pm'
+//                }
+//            ];
+            
+            
+          empresa.getHorarios().success(function (response) {
+                  $scope.days = response.data;
+              
+            });
+             empresa.getTelefonos().success(function (response) {
+                  $scope.tel = response;
+                
+            });
+            empresa.getDatosContacto().success(function (response) {
+                  $scope.contac = response;
+                debugger;
+            });
+                          
+            
+            
         })

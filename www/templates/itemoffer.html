@@ -51,10 +51,11 @@
             <ion-item class="item-divider">
                 Productos
             </ion-item>
-            <ion-item ng-repeat="option in items" ng-click="selOptions(option)">
+            <ion-item ng-repeat="option in items" ng-if="option.cantVar > 0" ng-click="selOptions(option)">
                 <strong>{{ option.prod_nombre}}</strong>
                 <br>
-                <ion-input type="text"  ng-model="option.selectedVariedad.var_nombre" ng-value="option.selectedVariedad"> {{option.selectedVariedad.var_nombre}}</ion-input>
+                 <ion-input ng-if="!option.selectedVariedad"  type="text"> Seleccione.. </ion-input>
+                <ion-input  type="text" ng-value="option.selectedVariedad"> {{option.selectedVariedad.var_nombre}} </ion-input>
             </ion-item>
 
 
