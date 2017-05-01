@@ -133,9 +133,18 @@ angular.module('starter.controllers', [])
         })
 
 // Categories controller
-        .controller('CategoriesCtrl', function ($scope, $state, Categories, $stateParams) {
+        .controller('CategoriesCtrl', function ($scope, $state, Categories, $stateParams,categoria) {
             // get all categories from services
-            $scope.categories = Categories.all();
+//            $scope.categories = Categories.all();
+            
+             categoria.getCategorias().success(function (response) {
+
+                $scope.categories = response.data;
+                
+                debugger;
+            });
+            
+            
         })
 
 

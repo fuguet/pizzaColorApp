@@ -8,14 +8,14 @@
 
   <ion-content class="stable-bg">
     <div class="list no-padding">
-      <div class="item item-menu" ng-repeat="category in categories" ui-sref="category({id: category.id})">
+      <div class="item item-menu" ng-repeat="category in categories" ui-sref="category({id: category.cat_id})">
 
-        <img ng-src="{{ category.thumb }}" alt="{{ category.name }}"/>
+        <img ng-src="{{ category.slider }}" alt="{{ category.cat_nombre }}"/>
 
         <div class="overlay">
 
           <span class="pull-left light">
-            {{ category.name }}
+            {{ category.cat_nombre }}
           </span>
 
           <span class="pull-right light">

@@ -12,7 +12,7 @@
 
       <p>Algun Texto</p>
 
-      <h3>Open hours</h3>
+      <h3>Horario de Atencion</h3>
 
       <div class="list list-inset">
         <label class="item item-input item-stacked-label" ng-repeat="day in days">
@@ -21,13 +21,13 @@
         </label>
       </div>
 
-      <h3>Get in touch</h3>
+      <h3>Comunicate con Nosotros</h3>
 
       <div class="list card">
           <a ng-repeat="item in tel" href="tel:{{item.tcon_numero}}" class="item item-icon-left">
-          <i class="icon ion-ios-telephone"></i> 
-          
-          {{item.tcon_descripcion}} - {{item.tcon_numero}}
+          <i ng-if="item.tcon_tipo == 2" class="icon ion-ios-telephone"></i> 
+           <i ng-if="item.tcon_tipo == 1" class="icon ion-social-whatsapp"></i>   
+           {{item.tcon_numero}}
         </a>
           
         <ion-icon name="logo-whatsapp"></ion-icon>
@@ -35,7 +35,7 @@
         <a class="item item-icon-left">
           <i class="icon ion-email"></i>Email: {{ contac.dcon_email}}</a>
         <a href="#" class="item item-icon-left">
-          <i class="icon ion-compass"></i>Direccion : {{contac.dcon_direccion}} </a>
+          <i class="icon ion-map"></i>Direccion : {{contac.dcon_direccion}} </a>
       </div>
 
       <h4>Get social with us</h4>
