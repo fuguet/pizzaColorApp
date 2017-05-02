@@ -122,26 +122,14 @@ angular.module('starter.controllers', [])
                 $ionicSlideBoxDelegate.update(); //or just return the function
             }
 
-            // list images for slider
-//            $scope.slides = [
-//                "http://35.184.187.29/delBo/assets/imagenes/promos/Combo1.jpg",
-//                "http://35.184.187.29/delBo/assets/imagenes/promos/combo2.jpg",
-//                'http://35.184.187.29/delBo/assets/imagenes/promos/combo3.jpg'
-//            ];
-//
-//            debugger;
+
         })
 
 // Categories controller
         .controller('CategoriesCtrl', function ($scope, $state, Categories, $stateParams,categoria) {
-            // get all categories from services
-//            $scope.categories = Categories.all();
-            
              categoria.getCategorias().success(function (response) {
-
                 $scope.categories = response.data;
                 
-                debugger;
             });
             
             
@@ -428,10 +416,18 @@ angular.module('starter.controllers', [])
         })
 
 // User controller
-        .controller('UserCtrl', function ($scope, $state) {})
+        .controller('UserCtrl', function ($scope, $state, auth) {
+            
+
+        })
 
 // Setting Controller
-        .controller('SettingCtrl', function ($scope, $state) {})
+        .controller('SettingCtrl', function ($scope, $state,auth) {
+            //$scope.usuario = {};
+            $scope.usuario = auth.datosUsuario();
+            console.log($scope.usuario);
+
+        })
 
 // Chat controller, view list chats and chat detail
         .controller('ChatCtrl', function ($scope, Chats) {

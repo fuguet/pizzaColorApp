@@ -192,80 +192,6 @@ angular.module('starter.services', [])
                     }
 
                 };
-//                cartObj.cartComponent.incrementComp = function (idcomp) {
-//                    debugger;
-//                    var ind = cartObj.cartComponent.find(idcomp);
-//                    cartObj.cartComponent[ind].qty += 1;
-//                    cartObj.total_compqty += 1;
-//                    cartObj.total_compAmount += (parseInt(cartObj.cartComponent[ind].componente.com_precio));
-//
-//                };
-//
-//                cartObj.cartComponent.decrementComp = function (idcomp) {
-//                    debugger;
-//                    cartObj.total_qty -= 1;
-//                    var ind = cartObj.cartComponent.find(idcomp);
-//
-//                    cartObj.total_amount -= parseInt(cartObj.cartComponent[ind].componente.com_precio);
-//                    if (cartObj.cartComponent[ind].qty == 1) {  // if the cart item was only 1 in qty
-//                        cartObj.cartComponent.splice(ind, 1);  //edited
-//                    } else {
-//                        cartObj.cartComponent[ind].qty -= 1;
-//                    }
-//                };
-//                
-//                cartObj.cartComponent.addAll = function (componentes) {
-//
-//                    angular.forEach(componentes, function (value, key) {
-//                        cartObj.cartComponent.add(value);
-//                    });
-//
-//
-//                };
-//                cartObj.cartComponent.add = function (itemcomp) {
-//
-//                    if (cartObj.cartComponent.find(itemcomp.componente.com_id) != -1) {
-//                        var alertPopup = $ionicPopup.alert({
-//                            title: 'Este Opcional ya fue agregado',
-//                            template: 'Incremente la cantidad en el pedido'
-//                        });
-//                    } else {
-//
-//                        cartObj.cartComponent.push(itemcomp);
-//                        cartObj.total_compqty += itemcomp.qty;
-//                        cartObj.total_compAmount += parseFloat(itemcomp.componente.com_precio);
-//
-//                    }
-//
-//
-//                };
-//                cartObj.cartComponent.find = function (idcomp) {
-//
-//
-//                    var result = -1
-//
-//                    for (var i = 0, len = cartObj.cartComponent.length; i < len; i++) {
-//
-//                        if (cartObj.cartComponent[i].componente.com_id === idcomp) {
-//                            result = i;
-//                            break;
-//                        }
-//                    }
-//
-//                    return result;
-//
-//
-//
-//                };
-//                cartObj.cartComponent.dropCom = function (id) {
-//
-//                    ind = cartObj.cartComponent.find(id);
-//                    var temp = cartObj.cartComponent[ind];
-//                    cartObj.total_compqty -= parseInt(temp.qty);
-//                    cartObj.total_compAmount -= (parseInt(temp.qty) * parseInt(temp.componente.com_precio));
-//                    cartObj.cartComponent.splice(ind, 1);
-//
-//                };
 
                 cartObj.getQty = function () {
                     return  cartObj.total_qty;
@@ -274,7 +200,7 @@ angular.module('starter.services', [])
             }])
 
 
-        .factory('auth', ['$location', '$state', function ($location, $state) {
+        .factory('auth', ['$location', '$state',function ($location, $state) {
                 var auth = {
                     setToken: function (token) {
                         localStorage[API.token_name] = token;
@@ -306,8 +232,25 @@ angular.module('starter.services', [])
                         if (!auth.hasToken()) {
                             $state.go('login');
                         }
+                    },
+                    datosUsuario : function () {
+                        usuario ={"id":"","nombre":"","celular":"","email":""};
+                        usuario.id = auth.getUserData().id;
+                        usuario.nombre = auth.getUserData().nombre;
+                        usuario.celular = auth.getUserData().Celular;
+                        usuario.email = auth.getUserData().email;
+                        //You have to create a local variable for storing emails
+                        data_editable = {};
+                        data_editable.email = usuario.email;  // For editing store it in local variable
+                        data_editable.password = "";
+                        return usuario;
+
                     }
+
                 };
+
+
+
                 return auth;
             }])
 
