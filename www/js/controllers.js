@@ -500,7 +500,7 @@ angular.module('starter.controllers', [])
         })
 
 // About controller
-        .controller('AboutCtrl', function ($scope, $state,empresa) {
+        .controller('AboutCtrl', function ($scope, $state,empresa,openHours) {
             // working hours
         $scope.dias = ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'];
     
@@ -535,18 +535,21 @@ angular.module('starter.controllers', [])
 //                }
 //            ];
             
-            
+        
+          
           empresa.getHorarios().success(function (response) {
                   $scope.days = response.data;
+                  openHours.isOpen($scope.days);
+                  debugger;
               
             });
-             empresa.getTelefonos().success(function (response) {
+          empresa.getTelefonos().success(function (response) {
                   $scope.tel = response;
                 
             });
-            empresa.getDatosContacto().success(function (response) {
+          empresa.getDatosContacto().success(function (response) {
                   $scope.contac = response;
-                debugger;
+                
             });
                           
             

@@ -200,7 +200,7 @@ angular.module('starter.services', [])
             }])
 
 
-        .factory('auth', ['$location', '$state',function ($location, $state) {
+        .factory('auth', ['$location', '$state', function ($location, $state) {
                 var auth = {
                     setToken: function (token) {
                         localStorage[API.token_name] = token;
@@ -233,8 +233,8 @@ angular.module('starter.services', [])
                             $state.go('login');
                         }
                     },
-                    datosUsuario : function () {
-                        usuario ={"id":"","nombre":"","celular":"","email":""};
+                    datosUsuario: function () {
+                        usuario = {"id": "", "nombre": "", "celular": "", "email": ""};
                         usuario.id = auth.getUserData().id;
                         usuario.nombre = auth.getUserData().nombre;
                         usuario.celular = auth.getUserData().Celular;
@@ -785,9 +785,9 @@ angular.module('starter.services', [])
                             )
 
                 };
-                 dataPromo.getPromo = function (idPromo) {
+                dataPromo.getPromo = function (idPromo) {
                     return($http({
-                        url: API.base_url + 'promo/obtenertodo/'+idPromo,
+                        url: API.base_url + 'promo/obtenertodo/' + idPromo,
                         method: "GET"
                     }).success(function (data, status, headers, config) {
                         datos = data.data;
@@ -800,7 +800,7 @@ angular.module('starter.services', [])
                 };
                 dataPromo.getProductoPromo = function (idPromo) {
                     return($http({
-                        url: API.base_url + 'promo/listarprod2/'+idPromo,
+                        url: API.base_url + 'promo/listarprod2/' + idPromo,
                         method: "GET"
                     }).success(function (data, status, headers, config) {
                         datos = data.data;
@@ -883,7 +883,7 @@ angular.module('starter.services', [])
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
-                        
+
                         datos = data;
                         return datos;
                     }).error(function (err) {
@@ -896,8 +896,8 @@ angular.module('starter.services', [])
 
                 return dataProducto;
             }])
-        
-        
+
+
         .factory('empresa', ['$http', 'auth', function ($http, auth) {
                 // Might use a resource here that returns a JSON array
 
@@ -926,7 +926,7 @@ angular.module('starter.services', [])
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
-                        
+
                         datos = data;
                         return datos;
                     }).error(function (err) {
@@ -935,14 +935,14 @@ angular.module('starter.services', [])
                             )
 
                 };
-                
+
                 dataEmpresa.getTelefonos = function () {
                     return($http({
                         url: API.base_url + 'datocontacto/listartelsuc/4',
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
-                        
+
                         datos = data;
                         return datos;
                     }).error(function (err) {
@@ -951,21 +951,20 @@ angular.module('starter.services', [])
                             )
 
                 };
-                
+
                 dataEmpresa.getDatosContacto = function () {
                     return($http({
                         url: API.base_url + 'datocontacto/obtenersuc/4',
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
-                        
+
                         datos = data;
                         return datos;
                     }).error(function (err) {
                         error = err;
                     })
                             )
-
                 };
 
 
@@ -974,4 +973,97 @@ angular.module('starter.services', [])
             }])
 
 
+        .factory('openHours', ['$http', 'auth', function ($http, auth) {
+                // Might use a resource here that returns a JSON array
 
+                var headers = {};
+                headers[API.token_name] = auth.getToken();
+                var dataOpen = {};
+
+
+
+
+                dataOpen.getHorarios = function () {
+                    return($http({
+                        url: API.base_url + 'diahorario/listar/4',
+                        method: "GET",
+                        headers: headers
+                    }).success(function (data, status, headers, config) {
+
+                        datos = data;
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
+
+                dataOpen.isOpen = function (openHours) {
+
+                    debugger;
+                    var now = (new Date());
+                    var day = now.getDay();
+
+
+
+                    var date = getShiftedDate(now);
+                    var fixedTime = date.getTime();
+                    // var fixedTime = now.getTime();
+
+                    var open;
+                    for (var i = 0; i < openHours.length; i++) {
+                        open = openHours[i];
+                        if (parseInt(open.dh_diaSemana) !== day) {
+                            continue;
+                        }
+
+                        var ha = (new Date());
+                        var hc = (new Date());
+                        var hora = open.dh_horaApertura.substring(0, 2);
+                        var minutos = open.dh_horaApertura.substring(3, 5);
+                        var hora1 = open.dh_horaCierre.substring(0, 2);
+                        var minutos1 = open.dh_horaCierre.substring(3, 5);
+
+                        ha.setHours(parseInt(hora), parseInt(minutos), 1);
+                        hc.setHours(parseInt(hora1), parseInt(minutos1), 1);
+
+
+                        var openAt = getShiftedDate(ha).getTime();
+                        var closeAt = getShiftedDate(hc).getTime();
+
+                        if (fixedTime >= openAt && fixedTime <= closeAt) {
+                            return true;
+                        } else {
+                            console.log(
+                                    'Restaurant is open from ' +
+                                    (new Date(openAt).format('hh:MMtt')) + ' till ' +
+                                    (new Date(closeAt).format('hh:MMtt')) +
+                                    ', but now is ' + now.format('hh:MMtt'));
+                        }
+                    }
+
+                    return false;
+
+                };
+
+                function getShiftedDate(now, shift) {
+                    shift = shift || 0;
+
+                    var hours;
+
+                    if (shift > 0) {
+                        hours = now.getUTCHours() + shift;
+                    } else {
+                        hours = now.getHours();
+                    }
+
+                    var minutes = now.getMinutes();
+                    return (new Date(2015, 0, 1, hours, minutes, 0));
+                };
+
+
+
+
+                return dataOpen;
+            }])
