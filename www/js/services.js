@@ -802,9 +802,11 @@ angular.module('starter.services', [])
                         url: API.base_url + 'promo/listarprod2/' + idPromo,
                         method: "GET"
                     }).success(function (data, status, headers, config) {
+                        debugger;
                         datos = data.data;
                         return datos;
                     }).error(function (err) {
+                        debugger;
                         error = err;
                     })
                             )

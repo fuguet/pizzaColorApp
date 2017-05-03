@@ -126,13 +126,13 @@ angular.module('starter.controllers', [])
         })
 
 // Categories controller
-        .controller('CategoriesCtrl', function ($scope, $state, Categories, $stateParams,categoria) {
-             categoria.getCategorias().success(function (response) {
+        .controller('CategoriesCtrl', function ($scope, $state, Categories, $stateParams, categoria) {
+            categoria.getCategorias().success(function (response) {
                 $scope.categories = response.data;
-                
+
             });
-            
-            
+
+
         })
 
 
@@ -277,13 +277,11 @@ angular.module('starter.controllers', [])
             });
 
             promo.getProductoPromo(id).success(function (response) {
-
-
                 $scope.items = response;
-                 debugger;
+                debugger;
             });
-            
-           
+
+
 //            $scope.item = Items.get(1);
 
             // toggle favorite
@@ -291,7 +289,7 @@ angular.module('starter.controllers', [])
                 $scope.item.faved = !$scope.item.faved;
             }
             $scope.selOptions = function (optionO) {
-                
+
                 debugger;
                 $scope.data = {
                     quantity: 1
@@ -336,7 +334,7 @@ angular.module('starter.controllers', [])
                     }
                 });
 
-            $scope.SelectedVariedadChange = function (variedad) {
+                $scope.SelectedVariedadChange = function (variedad) {
 
 
                     $scope.selectedVariedad = variedad;
@@ -417,12 +415,12 @@ angular.module('starter.controllers', [])
 
 // User controller
         .controller('UserCtrl', function ($scope, $state, auth) {
-            
+
 
         })
 
 // Setting Controller
-        .controller('SettingCtrl', function ($scope, $state,auth) {
+        .controller('SettingCtrl', function ($scope, $state, auth) {
             //$scope.usuario = {};
             $scope.usuario = auth.datosUsuario();
             console.log($scope.usuario);
@@ -500,10 +498,10 @@ angular.module('starter.controllers', [])
         })
 
 // About controller
-        .controller('AboutCtrl', function ($scope, $state,empresa,openHours) {
+        .controller('AboutCtrl', function ($scope, $state, empresa, openHours) {
             // working hours
-        $scope.dias = ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'];
-    
+            $scope.dias = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
+
 //            $scope.days = [
 //                {
 //                    'name': 'Monday',
@@ -534,24 +532,24 @@ angular.module('starter.controllers', [])
 //                    'hours': '05:00pm - 10:00pm'
 //                }
 //            ];
-            
-        
-          
-          empresa.getHorarios().success(function (response) {
-                  $scope.days = response.data;
-                  openHours.isOpen($scope.days);
-                  debugger;
-              
+
+
+
+            empresa.getHorarios().success(function (response) {
+                $scope.days = response.data;
+                openHours.isOpen($scope.days);
+                debugger;
+
             });
-          empresa.getTelefonos().success(function (response) {
-                  $scope.tel = response;
-                
+            empresa.getTelefonos().success(function (response) {
+                $scope.tel = response;
+
             });
-          empresa.getDatosContacto().success(function (response) {
-                  $scope.contac = response;
-                
+            empresa.getDatosContacto().success(function (response) {
+                $scope.contac = response;
+
             });
-                          
-            
-            
+
+
+
         })
