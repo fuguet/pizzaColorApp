@@ -246,7 +246,6 @@ angular.module('starter.services', [])
                         return usuario;
 
                     }
-
                 };
 
 
