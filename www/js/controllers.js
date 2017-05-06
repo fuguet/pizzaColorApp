@@ -501,6 +501,10 @@ angular.module('starter.controllers', [])
         .controller('AboutCtrl', function ($scope, $state, empresa, openHours) {
             // working hours
             $scope.dias = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
+            
+       
+
+         
 
 //            $scope.days = [
 //                {
@@ -537,9 +541,8 @@ angular.module('starter.controllers', [])
 
             empresa.getHorarios().success(function (response) {
                 $scope.days = response.data;
-                openHours.isOpen($scope.days);
+                openHours.isOpen(response.data);
                 debugger;
-
             });
             empresa.getTelefonos().success(function (response) {
                 $scope.tel = response;

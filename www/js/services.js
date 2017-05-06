@@ -974,7 +974,7 @@ angular.module('starter.services', [])
             }])
 
 
-        .factory('openHours', ['$http', 'auth', function ($http, auth) {
+        .factory('openHours', ['$http', 'auth', 'empresa', function ($http, auth, empresa) {
                 // Might use a resource here that returns a JSON array
 
                 var headers = {};
@@ -982,27 +982,11 @@ angular.module('starter.services', [])
                 var dataOpen = {};
 
 
+               
 
+                 dataOpen.isOpen = function (openHours) {
 
-                dataOpen.getHorarios = function () {
-                    return($http({
-                        url: API.base_url + 'diahorario/listar/4',
-                        method: "GET",
-                        headers: headers
-                    }).success(function (data, status, headers, config) {
-
-                        datos = data;
-                        return datos;
-                    }).error(function (err) {
-                        error = err;
-                    })
-                            )
-
-                };
-
-                dataOpen.isOpen = function (openHours) {
-
-                    debugger;
+              
                     var now = (new Date());
                     var day = now.getDay();
 
@@ -1036,17 +1020,14 @@ angular.module('starter.services', [])
                         if (fixedTime >= openAt && fixedTime <= closeAt) {
                             return true;
                         } else {
-                            console.log(
-                                    'Restaurant is open from ' +
-                                    (new Date(openAt).format('hh:MMtt')) + ' till ' +
-                                    (new Date(closeAt).format('hh:MMtt')) +
-                                    ', but now is ' + now.format('hh:MMtt'));
+                            return false;
                         }
                     }
 
                     return false;
 
-                };
+                }
+                ;
 
                 function getShiftedDate(now, shift) {
                     shift = shift || 0;
@@ -1061,7 +1042,8 @@ angular.module('starter.services', [])
 
                     var minutes = now.getMinutes();
                     return (new Date(2015, 0, 1, hours, minutes, 0));
-                };
+                }
+                ;
 
 
 
