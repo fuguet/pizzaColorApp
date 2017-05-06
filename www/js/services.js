@@ -37,6 +37,7 @@ angular.module('starter.services', [])
                 cartObj.total_compqty = 0; // cantidad de componente
                 cartObj.idPE = -1;
                 cartObj.comentariosP = '';
+                
                 cartObj.generarPedido = function (data) {
 
                     var data2 = {};
@@ -47,6 +48,7 @@ angular.module('starter.services', [])
                     data2.pe_idPersona = data.idCliente;
                     data2.pe_cli_tel = data.tel;
                     data2.pe_idEstado = 1;
+                    
                     restApi.call({
                         method: 'post',
                         url: 'pedidoencabezado/insertar',
@@ -57,12 +59,11 @@ angular.module('starter.services', [])
                         error: function (r) {
 
                         },
-                        validationError: function (r) {
+                       validationError: function (r) {
 
                         }
                     });
                 }
-
                 cartObj.generarDetalle = function () {
 
                     angular.forEach(cartObj.cart, function (value, key) {
@@ -77,7 +78,7 @@ angular.module('starter.services', [])
                             url: 'productopedido/insertar',
                             data: prodPedido,
                             response: function (r) {
-                                debugger;
+                        
                                 cartObj.registrarDetalle(value, r.result);
                             },
                             error: function (r) {
@@ -89,9 +90,8 @@ angular.module('starter.services', [])
                         });
                     });
                 }
-
                 cartObj.registrarDetalle = function (value, idpp) {
-                    debugger;
+
                     var detallePedido = {};
                     detallePedido.dp_Cantidad = parseInt(value.qty);
                     detallePedido.dp_PrecioUnitario = value.price + value.compAmount;
@@ -102,10 +102,10 @@ angular.module('starter.services', [])
                         url: 'detallepedido/insertar',
                         data: detallePedido,
                         response: function (r) {
-                            debugger;
+                          
                         },
                         error: function (r) {
-                            debugger;
+                            
                             //abria que limpiar el carro si guardo
 
                         },
@@ -114,7 +114,6 @@ angular.module('starter.services', [])
                         }
                     });
                 }
-
                 cartObj.vaciarCarro = function () {
                     cartObj.cart = []; //lista de productos  (producto, cantidad)         
                     cartObj.total_amount = 0; // total de productos
@@ -131,26 +130,25 @@ angular.module('starter.services', [])
                         cartObj.comentariosP = cartObj.comentariosP + ' Producto = ' + value.producto.prod_nombre + ' comentario =' + value.comentario + '\n';
                     });
                 }
-                cartObj.cart.add = function (item) {
-
-                    if (cartObj.cart.find(item.producto.prod_id) != -1) {
-                        var alertPopup = $ionicPopup.alert({
-                            title: 'El Producto ya fue agregado',
-                            template: 'Incremente la cantidad en el pedido'
-                        });
+                cartObj.cart.add = function (productoPedido) {
+                    debugger;
+                    var i = cartObj.cart.find(productoPedido);
+                    if (i != -1) {
+                        cartObj.cart[i].cantidad += productoPedido.cantidad;
+                       
                     } else {
+                        debugger;
 
-                        cartObj.cart.push(item);
-                        cartObj.total_qty += item.qty;
-                        cartObj.total_comqty += item.comqty;
-                        cartObj.total_amount += parseFloat(parseInt(item.qty) * parseFloat(item.price));
-                        cartObj.total_compAmount += item.compAmount;
+                        cartObj.cart.push(productoPedido);
+                        cartObj.total_qty += productoPedido.cantidad;
+                        cartObj.total_amount += parseFloat(parseFloat(productoPedido.cantidad) * parseFloat(productoPedido.precioBase));
                     }
                 };
-                cartObj.cart.find = function (id) {
+                cartObj.cart.find = function (producto2) {
                     var result = -1;
+                    debugger;
                     for (var i = 0, len = cartObj.cart.length; i < len; i++) {
-                        if (cartObj.cart[i].producto.prod_id === id) {
+                        if (cartObj.cart[i].idProducto === producto2.idProducto && cartObj.cart[i].idVariedad === producto2.idVariedad) {
                             result = i;
                             break;
                         }
@@ -802,11 +800,11 @@ angular.module('starter.services', [])
                         url: API.base_url + 'promo/listarprod2/' + idPromo,
                         method: "GET"
                     }).success(function (data, status, headers, config) {
-                        debugger;
+                    
                         datos = data.data;
                         return datos;
                     }).error(function (err) {
-                        debugger;
+                       
                         error = err;
                     })
                             )
@@ -980,23 +978,18 @@ angular.module('starter.services', [])
                 var headers = {};
                 headers[API.token_name] = auth.getToken();
                 var dataOpen = {};
+                  dataOpen.isOpen = function (openHours) {
 
-
-               
-
-                 dataOpen.isOpen = function (openHours) {
-
-              
                     var now = (new Date());
                     var day = now.getDay();
-
-
-
+                    var message = '';
+                    var response = {};
                     var date = getShiftedDate(now);
                     var fixedTime = date.getTime();
                     // var fixedTime = now.getTime();
 
                     var open;
+                
                     for (var i = 0; i < openHours.length; i++) {
                         open = openHours[i];
                         if (parseInt(open.dh_diaSemana) !== day) {
@@ -1018,16 +1011,26 @@ angular.module('starter.services', [])
                         var closeAt = getShiftedDate(hc).getTime();
 
                         if (fixedTime >= openAt && fixedTime <= closeAt) {
-                            return true;
+                             response.valor = true;
+                             return response;
                         } else {
-                            return false;
+
+                            
+                            response.message =
+                                    'EL delivery esta abierto de: ' +
+                                    open.dh_horaApertura + ' a  ' +
+                                    open.dh_horaCierre +
+                                    ', Ahora son las  ' + now.getHours()+':'+now.getMinutes();
+                            response.valor = false;
+                            return response;
                         }
                     }
+                    
+                    response.valor=false;
 
-                    return false;
+                    return response;
 
-                }
-                ;
+                };
 
                 function getShiftedDate(now, shift) {
                     shift = shift || 0;

@@ -26,7 +26,7 @@ angular.module('starter.controllers', [])
 
                     sharedUtils.showLoading();
 
-                    debugger;
+
 
                     restApi.call(
                             {
@@ -97,9 +97,18 @@ angular.module('starter.controllers', [])
         })
 
 // Home controller
-        .controller('HomeCtrl', function ($scope, $ionicSlideBoxDelegate, $state, Menu, promo, categoria) {
+        .controller('HomeCtrl', function ($scope, $ionicSlideBoxDelegate, $state, $rootScope, Menu, promo, categoria, empresa, openHours) {
             // get all categories from service
 //            $scope.categories = Menu.all();
+            empresa.getHorarios().success(function (response) {
+
+                $scope.days = response.data;
+                var respuesta = openHours.isOpen($scope.days);
+                $rootScope.open = respuesta.valor;
+                $scope.message = respuesta.message;
+
+
+            });
 
             $scope.slides = [];
 
@@ -139,7 +148,7 @@ angular.module('starter.controllers', [])
 // Category controller
         .controller('CategoryCtrl', function ($scope, $state, Categories, $stateParams, producto, categoria) {
 
-            debugger;
+
             var id = $stateParams.id;
             $scope.products = {};
             $scope.category = {};
@@ -159,15 +168,17 @@ angular.module('starter.controllers', [])
         })
 
 // Item controller
-        .controller('ItemCtrl', function ($scope, $state, Items, $stateParams, $ionicPopup, producto) {
+        .controller('ItemCtrl', function ($scope, $state, Items, $stateParams, $ionicPopup, $ionicNavBarDelegate, producto, sharedCartService) {
             var id = $stateParams.id;
+
 
             // get item from service by item id
 
             producto.getProducto(id).success(function (response) {
-                debugger;
+
 
                 $scope.item = response;
+
             });
 
 
@@ -179,35 +190,84 @@ angular.module('starter.controllers', [])
             }
 
             // Show note popup when click to 'Notes to driver'
-            $scope.addCart = function () {
+            $scope.addCart = function (item) {
+
                 $scope.data = {
                     quantity: 1
                 }
+                debugger;
+                if (item.variedades.length > 0 && (typeof item.selectedVariedad === 'undefined')) {
+                    var alertPopup = $ionicPopup.alert({
+                        title: 'Atencion',
+                        template: 'Seleccione una Variedad'
+                    });
+                } else {
+                    var myPopup = $ionicPopup.show({
+                        templateUrl: 'templates/popup-quantityMitad.html',
+                        title: 'Quantity',
+                        scope: $scope,
+                        buttons: [
+                            {text: 'Cancel'},
+                            {
+                                text: '<b>Save</b>',
+                                type: 'button-assertive',
+                                onTap: function (e) {
+                                    if (!$scope.data.quantity) {
+                                        //don't allow the user to close unless he enters note
+                                        e.preventDefault();
+                                    } else {
+                                        return $scope.data.quantity;
+                                    }
+                                }
+                            },
+                        ]
+                    });
+                    myPopup.then(function (res) {
+                      
+                        $scope.data.quantity = res;
+                        var productoPedido = {};
+
+                        productoPedido.precioBase = ((typeof item.selectedVariedad === 'undefined') ? item.producto.prod_precioBase : item.selectedVariedad.var_precio);
+                        productoPedido.idProducto = item.producto.prod_id;
+                        productoPedido.idVariedad = item.selectedVariedad.var_id;
+                        productoPedido.nombreVariedad = item.selectedVariedad.var_nombre;
+                        productoPedido.cantidad = parseFloat(res);
+                        productoPedido.aclaracion =((typeof item.aclaracion === 'undefined') ? "Sin Aclaracion" : item.aclaracion);
+                        debugger;
+                        sharedCartService.cart.add(productoPedido);
+                        $ionicNavBarDelegate.back();
+
+                    });
+
+                }
+
+
+
 
                 // An elaborate, custom popup
-                var myPopup = $ionicPopup.show({
-                    templateUrl: 'templates/popup-quantity.html',
-                    title: 'Quantity',
+
+            };
+            $scope.addAclaracion = function (item) {
+                var myPopup2 = $ionicPopup.show({
+                    templateUrl: 'templates/popup-aclaracion.html',
+                    title: 'Aclaracion',
                     scope: $scope,
                     buttons: [
-                        {text: 'Cancel'},
+                        {text: 'Cancelar'},
                         {
-                            text: '<b>Save</b>',
+                            text: '<b>Aceptar</b>',
                             type: 'button-assertive',
                             onTap: function (e) {
-                                if (!$scope.data.quantity) {
-                                    //don't allow the user to close unless he enters note
-                                    e.preventDefault();
-                                } else {
-                                    return $scope.data.quantity;
-                                }
+                                return item.aclaracion;
+
                             }
                         },
                     ]
                 });
-                myPopup.then(function (res) {
-                    $scope.data.quantity = res;
+                myPopup2.then(function (res) {
+                    item.aclaracion = res;
                 });
+
             };
         })
 
@@ -278,7 +338,7 @@ angular.module('starter.controllers', [])
 
             promo.getProductoPromo(id).success(function (response) {
                 $scope.items = response;
-                debugger;
+
             });
 
 
@@ -290,7 +350,7 @@ angular.module('starter.controllers', [])
             }
             $scope.selOptions = function (optionO) {
 
-                debugger;
+
                 $scope.data = {
                     quantity: 1
                 };
@@ -309,7 +369,7 @@ angular.module('starter.controllers', [])
                                     text: '<b>Save</b>',
                                     type: 'button-assertive',
                                     onTap: function (e) {
-                                        debugger;
+
                                         if (!$scope.selectedVariedad) {
                                             //don't allow the user to close unless he enters note
                                             e.preventDefault();
@@ -323,7 +383,7 @@ angular.module('starter.controllers', [])
                         });
                         myPopup.then(function (res) {
 //                    $scope.data.quantity = res;
-                            debugger;
+
 
                             optionO.selectedVariedad = res;
 
@@ -501,10 +561,10 @@ angular.module('starter.controllers', [])
         .controller('AboutCtrl', function ($scope, $state, empresa, openHours) {
             // working hours
             $scope.dias = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
-            
-       
 
-         
+
+
+
 
 //            $scope.days = [
 //                {
@@ -541,8 +601,7 @@ angular.module('starter.controllers', [])
 
             empresa.getHorarios().success(function (response) {
                 $scope.days = response.data;
-                openHours.isOpen(response.data);
-                debugger;
+
             });
             empresa.getTelefonos().success(function (response) {
                 $scope.tel = response;

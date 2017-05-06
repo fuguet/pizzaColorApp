@@ -34,7 +34,7 @@
         <i class="text-2x ion-android-star" ng-show="item.faved"></i>
         <span class="text-sm">ADD TO FAVORITE</span>
       </div>
-      <div class="col button button-assertive" ng-click="addCart()">
+      <div class="col button button-assertive" ng-click="addCart(item)">
         <i class="text-2x ion-ios-cart-outline"></i>
         <span class="text-sm">ADD TO CART</span>
       </div>
@@ -54,7 +54,12 @@
       <ion-item class="item-divider">
         Sizes
       </ion-item>
-      <ion-radio ng-model="item.size" ng-repeat="size in item.variedades" ng-value="size.var_id">{{ size.var_nombre }}: {{ size.var_precio | currency}}</ion-radio>
+      <ion-radio ng-model="item.selectedVariedad" ng-repeat="size in item.variedades" ng-value="size">{{ size.var_nombre }}: {{ size.var_precio | currency}}</ion-radio>
+      <ion-item  ng-click="addAclaracion(item)">
+                <strong>Añadir Aclaracion</strong>
+                <br>      
+                <ion-input  type="text" ng-value="item.aclaracion"> {{item.aclaracion}}</ion-input>
+            </ion-item>
     </ion-list>
 
   </ion-content>
