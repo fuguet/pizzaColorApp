@@ -30,7 +30,8 @@ angular.module('starter.services', [])
 
 
                 var cartObj = {};
-                cartObj.cart = []; //lista de productos  (producto, cantidad)         
+                cartObj.cart = [];//lista de productos  (producto, cantidad)  
+                cartObj.cartPromo =[];//lista de promos      
                 cartObj.total_amount = 0; // total de productos
                 cartObj.total_compAmount = 0; // total de componentes
                 cartObj.total_qty = 0; // cant producto
@@ -157,7 +158,6 @@ angular.module('starter.services', [])
                     //revisar hacerlo con each
                 };
                 cartObj.cart.drop = function (id) {
-
                     var ind = cartObj.cart.find(id);
                     var temp = cartObj.cart[ind];
                     cartObj.total_qty -= parseInt(temp.qty);
