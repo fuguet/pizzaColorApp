@@ -22,10 +22,10 @@
                 </span>
 
                 <span class="pull-right price light">
+        </div>
                     ${{ promo.pro_precio}}
                 </span>
             </div>
-        </div>
 
         <!-- Buttons -->
         <div class="row item-button-group">
@@ -34,7 +34,7 @@
                 <i class="text-2x ion-android-star" ng-show="item.faved"></i>
                 <span class="text-sm">ADD TO FAVORITE</span>
             </div>
-            <div class="col button button-assertive" ng-click="addCart()">
+            <div class="col button button-assertive" ng-click="addCart(promo,items)">
                 <i class="text-2x ion-ios-cart-outline"></i>
                 <span class="text-sm">ADD TO CART</span>
             </div>

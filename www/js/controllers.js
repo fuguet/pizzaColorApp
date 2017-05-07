@@ -413,10 +413,22 @@ angular.module('starter.controllers', [])
             // Show note popup when click to 'Notes to driver'
 
 
-            $scope.addCart = function () {
+            $scope.addCart = function (promo,items) {
+                debugger;
                 $scope.data = {
                     quantity: 1
                 }
+                var promoPedido = {};
+                
+                promoPedido.nombre= promo.pro_nombre;
+                promoPedido.precioUnitario=promo.pro_precio;
+                promoPedido.cantidad=1;
+                promoPedido.idPromo=promo.pro_id;
+                promoPedido.detallePp=promo.pro_descripcion;
+                
+                //promoPedido.aclaracion=
+                
+              
 
                 // An elaborate, custom popup
                 var myPopup = $ionicPopup.show({
