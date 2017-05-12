@@ -224,15 +224,18 @@ angular.module('starter.controllers', [])
 
                         $scope.data.quantity = res;
                         var productoPedido = {};
+                        var detalle = {};
+                        debugger;
 
-                        productoPedido.precioBase = ((typeof item.selectedVariedad === 'undefined') ? item.producto.prod_precioBase : item.selectedVariedad.var_precio);
+//                        productoPedido.precioBase = ((typeof item.selectedVariedad === 'undefined') ? item.producto.prod_precioBase : item.selectedVariedad.var_precio);
+                         productoPedido.precioBase = item.selectedVariedad.var_precio || item.producto.prod_precioBase ;
                         productoPedido.idProducto = item.producto.prod_id;
                         productoPedido.idVariedad = item.selectedVariedad.var_id;
                         productoPedido.nombreVariedad = item.selectedVariedad.var_nombre;
-                        productoPedido.cantidad = parseFloat(res);
-                        productoPedido.aclaracion = ((typeof item.aclaracion === 'undefined') ? "Sin Aclaracion" : item.aclaracion);
-                        debugger;
-                        sharedCartService.cart.add(productoPedido);
+                        productoPedido.aclaracion = item.aclaracion  || "Sin Aclaracion" ;
+                        detalle.productoP = productoPedido;
+                        detalle.cantidad = parseFloat(res);
+                        sharedCartService.cart.add(detalle);
                         $ionicNavBarDelegate.back();
 
                     });
@@ -327,7 +330,7 @@ angular.module('starter.controllers', [])
             // disabled swipe menu
             $ionicSideMenuDelegate.canDragContent(false);
         })
-        .controller('ItemOfferCtrl', function ($scope, $state, Items, $stateParams, $ionicPopup, producto, promo, sharedCartService) {
+        .controller('ItemOfferCtrl', function ($scope, $state, Items, $stateParams, $ionicPopup,$ionicNavBarDelegate, producto, promo, sharedCartService) {
             var id = $stateParams.id;
             var cantidadVariedadesSel = 0;
             // get item from service by item id
@@ -383,9 +386,6 @@ angular.module('starter.controllers', [])
                             ]
                         });
                         myPopup.then(function (res) {
-//                    $scope.data.quantity = res;
-
-                            debugger;
                             if ((typeof optionO.selectedVariedad === 'undefined')) {
                                 optionO.selectedVariedad = res;
                                 cantidadVariedadesSel += 1;
@@ -421,6 +421,9 @@ angular.module('starter.controllers', [])
 
 
             $scope.addCart = function (promo, items) {
+                debugger;
+                
+                cantidadVariedadesSel=promo
                 $scope.data = {
                     quantity: 1
                 }
@@ -439,8 +442,7 @@ angular.module('starter.controllers', [])
                     prodPedido.idVariedad = ((typeof value.selectedVariedad === 'undefined') ? -1 : value.selectedVariedad.var_id);
                     prodPedido.precioCalc = 0;
                     prodPedido.nombreVariedad = ((typeof value.selectedVariedad === 'undefined') ? '' : value.selectedVariedad.var_nombre);
-
-                    promoPedido.productosP.push(prodPedido);
+                    promoPedido.productosP.push(prodPedido);                    
 
                 });
                 //promoPedido.aclaracion= 
@@ -473,8 +475,8 @@ angular.module('starter.controllers', [])
                     $scope.data.quantity = res;
                     promoPedido.cantidad = res;
                     sharedCartService.cartPromo.add(promoPedido);
-                    sharedCartService.cartPromo;
-                    debugger;
+                    $ionicNavBarDelegate.back();
+                    
                 });
             };
         })

@@ -129,61 +129,27 @@ angular.module('starter.services', [])
                         cartObj.comentariosP = cartObj.comentariosP + ' Producto = ' + value.producto.prod_nombre + ' comentario =' + value.comentario + '\n';
                     });
                 }
-                cartObj.cart.add = function (productoPedido) {
+                
+                //productos
+                cartObj.cart.add = function (detalle) {
                     debugger;
-                    var i = cartObj.cart.find(productoPedido);
+                    var i = cartObj.cart.find(detalle.productoP);
                     if (i != -1) {
-                        cartObj.cart[i].cantidad += productoPedido.cantidad;
+                        cartObj.cart[i].cantidad += detalle.cantidad;
+                        cartObj.total_qty += detalle.cantidad;
+                        cartObj.total_amount += parseFloat(parseFloat(detalle.cantidad) * parseFloat(detalle.productoP.precioBase));
                        
-                    } else {
-                        debugger;
-
-                        cartObj.cart.push(productoPedido);
-                        cartObj.total_qty += productoPedido.cantidad;
-                        cartObj.total_amount += parseFloat(parseFloat(productoPedido.cantidad) * parseFloat(productoPedido.precioBase));
+                    } else {                      
+                        cartObj.cart.push(detalle);
+                        cartObj.total_qty += detalle.cantidad;
+                        cartObj.total_amount += parseFloat(parseFloat(detalle.cantidad) * parseFloat(detalle.productoP.precioBase));
                     }
-                };
-                cartObj.cartPromo.increment = function (promoPedido) {
-                    debugger;
-                    promoPedido.cantidad+=1;//aumentar cantidad de la promo
-                    cartObj.total_qty += 1;
-                    cartObj.total_amount += parseFloat(promoPedido.precioUnitario);
-                                 
-                   
-                };
-                cartObj.cartPromo.decrement = function (ind) {
-                  
-                    var temp = cartObj.cartPromo[ind];
-                    cartObj.total_qty -= 1;
-                    cartObj.total_amount -= parseFloat(temp.precioUnitario);
-                    if (cartObj.cart[ind].cantidad == 1) {  // if the cart item was only 1 in qty
-                        cartObj.cart.splice(ind, 1); //edited
-                    } else {
-                        cartObj.cart[ind].cantidad -= 1;
-                    }
-
-                };
-                cartObj.cartPromo.drop = function (ind) {  
-                     debugger;
-                    var temp = cartObj.cart[ind];
-                    cartObj.total_qty -= parseInt(temp.cantidad);
-                    cartObj.total_amount -= parseFloat(parseFloat(temp.cantidad) * parseFloat(temp.precioUnitario));            
-                    cartObj.cart.splice(ind, 1);
-                };
-                
-                
-                cartObj.cartPromo.add = function (promoPedido) {
-                       debugger;                
-                        cartObj.cartPromo.push(promoPedido);
-                        cartObj.total_qty += promoPedido.cantidad;
-                        cartObj.total_amount += parseFloat(parseFloat(promoPedido.cantidad) * parseFloat(promoPedido.precioUnitario));
-                    
                 };
                 cartObj.cart.find = function (producto2) {
                     var result = -1;
                     debugger;
                     for (var i = 0, len = cartObj.cart.length; i < len; i++) {
-                        if (cartObj.cart[i].idProducto === producto2.idProducto && cartObj.cart[i].idVariedad === producto2.idVariedad) {
+                        if (angular.equals(cartObj.cart[i].productoP,producto2)) {
                             result = i;
                             break;
                         }
@@ -218,6 +184,43 @@ angular.module('starter.services', [])
                     }
 
                 };
+                
+                //promos
+                cartObj.cartPromo.increment = function (promoPedido) {
+                    debugger;
+                    promoPedido.cantidad+=1;//aumentar cantidad de la promo
+                    cartObj.total_qty += 1;
+                    cartObj.total_amount += parseFloat(promoPedido.precioUnitario);
+                                 
+                   
+                };
+                cartObj.cartPromo.decrement = function (ind) {
+                  
+                    var temp = cartObj.cartPromo[ind];
+                    cartObj.total_qty -= 1;
+                    cartObj.total_amount -= parseFloat(temp.precioUnitario);
+                    if (cartObj.cart[ind].cantidad == 1) {  // if the cart item was only 1 in qty
+                        cartObj.cart.splice(ind, 1); //edited
+                    } else {
+                        cartObj.cart[ind].cantidad -= 1;
+                    }
+
+                };
+                cartObj.cartPromo.drop = function (ind) {  
+                     debugger;
+                    var temp = cartObj.cart[ind];
+                    cartObj.total_qty -= parseInt(temp.cantidad);
+                    cartObj.total_amount -= parseFloat(parseFloat(temp.cantidad) * parseFloat(temp.precioUnitario));            
+                    cartObj.cart.splice(ind, 1);
+                };
+                cartObj.cartPromo.add = function (promoPedido) {
+                       debugger;                
+                        cartObj.cartPromo.push(promoPedido);
+                        cartObj.total_qty += promoPedido.cantidad;
+                        cartObj.total_amount += parseFloat(parseFloat(promoPedido.cantidad) * parseFloat(promoPedido.precioUnitario));
+                    
+                };
+            
 
                 cartObj.getQty = function () {
                     return  cartObj.total_qty;
