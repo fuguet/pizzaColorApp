@@ -26,8 +26,6 @@ angular.module('starter.controllers', [])
 
                     sharedUtils.showLoading();
 
-
-
                     restApi.call(
                             {
                                 method: 'post',
@@ -223,7 +221,7 @@ angular.module('starter.controllers', [])
                         ]
                     });
                     myPopup.then(function (res) {
-                      
+
                         $scope.data.quantity = res;
                         var productoPedido = {};
 
@@ -232,7 +230,7 @@ angular.module('starter.controllers', [])
                         productoPedido.idVariedad = item.selectedVariedad.var_id;
                         productoPedido.nombreVariedad = item.selectedVariedad.var_nombre;
                         productoPedido.cantidad = parseFloat(res);
-                        productoPedido.aclaracion =((typeof item.aclaracion === 'undefined') ? "Sin Aclaracion" : item.aclaracion);
+                        productoPedido.aclaracion = ((typeof item.aclaracion === 'undefined') ? "Sin Aclaracion" : item.aclaracion);
                         debugger;
                         sharedCartService.cart.add(productoPedido);
                         $ionicNavBarDelegate.back();
@@ -329,8 +327,9 @@ angular.module('starter.controllers', [])
             // disabled swipe menu
             $ionicSideMenuDelegate.canDragContent(false);
         })
-        .controller('ItemOfferCtrl', function ($scope, $state, Items, $stateParams, $ionicPopup, producto, promo) {
+        .controller('ItemOfferCtrl', function ($scope, $state, Items, $stateParams, $ionicPopup, producto, promo, sharedCartService) {
             var id = $stateParams.id;
+            var cantidadVariedadesSel = 0;
             // get item from service by item id
             promo.getPromo(id).success(function (response) {
                 $scope.promo = response;
@@ -375,6 +374,8 @@ angular.module('starter.controllers', [])
                                             e.preventDefault();
                                         } else {
                                             return $scope.selectedVariedad;
+
+
 //                                    return $scope.data.quantity;
                                         }
                                     }
@@ -384,8 +385,17 @@ angular.module('starter.controllers', [])
                         myPopup.then(function (res) {
 //                    $scope.data.quantity = res;
 
+                            debugger;
+                            if ((typeof optionO.selectedVariedad === 'undefined')) {
+                                optionO.selectedVariedad = res;
+                                cantidadVariedadesSel += 1;
 
-                            optionO.selectedVariedad = res;
+                            } else {
+                                optionO.selectedVariedad = res;
+
+                            }
+
+
 
 
 
@@ -396,10 +406,7 @@ angular.module('starter.controllers', [])
 
                 $scope.SelectedVariedadChange = function (variedad) {
 
-
                     $scope.selectedVariedad = variedad;
-
-
 
                 };
 
@@ -413,22 +420,32 @@ angular.module('starter.controllers', [])
             // Show note popup when click to 'Notes to driver'
 
 
-            $scope.addCart = function (promo,items) {
-                debugger;
+            $scope.addCart = function (promo, items) {
                 $scope.data = {
                     quantity: 1
                 }
                 var promoPedido = {};
-                
-                promoPedido.nombre= promo.pro_nombre;
-                promoPedido.precioUnitario=promo.pro_precio;
-                promoPedido.cantidad=1;
-                promoPedido.idPromo=promo.pro_id;
-                promoPedido.detallePp=promo.pro_descripcion;
-                
-                //promoPedido.aclaracion=
-                
-              
+                promoPedido.productosP = []
+                promoPedido.nombre = promo.pro_nombre;
+                promoPedido.precioUnitario = promo.pro_precio;
+                promoPedido.cantidad = 1;
+                promoPedido.idPromo = promo.pro_id;
+                promoPedido.detallePp = promo.pro_descripcion;
+
+                angular.forEach(items, function (value, key) {
+                    var prodPedido = {};
+                    prodPedido.precioBase = value.prod_precioBase;
+                    prodPedido.idProducto = value.prod_id;
+                    prodPedido.idVariedad = ((typeof value.selectedVariedad === 'undefined') ? -1 : value.selectedVariedad.var_id);
+                    prodPedido.precioCalc = 0;
+                    prodPedido.nombreVariedad = ((typeof value.selectedVariedad === 'undefined') ? '' : value.selectedVariedad.var_nombre);
+
+                    promoPedido.productosP.push(prodPedido);
+
+                });
+                //promoPedido.aclaracion= 
+
+
 
                 // An elaborate, custom popup
                 var myPopup = $ionicPopup.show({
@@ -452,7 +469,12 @@ angular.module('starter.controllers', [])
                     ]
                 });
                 myPopup.then(function (res) {
+                    debugger;
                     $scope.data.quantity = res;
+                    promoPedido.cantidad = res;
+                    sharedCartService.cartPromo.add(promoPedido);
+                    sharedCartService.cartPromo;
+                    debugger;
                 });
             };
         })

@@ -32,10 +32,8 @@ angular.module('starter.services', [])
                 var cartObj = {};
                 cartObj.cart = [];//lista de productos  (producto, cantidad)  
                 cartObj.cartPromo =[];//lista de promos      
-                cartObj.total_amount = 0; // total de productos
-                cartObj.total_compAmount = 0; // total de componentes
-                cartObj.total_qty = 0; // cant producto
-                cartObj.total_compqty = 0; // cantidad de componente
+                cartObj.total_amount = 0; // total de productos       
+                cartObj.total_qty = 0; // cant product       
                 cartObj.idPE = -1;
                 cartObj.comentariosP = '';
                 
@@ -145,6 +143,42 @@ angular.module('starter.services', [])
                         cartObj.total_amount += parseFloat(parseFloat(productoPedido.cantidad) * parseFloat(productoPedido.precioBase));
                     }
                 };
+                cartObj.cartPromo.increment = function (promoPedido) {
+                    debugger;
+                    promoPedido.cantidad+=1;//aumentar cantidad de la promo
+                    cartObj.total_qty += 1;
+                    cartObj.total_amount += parseFloat(promoPedido.precioUnitario);
+                                 
+                   
+                };
+                cartObj.cartPromo.decrement = function (ind) {
+                  
+                    var temp = cartObj.cartPromo[ind];
+                    cartObj.total_qty -= 1;
+                    cartObj.total_amount -= parseFloat(temp.precioUnitario);
+                    if (cartObj.cart[ind].cantidad == 1) {  // if the cart item was only 1 in qty
+                        cartObj.cart.splice(ind, 1); //edited
+                    } else {
+                        cartObj.cart[ind].cantidad -= 1;
+                    }
+
+                };
+                cartObj.cartPromo.drop = function (ind) {  
+                     debugger;
+                    var temp = cartObj.cart[ind];
+                    cartObj.total_qty -= parseInt(temp.cantidad);
+                    cartObj.total_amount -= parseFloat(parseFloat(temp.cantidad) * parseFloat(temp.precioUnitario));            
+                    cartObj.cart.splice(ind, 1);
+                };
+                
+                
+                cartObj.cartPromo.add = function (promoPedido) {
+                       debugger;                
+                        cartObj.cartPromo.push(promoPedido);
+                        cartObj.total_qty += promoPedido.cantidad;
+                        cartObj.total_amount += parseFloat(parseFloat(promoPedido.cantidad) * parseFloat(promoPedido.precioUnitario));
+                    
+                };
                 cartObj.cart.find = function (producto2) {
                     var result = -1;
                     debugger;
@@ -161,9 +195,7 @@ angular.module('starter.services', [])
                     var ind = cartObj.cart.find(id);
                     var temp = cartObj.cart[ind];
                     cartObj.total_qty -= parseInt(temp.qty);
-                    cartObj.total_compqty -= parseInt(temp.comqty);
                     cartObj.total_amount -= (parseInt(temp.qty) * parseInt(temp.price));
-                    cartObj.total_compAmount -= parseFloat(temp.compAmount);
                     cartObj.cart.splice(ind, 1);
                 };
                 cartObj.cart.increment = function (id) {
@@ -171,18 +203,14 @@ angular.module('starter.services', [])
                     var ind = cartObj.cart.find(id);
                     var temp = cartObj.cart[ind];
                     temp.qty += 1;
-                    cartObj.total_compqty += parseInt(temp.comqty); //preguntar si aumenta la cant del prooducto aumenta los componentes tambien
                     cartObj.total_qty += 1;
                     cartObj.total_amount += (parseInt(cartObj.cart[ind].price));
-                    cartObj.total_compAmount += parseFloat(temp.compAmount);
                 };
                 cartObj.cart.decrement = function (id) {
                     var ind = cartObj.cart.find(id);
                     var temp = cartObj.cart[ind];
                     cartObj.total_qty -= 1;
-                    cartObj.total_amount -= parseInt(temp.price);
-                    cartObj.total_compqty -= parseInt(temp.comqty);
-                    cartObj.total_compAmount -= parseFloat(temp.compAmount);
+                    cartObj.total_amount -= parseInt(temp.price);           
                     if (cartObj.cart[cartObj.cart.find(id)].qty == 1) {  // if the cart item was only 1 in qty
                         cartObj.cart.splice(cartObj.cart.find(id), 1); //edited
                     } else {
