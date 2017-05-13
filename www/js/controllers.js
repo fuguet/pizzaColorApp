@@ -228,11 +228,11 @@ angular.module('starter.controllers', [])
                         debugger;
 
 //                        productoPedido.precioBase = ((typeof item.selectedVariedad === 'undefined') ? item.producto.prod_precioBase : item.selectedVariedad.var_precio);
-                         productoPedido.precioBase = item.selectedVariedad.var_precio || item.producto.prod_precioBase ;
+                        productoPedido.precioBase = item.selectedVariedad.var_precio || item.producto.prod_precioBase;
                         productoPedido.idProducto = item.producto.prod_id;
                         productoPedido.idVariedad = item.selectedVariedad.var_id;
                         productoPedido.nombreVariedad = item.selectedVariedad.var_nombre;
-                        productoPedido.aclaracion = item.aclaracion  || "Sin Aclaracion" ;
+                        productoPedido.aclaracion = item.aclaracion || "Sin Aclaracion";
                         detalle.productoP = productoPedido;
                         detalle.cantidad = parseFloat(res);
                         sharedCartService.cart.add(detalle);
@@ -330,9 +330,11 @@ angular.module('starter.controllers', [])
             // disabled swipe menu
             $ionicSideMenuDelegate.canDragContent(false);
         })
-        .controller('ItemOfferCtrl', function ($scope, $state, Items, $stateParams, $ionicPopup,$ionicNavBarDelegate, producto, promo, sharedCartService) {
+        .controller('ItemOfferCtrl', function ($scope, $state, Items, $stateParams, $ionicPopup, $ionicNavBarDelegate, producto, promo, sharedCartService) {
             var id = $stateParams.id;
             var cantidadVariedadesSel = 0;
+            var checkVar = function (item) {
+                return item.cantVar > 0; }
             // get item from service by item id
             promo.getPromo(id).success(function (response) {
                 $scope.promo = response;
@@ -342,11 +344,6 @@ angular.module('starter.controllers', [])
                 $scope.items = response;
 
             });
-
-
-//            $scope.item = Items.get(1);
-
-            // toggle favorite
             $scope.toggleFav = function () {
                 $scope.item.faved = !$scope.item.faved;
             }
@@ -394,11 +391,6 @@ angular.module('starter.controllers', [])
                                 optionO.selectedVariedad = res;
 
                             }
-
-
-
-
-
                         });
 
                     }
@@ -421,68 +413,77 @@ angular.module('starter.controllers', [])
 
 
             $scope.addCart = function (promo, items) {
-                debugger;
-                
-                cantidadVariedadesSel=promo
-                $scope.data = {
-                    quantity: 1
-                }
-                var promoPedido = {};
-                promoPedido.productosP = []
-                promoPedido.nombre = promo.pro_nombre;
-                promoPedido.precioUnitario = promo.pro_precio;
-                promoPedido.cantidad = 1;
-                promoPedido.idPromo = promo.pro_id;
-                promoPedido.detallePp = promo.pro_descripcion;
+                if (cantidadVariedadesSel >= items.filter(checkVar).length) {
+                    $scope.data = {
+                        quantity: 1
+                    }
+                    var promoPedido = {};
+                    promoPedido.productosP = []
+                    promoPedido.nombre = promo.pro_nombre;
+                    promoPedido.precioUnitario = promo.pro_precio;
+                    promoPedido.cantidad = 1;
+                    promoPedido.idPromo = promo.pro_id;
+                    promoPedido.detallePp = promo.pro_descripcion;
 
-                angular.forEach(items, function (value, key) {
-                    var prodPedido = {};
-                    prodPedido.precioBase = value.prod_precioBase;
-                    prodPedido.idProducto = value.prod_id;
-                    prodPedido.idVariedad = ((typeof value.selectedVariedad === 'undefined') ? -1 : value.selectedVariedad.var_id);
-                    prodPedido.precioCalc = 0;
-                    prodPedido.nombreVariedad = ((typeof value.selectedVariedad === 'undefined') ? '' : value.selectedVariedad.var_nombre);
-                    promoPedido.productosP.push(prodPedido);                    
+                    angular.forEach(items, function (value, key) {
+                        var prodPedido = {};
+                        prodPedido.precioBase = value.prod_precioBase;
+                        prodPedido.idProducto = value.prod_id;
+                        prodPedido.idVariedad = ((typeof value.selectedVariedad === 'undefined') ? -1 : value.selectedVariedad.var_id);
+                        prodPedido.precioCalc = 0;
+                        prodPedido.nombreVariedad = ((typeof value.selectedVariedad === 'undefined') ? '' : value.selectedVariedad.var_nombre);
+                        promoPedido.productosP.push(prodPedido);
 
-                });
-                //promoPedido.aclaracion= 
-
-
-
-                // An elaborate, custom popup
-                var myPopup = $ionicPopup.show({
-                    templateUrl: 'templates/popup-quantity.html',
-                    title: 'Quantity',
-                    scope: $scope,
-                    buttons: [
-                        {text: 'Cancel'},
-                        {
-                            text: '<b>Save</b>',
-                            type: 'button-assertive',
-                            onTap: function (e) {
-                                if (!$scope.data.quantity) {
-                                    //don't allow the user to close unless he enters note
-                                    e.preventDefault();
-                                } else {
-                                    return $scope.data.quantity;
+                    });
+                    //promoPedido.aclaracion= 
+                    // An elaborate, custom popup
+                    var myPopup = $ionicPopup.show({
+                        templateUrl: 'templates/popup-quantity.html',
+                        title: 'Quantity',
+                        scope: $scope,
+                        buttons: [
+                            {text: 'Cancel'},
+                            {
+                                text: '<b>Save</b>',
+                                type: 'button-assertive',
+                                onTap: function (e) {
+                                    if (!$scope.data.quantity) {
+                                        //don't allow the user to close unless he enters note
+                                        e.preventDefault();
+                                    } else {
+                                        return $scope.data.quantity;
+                                    }
                                 }
-                            }
-                        },
-                    ]
-                });
-                myPopup.then(function (res) {
-                    debugger;
-                    $scope.data.quantity = res;
-                    promoPedido.cantidad = res;
-                    sharedCartService.cartPromo.add(promoPedido);
-                    $ionicNavBarDelegate.back();
-                    
-                });
-            };
-        })
+                            },
+                        ]
+                    });
+                    myPopup.then(function (res) {
+                        if (res) {
+                            $scope.data.quantity = res;
+                            promoPedido.cantidad = res;
+                            sharedCartService.cartPromo.add(promoPedido);
+                            $ionicNavBarDelegate.back();
+                        }
+
+
+                    });
+                } else {
+
+                    var alertPopup = $ionicPopup.alert({
+                        title: 'Atencion',
+                        template: 'Falta Seleccionar algo'
+                    });
+
+                }
+
+            }
+            ;
+        }
+        )
 
 // Checkout controller
-        .controller('CheckoutCtrl', function ($scope, $state) {})
+        .controller('CheckoutCtrl', function ($scope, $state) {}
+        )
 
 // Address controller
         .controller('AddressCtrl', function ($scope, $state) {
