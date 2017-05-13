@@ -193,7 +193,7 @@ angular.module('starter.controllers', [])
                 $scope.data = {
                     quantity: 1
                 }
-                debugger;
+
                 if (item.variedades.length > 0 && (typeof item.selectedVariedad === 'undefined')) {
                     var alertPopup = $ionicPopup.alert({
                         title: 'Atencion',
@@ -228,10 +228,14 @@ angular.module('starter.controllers', [])
                         debugger;
 
 //                        productoPedido.precioBase = ((typeof item.selectedVariedad === 'undefined') ? item.producto.prod_precioBase : item.selectedVariedad.var_precio);
-                        productoPedido.precioBase = item.selectedVariedad.var_precio || item.producto.prod_precioBase;
+                        productoPedido.precioBase = ((typeof item.selectedVariedad === 'undefined') ? item.producto.prod_precioBase : item.selectedVariedad.var_precio);
+
                         productoPedido.idProducto = item.producto.prod_id;
-                        productoPedido.idVariedad = item.selectedVariedad.var_id;
-                        productoPedido.nombreVariedad = item.selectedVariedad.var_nombre;
+                        productoPedido.idVariedad =  ((typeof item.selectedVariedad === 'undefined') ? -1 : item.selectedVariedad.var_id);
+                        productoPedido.nombreVariedad = ((typeof item.selectedVariedad === 'undefined') ? '':item.selectedVariedad.var_nombre);
+                        productoPedido.nombre = item.producto.prod_nombre;
+                        productoPedido.img = item.producto.slider;
+                        productoPedido.descripcion = item.producto.prod_descripcionProducto;
                         productoPedido.aclaracion = item.aclaracion || "Sin Aclaracion";
                         detalle.productoP = productoPedido;
                         detalle.cantidad = parseFloat(res);
@@ -285,9 +289,11 @@ angular.module('starter.controllers', [])
         })
 
 // Cart controller
-        .controller('CartCtrl', function ($scope, Cart) {
-            // set cart items
-            $scope.cart = Cart.get();
+        .controller('CartCtrl', function ($scope, Cart, sharedCartService) {
+
+            $scope.cart = sharedCartService.cart;
+             $scope.promos=sharedCartService.cartPromo;
+             $scope.total=sharedCartService.total_amount;
 
             // plus quantity
             $scope.plusQty = function (item) {
@@ -334,7 +340,8 @@ angular.module('starter.controllers', [])
             var id = $stateParams.id;
             var cantidadVariedadesSel = 0;
             var checkVar = function (item) {
-                return item.cantVar > 0; }
+                return item.cantVar > 0;
+            }
             // get item from service by item id
             promo.getPromo(id).success(function (response) {
                 $scope.promo = response;
