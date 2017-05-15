@@ -3,49 +3,47 @@
 -->
 <ion-view view-title="Checkout">
 
-  <ion-content class="stable-bg checkout-page">
+    <ion-content class="stable-bg checkout-page">
 
-    <!-- Payment method -->
-    <div class="padding-left padding-top">Payment</div>
-    <div class="list card">
+        <!-- Payment method -->
+        <div class="padding-left padding-top">Forma de Pago</div>
 
-      <ion-radio ng-model="choice" ng-value="'A'">
-        Credit card
-        <p class="text-hint">
-          XXXX XXXX XXXX 4678
-        </p>
-      </ion-radio>
+        <div class="list card"  ng-repeat="item in payments">
 
-      <ion-radio ng-model="choice" ng-value="'B'">
-        Cash on delivery
-        <p class="text-hint">
-          Free
-        </p>
-      </ion-radio>
-    </div>
+            <ion-radio name="pay_group" ng-value="item.name" ng-model="$parent.pay_choice">
+                {{item.name}}
 
-    <!-- Shipping address-->
-    <div class="padding-left padding-right">
-      Shipping address
+            </ion-radio>
 
-      <a class="pull-right" ui-sref="address">
-        <i class="ion-edit"></i>
-      </a>
-    </div>
-    <div class="card padding">
-      No 01
-      <br/>
-      St Luiz, Barcelona
-      <br/>
-      Spain
-    </div>
-  </ion-content>
+        </div>
 
-  <ion-footer-bar class="bar-assertive">
-    <div class="button" ui-sref="home">Finish</div>
-    <div class="title"></div>
-    <div class="button text-2x">
-      $20
-    </div>
-  </ion-footer-bar>
+        <!-- Shipping address-->
+        <div class="padding-left padding-right">
+            Direcciones de Envio
+
+            <a class="pull-right" ui-sref="address">
+                <i class="ion-edit"></i>
+            </a>
+        </div>
+        <ion-list ng-repeat="item in addresses" >
+            <ion-radio name="addr_group" ng-value="item.dir_id" ng-model="$parent.address_choice">
+                <a class="icon icon-right ion-ios-location"></a>
+                <span> {{item.dir_nombre}} : {{item.dir_direccion}} </span>         
+                <span>Tel: {{item.dir_telefonoFijo}}</span>
+            </ion-radio>
+            
+        </ion-list>
+        
+        <button class="button button-block button-positive"  ng-click="openModal()">
+            Agregar una Direccion
+        </button>
+    </ion-content>
+
+    <ion-footer-bar class="bar-assertive">
+        <div class="button" ui-sref="home">Realizar Pedido</div>
+        <div class="title"></div>
+        <div class="button text-2x">
+          $ {{total}}
+        </div>
+    </ion-footer-bar>
 </ion-view>

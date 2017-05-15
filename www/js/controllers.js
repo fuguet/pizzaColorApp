@@ -231,8 +231,8 @@ angular.module('starter.controllers', [])
                         productoPedido.precioBase = ((typeof item.selectedVariedad === 'undefined') ? item.producto.prod_precioBase : item.selectedVariedad.var_precio);
 
                         productoPedido.idProducto = item.producto.prod_id;
-                        productoPedido.idVariedad =  ((typeof item.selectedVariedad === 'undefined') ? -1 : item.selectedVariedad.var_id);
-                        productoPedido.nombreVariedad = ((typeof item.selectedVariedad === 'undefined') ? '':item.selectedVariedad.var_nombre);
+                        productoPedido.idVariedad = ((typeof item.selectedVariedad === 'undefined') ? -1 : item.selectedVariedad.var_id);
+                        productoPedido.nombreVariedad = ((typeof item.selectedVariedad === 'undefined') ? '' : item.selectedVariedad.var_nombre);
                         productoPedido.nombre = item.producto.prod_nombre;
                         productoPedido.img = item.producto.slider;
                         productoPedido.descripcion = item.producto.prod_descripcionProducto;
@@ -292,8 +292,8 @@ angular.module('starter.controllers', [])
         .controller('CartCtrl', function ($scope, Cart, sharedCartService) {
 
             $scope.cart = sharedCartService.cart;
-             $scope.promos=sharedCartService.cartPromo;
-             $scope.total=sharedCartService.total_amount;
+            $scope.promos = sharedCartService.cartPromo;
+            $scope.total = sharedCartService.total_amount;
 
             // plus quantity
             $scope.plusQty = function (item) {
@@ -489,7 +489,72 @@ angular.module('starter.controllers', [])
         )
 
 // Checkout controller
-        .controller('CheckoutCtrl', function ($scope, $state) {}
+        .controller('CheckoutCtrl', function ($scope, $state, $ionicModal, auth, usuario, sharedCartService) {
+            $scope.addresses = [];
+            debugger;
+
+            $scope.usuario = auth.datosUsuario();
+            usuario.getDirecciones($scope.usuario.id).success(function (response) {
+                $scope.addresses = response;
+            });
+            $scope.payments = [
+                {id: 'CREDIT', name: 'Tarjeta Debito'},
+                {id: 'COD', name: 'Efectivo '}
+            ];
+            $scope.total = sharedCartService.total_amount;
+
+            $scope.createAdress = function (res) {
+                debugger;
+                var direccion = {};
+
+                if (res != null) {
+                    if (res.dir_idPersona) {
+                        direccion.dir_nombre = res.dir_nombre;
+                        direccion.dir_telefonoFijo = res.dir_direccion;
+                        direccion.dir_direccion = res.dir_telefonoFijo;
+
+                    } else
+                    {
+                        direccion.dir_nombre = res.dir_nombre;
+                        direccion.dir_telefonoFijo = res.dir_direccion;
+                        direccion.dir_direccion = res.dir_telefonoFijo;
+                        direccion.dir_idPersona = $scope.usuario.id;
+
+                    }
+
+
+                }
+                $scope.modal.hide();
+            };
+
+            $ionicModal.fromTemplateUrl('templates/modaladress.html', {
+                scope: $scope
+            }).then(function (modal) {
+
+                $scope.modal = modal;
+            });
+
+            $scope.openModal = function (edit_val) {
+                if (edit_val != null) {
+                    $scope.data = edit_val; // For editing address 
+                    // poner al telefono como un numero.
+                    $scope.title = "Editar Direccion";
+                    $scope.sub_title = "Editar su Domicilio";
+                } else {
+                    $scope.data = {};    // For adding new address
+                    $scope.title = "Agregar Domicilio";
+                    $scope.sub_title = "Agregar un nuevo Domicilio";
+                }
+
+                $scope.modal.show();
+            };
+
+
+
+
+
+
+        }
         )
 
 // Address controller

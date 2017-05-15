@@ -7,43 +7,48 @@
 <ion-view cache-view="false" view-title="Cart">
 
     <ion-content class="stable-bg">
-
-        <ion-list>
-
-            <ion-item class="card" ng-repeat="item in cart" >
-                <h2>{{ item.productoP.nombre}}({{ item.productoP.nombreVariedad}})</h2>
+        <div class="item item-divider">
+            <span>Pizza Color Delivery</span>  <span class="pull-right">Total: ${{total}}</span>
+        </div>
+        <div class="list list-inset">
+            <ion-item ng-repeat="item in cart" class="item-button-right">
+                <h3>{{ item.productoP.nombre}}({{ item.productoP.nombreVariedad}})</h3>
                 <p>{{ item.productoP.descripcion}}</p>
                 <h4 class="price pull-left assertive">
                     ${{ item.productoP.precioBase}}
                     <span class="dark">x {{ item.cantidad}}</span>
                 </h4>
-                <ion-option-button class="stable-bg" ng-click="remove($index)">
-                    <i class="icon ion-trash-a padding"></i>
-                </ion-option-button>
+                <button class="button button-assertive">
+                    <i class="icon ion-trash-a"></i>
+                </button>
             </ion-item>
-
-            <ion-item class="card" ng-repeat="item in promos" >
-                <h2>{{ item.nombre}}</h2>
+            <ion-item ng-repeat="item in promos" class="item-button-right">
+                <h3>{{ item.nombre}}</h3>
                 <p>{{ item.detallePp}}</p>
                 <h4 class="price pull-left assertive">
                     ${{ item.precioUnitario}}
                     <span class="dark">x {{ item.cantidad}}</span>
                 </h4>
-                <ion-option-button class="stable-bg" ng-click="remove($index)">
-                    <i class="icon ion-trash-a padding"></i>
-                </ion-option-button>
+                <button class="button button-assertive" >
+                    <i class="icon ion-trash-a" ng-click="remove($index)"></i>
+                </button>
             </ion-item>
 
+        </div> 
 
-        </ion-list>
+        <button class="button button-block button-positive"  ui-sref="home">
+            Agregar mas Comida
+        </button>
 
     </ion-content>
 
     <ion-footer-bar class="bar-assertive">
-        <div class="button" ui-sref="checkout">BUY</div>
-        <div class="title"></div>
-        <div class="button text-2x">
-            ${{total}}
+        <div class="button-bar">
+            <div class="button" ui-sref="checkout">Relizar Pedido</div>
+
+            <div class="button text-2x">
+                ${{total}}
+            </div>
         </div>
     </ion-footer-bar>
 </ion-view>

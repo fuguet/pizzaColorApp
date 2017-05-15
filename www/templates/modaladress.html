@@ -1,0 +1,29 @@
+
+      <ion-modal-view>
+        <ion-header-bar class="bar-assertive" align-title="center">
+          <h1 class="title">{{sub_title}}</h1>
+          <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+          <div class="list">
+            <label class="item item-input">
+              <span class="input-label">Alias</span>
+              <input ng-model="data.dir_nombre" type="text">
+            </label>
+            <label class="item item-input">
+              <span class="input-label">Direccion</span>
+              <input ng-model="data.dir_direccion" type="text">
+            </label>
+            <label class="item item-input">
+              <span class="input-label">Telfono Fijo</span>
+              <input ng-model="data.dir_telefonoFijo" type="text">
+            </label> 
+              <label class="item item-input">
+              <span class="input-label">Aclaracion</span>
+              <input ng-model="data.dir_aclaracion" type="text">
+            </label>
+              
+            <button class="button button-full button-assertive" ng-click="createAdress(data)">Guardar</button>
+          </div>
+        </ion-content>
+      </ion-modal-view>

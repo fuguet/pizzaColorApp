@@ -31,12 +31,12 @@ angular.module('starter.services', [])
 
                 var cartObj = {};
                 cartObj.cart = [];//lista de productos  (producto, cantidad)  
-                cartObj.cartPromo =[];//lista de promos      
+                cartObj.cartPromo = [];//lista de promos      
                 cartObj.total_amount = 0; // total de productos       
                 cartObj.total_qty = 0; // cant product       
                 cartObj.idPE = -1;
                 cartObj.comentariosP = '';
-                
+
                 cartObj.generarPedido = function (data) {
 
                     var data2 = {};
@@ -47,7 +47,7 @@ angular.module('starter.services', [])
                     data2.pe_idPersona = data.idCliente;
                     data2.pe_cli_tel = data.tel;
                     data2.pe_idEstado = 1;
-                    
+
                     restApi.call({
                         method: 'post',
                         url: 'pedidoencabezado/insertar',
@@ -58,7 +58,7 @@ angular.module('starter.services', [])
                         error: function (r) {
 
                         },
-                       validationError: function (r) {
+                        validationError: function (r) {
 
                         }
                     });
@@ -77,7 +77,7 @@ angular.module('starter.services', [])
                             url: 'productopedido/insertar',
                             data: prodPedido,
                             response: function (r) {
-                        
+
                                 cartObj.registrarDetalle(value, r.result);
                             },
                             error: function (r) {
@@ -101,10 +101,10 @@ angular.module('starter.services', [])
                         url: 'detallepedido/insertar',
                         data: detallePedido,
                         response: function (r) {
-                          
+
                         },
                         error: function (r) {
-                            
+
                             //abria que limpiar el carro si guardo
 
                         },
@@ -129,17 +129,17 @@ angular.module('starter.services', [])
                         cartObj.comentariosP = cartObj.comentariosP + ' Producto = ' + value.producto.prod_nombre + ' comentario =' + value.comentario + '\n';
                     });
                 }
-                
+
                 //productos
                 cartObj.cart.add = function (detalle) {
-                    debugger;
+
                     var i = cartObj.cart.find(detalle.productoP);
                     if (i != -1) {
                         cartObj.cart[i].cantidad += detalle.cantidad;
                         cartObj.total_qty += detalle.cantidad;
                         cartObj.total_amount += parseFloat(parseFloat(detalle.cantidad) * parseFloat(detalle.productoP.precioBase));
-                       
-                    } else {                      
+
+                    } else {
                         cartObj.cart.push(detalle);
                         cartObj.total_qty += detalle.cantidad;
                         cartObj.total_amount += parseFloat(parseFloat(detalle.cantidad) * parseFloat(detalle.productoP.precioBase));
@@ -147,9 +147,9 @@ angular.module('starter.services', [])
                 };
                 cartObj.cart.find = function (producto2) {
                     var result = -1;
-                    debugger;
+
                     for (var i = 0, len = cartObj.cart.length; i < len; i++) {
-                        if (angular.equals(cartObj.cart[i].productoP,producto2)) {
+                        if (angular.equals(cartObj.cart[i].productoP, producto2)) {
                             result = i;
                             break;
                         }
@@ -176,7 +176,7 @@ angular.module('starter.services', [])
                     var ind = cartObj.cart.find(id);
                     var temp = cartObj.cart[ind];
                     cartObj.total_qty -= 1;
-                    cartObj.total_amount -= parseInt(temp.price);           
+                    cartObj.total_amount -= parseInt(temp.price);
                     if (cartObj.cart[cartObj.cart.find(id)].qty == 1) {  // if the cart item was only 1 in qty
                         cartObj.cart.splice(cartObj.cart.find(id), 1); //edited
                     } else {
@@ -184,18 +184,18 @@ angular.module('starter.services', [])
                     }
 
                 };
-                
+
                 //promos
                 cartObj.cartPromo.increment = function (promoPedido) {
-                    debugger;
-                    promoPedido.cantidad+=1;//aumentar cantidad de la promo
+
+                    promoPedido.cantidad += 1;//aumentar cantidad de la promo
                     cartObj.total_qty += 1;
                     cartObj.total_amount += parseFloat(promoPedido.precioUnitario);
-                                 
-                   
+
+
                 };
                 cartObj.cartPromo.decrement = function (ind) {
-                  
+
                     var temp = cartObj.cartPromo[ind];
                     cartObj.total_qty -= 1;
                     cartObj.total_amount -= parseFloat(temp.precioUnitario);
@@ -206,21 +206,21 @@ angular.module('starter.services', [])
                     }
 
                 };
-                cartObj.cartPromo.drop = function (ind) {  
-                     debugger;
+                cartObj.cartPromo.drop = function (ind) {
+
                     var temp = cartObj.cart[ind];
                     cartObj.total_qty -= parseInt(temp.cantidad);
-                    cartObj.total_amount -= parseFloat(parseFloat(temp.cantidad) * parseFloat(temp.precioUnitario));            
+                    cartObj.total_amount -= parseFloat(parseFloat(temp.cantidad) * parseFloat(temp.precioUnitario));
                     cartObj.cart.splice(ind, 1);
                 };
                 cartObj.cartPromo.add = function (promoPedido) {
-                       debugger;                
-                        cartObj.cartPromo.push(promoPedido);
-                        cartObj.total_qty += promoPedido.cantidad;
-                        cartObj.total_amount += parseFloat(parseFloat(promoPedido.cantidad) * parseFloat(promoPedido.precioUnitario));
-                    
+
+                    cartObj.cartPromo.push(promoPedido);
+                    cartObj.total_qty += promoPedido.cantidad;
+                    cartObj.total_amount += parseFloat(parseFloat(promoPedido.cantidad) * parseFloat(promoPedido.precioUnitario));
+
                 };
-            
+
 
                 cartObj.getQty = function () {
                     return  cartObj.total_qty;
@@ -238,6 +238,7 @@ angular.module('starter.services', [])
                         return localStorage[API.token_name];
                     },
                     getUserData: function () {
+
                         try
                         {
                             var token = localStorage[API.token_name];
@@ -264,8 +265,10 @@ angular.module('starter.services', [])
                     },
                     datosUsuario: function () {
                         usuario = {"id": "", "nombre": "", "celular": "", "email": ""};
+
                         usuario.id = auth.getUserData().id;
-                        usuario.nombre = auth.getUserData().nombre;
+                        usuario.nombrecompleto = auth.getUserData().NombreCompleto;
+                        usuario.nombre = auth.getUserData().Nombre;
                         usuario.celular = auth.getUserData().Celular;
                         usuario.email = auth.getUserData().email;
                         //You have to create a local variable for storing emails
@@ -831,11 +834,11 @@ angular.module('starter.services', [])
                         url: API.base_url + 'promo/listarprod2/' + idPromo,
                         method: "GET"
                     }).success(function (data, status, headers, config) {
-                    
+
                         datos = data.data;
                         return datos;
                     }).error(function (err) {
-                       
+
                         error = err;
                     })
                             )
@@ -1009,7 +1012,7 @@ angular.module('starter.services', [])
                 var headers = {};
                 headers[API.token_name] = auth.getToken();
                 var dataOpen = {};
-                  dataOpen.isOpen = function (openHours) {
+                dataOpen.isOpen = function (openHours) {
 
                     var now = (new Date());
                     var day = now.getDay();
@@ -1020,7 +1023,7 @@ angular.module('starter.services', [])
                     // var fixedTime = now.getTime();
 
                     var open;
-                
+
                     for (var i = 0; i < openHours.length; i++) {
                         open = openHours[i];
                         if (parseInt(open.dh_diaSemana) !== day) {
@@ -1042,22 +1045,22 @@ angular.module('starter.services', [])
                         var closeAt = getShiftedDate(hc).getTime();
 
                         if (fixedTime >= openAt && fixedTime <= closeAt) {
-                             response.valor = true;
-                             return response;
+                            response.valor = true;
+                            return response;
                         } else {
 
-                            
+
                             response.message =
                                     'EL delivery esta abierto de: ' +
                                     open.dh_horaApertura + ' a  ' +
                                     open.dh_horaCierre +
-                                    ', Ahora son las  ' + now.getHours()+':'+now.getMinutes();
+                                    ', Ahora son las  ' + now.getHours() + ':' + now.getMinutes();
                             response.valor = false;
                             return response;
                         }
                     }
-                    
-                    response.valor=false;
+
+                    response.valor = false;
 
                     return response;
 
@@ -1083,4 +1086,45 @@ angular.module('starter.services', [])
 
 
                 return dataOpen;
+            }])
+
+        .factory('usuario', ['$http', 'auth', function ($http, auth) {
+                // Might use a resource here that returns a JSON array
+
+                var headers = {};
+                headers[API.token_name] = auth.getToken();
+                var dataUsuario = {};
+
+                dataUsuario.getDirecciones = function (id) {
+                    return($http({
+                        url: API.base_url + 'persona/listardir/' + id,
+                        method: "GET",
+                        headers: headers
+                    }).success(function (data, status, headers, config) {
+                        datos = data.data;
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
+                dataUsuario.addDireccion = function (data) {
+                    return($http({
+                        url: API.base_url + 'direccion/insertar',
+                        method: "POST",
+                        headers: headers,
+                        data:data
+                        
+                    }).success(function (data, status, headers, config) {
+                        datos = data.data;
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
+
+                return dataUsuario;
             }])
