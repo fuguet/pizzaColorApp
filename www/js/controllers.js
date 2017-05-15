@@ -510,15 +510,23 @@ angular.module('starter.controllers', [])
                 if (res != null) {
                     if (res.dir_idPersona) {
                         direccion.dir_nombre = res.dir_nombre;
-                        direccion.dir_telefonoFijo = res.dir_direccion;
-                        direccion.dir_direccion = res.dir_telefonoFijo;
+                        direccion.dir_telefonoFijo =res.dir_telefonoFijo;
+                        direccion.dir_direccion = res.dir_direccion;
 
                     } else
                     {
                         direccion.dir_nombre = res.dir_nombre;
-                        direccion.dir_telefonoFijo = res.dir_direccion;
-                        direccion.dir_direccion = res.dir_telefonoFijo;
+                        direccion.dir_telefonoFijo =res.dir_telefonoFijo ;
+                        direccion.dir_direccion = res.dir_direccion;
                         direccion.dir_idPersona = $scope.usuario.id;
+                        usuario.addDireccion(direccion).success(function (res) {
+                          if(res.response){
+                               $window.location.reload(true);
+                          }
+                          else{
+                              
+                          }
+                        });
 
                     }
 

@@ -1110,6 +1110,7 @@ angular.module('starter.services', [])
 
                 };
                 dataUsuario.addDireccion = function (data) {
+                    debugger;
                     return($http({
                         url: API.base_url + 'direccion/insertar',
                         method: "POST",
