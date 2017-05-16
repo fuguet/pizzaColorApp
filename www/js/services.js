@@ -1129,3 +1129,33 @@ angular.module('starter.services', [])
 
                 return dataUsuario;
             }])
+
+
+         .factory('pedido', ['$http', 'auth', function ($http, auth) {
+                // Might use a resource here that returns a JSON array
+
+                var headers = {};
+                headers[API.token_name] = auth.getToken();
+                var dataPedido = {};
+
+                
+                dataPedido.setEncabezado = function (data) {
+                    debugger;
+                    return($http({
+                        url: API.base_url + 'pedidoencabezado/insertar',
+                        method: "POST",
+                        headers: headers,
+                        data:data
+                        
+                    }).success(function (data, status, headers, config) {
+                        datos = data.data;
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
+
+                return dataPedido;
+            }])

@@ -225,7 +225,7 @@ angular.module('starter.controllers', [])
                         $scope.data.quantity = res;
                         var productoPedido = {};
                         var detalle = {};
-                        debugger;
+
 
 //                        productoPedido.precioBase = ((typeof item.selectedVariedad === 'undefined') ? item.producto.prod_precioBase : item.selectedVariedad.var_precio);
                         productoPedido.precioBase = ((typeof item.selectedVariedad === 'undefined') ? item.producto.prod_precioBase : item.selectedVariedad.var_precio);
@@ -489,9 +489,10 @@ angular.module('starter.controllers', [])
         )
 
 // Checkout controller
-        .controller('CheckoutCtrl', function ($scope, $state, $ionicModal, auth, usuario, sharedCartService) {
+        .controller('CheckoutCtrl', function ($scope, $state, $ionicModal, $ionicPopup, auth, usuario, sharedCartService, pedido) {
             $scope.addresses = [];
-            debugger;
+         
+
 
             $scope.usuario = auth.datosUsuario();
             usuario.getDirecciones($scope.usuario.id).success(function (response) {
@@ -504,28 +505,27 @@ angular.module('starter.controllers', [])
             $scope.total = sharedCartService.total_amount;
 
             $scope.createAdress = function (res) {
-                debugger;
+
                 var direccion = {};
 
                 if (res != null) {
                     if (res.dir_idPersona) {
                         direccion.dir_nombre = res.dir_nombre;
-                        direccion.dir_telefonoFijo =res.dir_telefonoFijo;
+                        direccion.dir_telefonoFijo = res.dir_telefonoFijo;
                         direccion.dir_direccion = res.dir_direccion;
 
                     } else
                     {
                         direccion.dir_nombre = res.dir_nombre;
-                        direccion.dir_telefonoFijo =res.dir_telefonoFijo ;
+                        direccion.dir_telefonoFijo = res.dir_telefonoFijo;
                         direccion.dir_direccion = res.dir_direccion;
                         direccion.dir_idPersona = $scope.usuario.id;
                         usuario.addDireccion(direccion).success(function (res) {
-                          if(res.response){
-                               $window.location.reload(true);
-                          }
-                          else{
-                              
-                          }
+                            if (res.response) {
+                                $window.location.reload(true);
+                            } else {
+
+                            }
                         });
 
                     }
@@ -556,6 +556,94 @@ angular.module('starter.controllers', [])
 
                 $scope.modal.show();
             };
+            
+              $scope.SelectedAdressChange = function (item) {
+
+                    $scope.selectedAdress = item;
+
+                };
+                
+                $scope.selectedpaymentChange = function (item) {
+
+                    $scope.selectedpayment = item;
+
+                };
+
+
+            $scope.pay = function () {
+                debugger;
+                var payment = $scope.selectedpayment;
+                var address = $scope.selectedAdress;
+
+                if (!payment && !address )
+                {
+
+                    var alertPopup = $ionicPopup.alert({
+                        title: 'Atencion',
+                        template: 'Debe elegir una Direccion y un Medio de Pago'
+                    });
+
+                } else
+                {
+
+
+                    var pedidoEncabezado = {};
+                    pedidoEncabezado.pe_idCliente = $scope.usuario.id;
+                    pedidoEncabezado.pe_aclaraciones = '';
+                    pedidoEncabezado.pe_total = sharedCartService.total_amount;
+                    pedidoEncabezado.pe_idPersona = $scope.usuario.id;
+                    pedidoEncabezado.pe_cli_tel = address.dir_telefonoFijo;
+                    pedidoEncabezado.pe_idDireccion = address.dir_id;
+                    pedidoEncabezado.pe_medioPago = payment.name;
+                    pedidoEncabezado.pe_idEstado = 1;
+
+                    pedido.setEncabezado(pedidoEncabezado).success(function (res) {
+                        debugger;
+
+                        if (res.response) {
+
+                            var idencabezado = res.result;
+
+
+
+                        } else {
+                            var alertPopup = $ionicPopup.alert({
+                                title: 'Atencion',
+                                template: res.message
+                            });
+
+                        }
+                    })
+                            .error(function (err) {
+                                debugger;
+
+                            });
+
+
+
+
+
+
+
+                    //preguntar como ahcer las llamadas asincronicas
+//                  sharedUtils.showAlert("Info", "El Pedido se realizo con Exito");
+                    $state.go('lastOrders', {}, {location: "replace", reload: true});
+
+
+                    //                    // Go to past order page
+//                    $ionicHistory.nextViewOptions({
+//                        historyRoot: true
+//                    });
+//                    
+                    //cargar item al carrito
+
+//
+//                    //Remove users cart
+
+                }
+            }
+
+
 
 
 
