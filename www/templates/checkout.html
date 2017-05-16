@@ -11,24 +11,24 @@
                 Forma de Pago
             </div>
             <ion-radio   ng-repeat="pay in payments"  
-                         ng-model="selectedpayment" 
-                         ng-value="pay"
-                         ng-change="selectedpaymentChange(pay)" >
+                         ng-model="data.payment" 
+                         ng-value="pay.id" 
+                         name="pay">
                 {{pay.name}}
             </ion-radio>
             <div class="item item-divider">
                 Direcciones de Envio
             </div> 
-            <div class="padding-left padding-right">
+           <!-- <div class="padding-left padding-right">
                 <a class="pull-right" ui-sref="address">
                     <i class="ion-edit"></i>
                 </a>
-            </div>
+            </div>-->
             <ion-radio
                 ng-repeat="item in addresses"  
-                ng-model="selectedAdress" 
+                ng-model="data.address" 
                 ng-value="item"
-                ng-change="SelectedAdressChange(item)"
+                name="address"
                 >
                 <a class="icon icon-right ion-ios-location"></a>
                 <span> {{item.dir_nombre}} : {{item.dir_direccion}} </span>         
@@ -48,7 +48,7 @@
     </ion-content>
 
     <ion-footer-bar class="bar-assertive">
-        <div class="button" ng-click="pay(data)" >Realizar Pedido</div>
+        <div class="button" ng-click="pay()" >Realizar Pedido</div>
         <div class="title"></div>
         <div class="button text-2x">
             $ {{total}}

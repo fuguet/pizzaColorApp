@@ -499,10 +499,14 @@ angular.module('starter.controllers', [])
                 $scope.addresses = response;
             });
             $scope.payments = [
-                {id: 'CREDIT', name: 'Tarjeta Debito'},
-                {id: 'COD', name: 'Efectivo '}
+                {id: 'Debito', name: 'Tarjeta Debito'},
+                {id: 'Efectivo', name: 'Efectivo '}
             ];
             $scope.total = sharedCartService.total_amount;
+            
+            $scope.data = {
+                payment: 'Efectivo'
+            };
 
             $scope.createAdress = function (res) {
 
@@ -563,17 +567,19 @@ angular.module('starter.controllers', [])
 
                 };
                 
-                $scope.selectedpaymentChange = function (item) {
+                $scope.selectedpaymentChange = function (pay) {
 
-                    $scope.selectedpayment = item;
+                    $scope.selectedpayment = pay;
 
                 };
 
 
             $scope.pay = function () {
                 debugger;
-                var payment = $scope.selectedpayment;
-                var address = $scope.selectedAdress;
+                
+                $scope.data;
+//                var payment = $scope.selectedpayment;
+//                var address = $scope.selectedAdress;
 
                 if (!payment && !address )
                 {
