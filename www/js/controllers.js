@@ -491,7 +491,7 @@ angular.module('starter.controllers', [])
 // Checkout controller
         .controller('CheckoutCtrl', function ($scope, $state, $ionicModal, $ionicPopup, auth, usuario, sharedCartService, pedido) {
             $scope.addresses = [];
-         
+
 
 
             $scope.usuario = auth.datosUsuario();
@@ -503,7 +503,7 @@ angular.module('starter.controllers', [])
                 {id: 'Efectivo', name: 'Efectivo '}
             ];
             $scope.total = sharedCartService.total_amount;
-            
+
             $scope.data = {
                 payment: 'Efectivo'
             };
@@ -560,47 +560,27 @@ angular.module('starter.controllers', [])
 
                 $scope.modal.show();
             };
-            
-              $scope.SelectedAdressChange = function (item) {
-
-                    $scope.selectedAdress = item;
-
-                };
-                
-                $scope.selectedpaymentChange = function (pay) {
-
-                    $scope.selectedpayment = pay;
-
-                };
 
 
             $scope.pay = function () {
                 debugger;
-                
-                $scope.data;
-//                var payment = $scope.selectedpayment;
-//                var address = $scope.selectedAdress;
 
-                if (!payment && !address )
-                {
+                ;
+                var payment = $scope.data.payment;
+                var address = $scope.data.address;
 
-                    var alertPopup = $ionicPopup.alert({
-                        title: 'Atencion',
-                        template: 'Debe elegir una Direccion y un Medio de Pago'
-                    });
-
-                } else
+                if (!(typeof payment === 'undefined')&& !(typeof address === 'undefined'))
                 {
 
 
                     var pedidoEncabezado = {};
-                    pedidoEncabezado.pe_idCliente = $scope.usuario.id;
+                    pedidoEncabezado.pe_idCliente = address.dir_idPersona
                     pedidoEncabezado.pe_aclaraciones = '';
                     pedidoEncabezado.pe_total = sharedCartService.total_amount;
-                    pedidoEncabezado.pe_idPersona = $scope.usuario.id;
+                    pedidoEncabezado.pe_idPersona = address.dir_idPersona;
                     pedidoEncabezado.pe_cli_tel = address.dir_telefonoFijo;
                     pedidoEncabezado.pe_idDireccion = address.dir_id;
-                    pedidoEncabezado.pe_medioPago = payment.name;
+                    pedidoEncabezado.pe_medioPago = payment;
                     pedidoEncabezado.pe_idEstado = 1;
 
                     pedido.setEncabezado(pedidoEncabezado).success(function (res) {
@@ -619,11 +599,10 @@ angular.module('starter.controllers', [])
                             });
 
                         }
-                    })
-                            .error(function (err) {
-                                debugger;
+                    }).error(function (err) {
+                        debugger;
 
-                            });
+                    });
 
 
 
@@ -633,7 +612,7 @@ angular.module('starter.controllers', [])
 
                     //preguntar como ahcer las llamadas asincronicas
 //                  sharedUtils.showAlert("Info", "El Pedido se realizo con Exito");
-                    $state.go('lastOrders', {}, {location: "replace", reload: true});
+//                    $state.go('lastOrders', {}, {location: "replace", reload: true});
 
 
                     //                    // Go to past order page
@@ -645,6 +624,16 @@ angular.module('starter.controllers', [])
 
 //
 //                    //Remove users cart
+
+
+                } else
+                {
+                    var alertPopup = $ionicPopup.alert({
+                        title: 'Atencion',
+                        template: 'Debe elegir una Direccion y un Medio de Pago'
+                    });
+
+
 
                 }
             }

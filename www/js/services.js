@@ -53,12 +53,15 @@ angular.module('starter.services', [])
                         url: 'pedidoencabezado/insertar',
                         data: data2,
                         response: function (r) {
+                            debugger;
                             cartObj.idPE = r.result;
                         },
                         error: function (r) {
+                            debugger;
 
                         },
                         validationError: function (r) {
+                            debugger;
 
                         }
                     });
@@ -1148,9 +1151,10 @@ angular.module('starter.services', [])
                         data:data
                         
                     }).success(function (data, status, headers, config) {
-                        datos = data.data;
-                        return datos;
+                    debugger;   
+                        return data;
                     }).error(function (err) {
+                        debugger;
                         error = err;
                     })
                             )
