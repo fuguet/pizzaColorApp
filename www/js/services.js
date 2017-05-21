@@ -33,22 +33,46 @@ angular.module('starter.services', [])
                 cartObj.cart = [];//lista de productos  (producto, cantidad)  
                 cartObj.cartPromo = [];//lista de promos      
                 cartObj.total_amount = 0; // total de productos       
-                cartObj.total_qty = 0; // cant product       
-                cartObj.idPE = -1;
-                cartObj.comentariosP = '';
+                cartObj.total_qty = 0; // cant product 
+                cartObj.aclaraciones = '';
 
-             
-                cartObj.vaciarCarro = function () {
+
+                cartObj.cleanCart = function () {
                     cartObj.cart = [];
-                    cartObj.cartPromo = [];//lista de productos  (producto, cantidad)         
-                    cartObj.total_amount = 0; // total de productos
-                    cartObj.total_compAmount = 0; // total de componentes
-                    cartObj.total_qty = 0; // cant producto
-                    cartObj.total_compqty = 0; // cantidad de componente
-                    cartObj.idPE = -1;
-                    cartObj.comentariosP = '';
+                    cartObj.aclaraciones = ''
+// cantidad de componente
+
                 };
-              
+
+                cartObj.cleanCartPromo = function () {
+                    cartObj.cartPromo = [];//lista de productos  (producto, cantidad)  
+                    cartObj.aclaraciones = ''
+
+                };
+
+                cartObj.recalcularTotales = function () {
+                    cartObj.total_amount = 0; // total de productos       
+                    cartObj.total_qty = 0;
+
+                    for (var i = 0, len = cartObj.cart.length; i < len; i++) {
+                        cartObj.total_qty += cartObj.cart[i].cantidad;
+                        cartObj.total_amount += parseFloat(parseFloat(cartObj.cart[i].cantidad) * parseFloat(cartObj.cart[i].productoP.precioBase))
+                        debugger
+
+                    }
+                    for (var i = 0, len = cartObj.cartPromo.length; i < len; i++) {
+
+                        cartObj.total_qty += cartObj.cartPromo[i].cantidad;
+                        cartObj.total_amount += parseFloat(parseFloat(cartObj.cartPromo[i].cantidad) * parseFloat(cartObj.cartPromo[i].precioUnitario));
+                        debugger;
+
+
+
+
+                    }
+
+                }
+
 
                 //productos
                 cartObj.cart.add = function (detalle) {
@@ -77,11 +101,12 @@ angular.module('starter.services', [])
                     return result;
                     //revisar hacerlo con each
                 };
-                cartObj.cart.drop = function (id) {
-                    var ind = cartObj.cart.find(id);
+                cartObj.cart.drop = function (ind) {
+
                     var temp = cartObj.cart[ind];
-                    cartObj.total_qty -= parseInt(temp.qty);
-                    cartObj.total_amount -= (parseInt(temp.qty) * parseInt(temp.price));
+                    debugger;
+                    cartObj.total_qty -= parseInt(temp.cantidad);
+                    cartObj.total_amount -= (parseInt(temp.cantidad) * parseInt(temp.productoP.precioBase));
                     cartObj.cart.splice(ind, 1);
                 };
                 cartObj.cart.increment = function (id) {
@@ -128,10 +153,13 @@ angular.module('starter.services', [])
                 };
                 cartObj.cartPromo.drop = function (ind) {
 
-                    var temp = cartObj.cart[ind];
+                   
+                    var temp = cartObj.cartPromo[ind];
+                    
+                    debugger;
                     cartObj.total_qty -= parseInt(temp.cantidad);
                     cartObj.total_amount -= parseFloat(parseFloat(temp.cantidad) * parseFloat(temp.precioUnitario));
-                    cartObj.cart.splice(ind, 1);
+                    cartObj.cartPromo.splice(ind, 1);
                 };
                 cartObj.cartPromo.add = function (promoPedido) {
 
@@ -176,7 +204,7 @@ angular.module('starter.services', [])
                         //                                                                        $state.go('login');
                     },
                     hasToken: function () {
-                     
+
                         return (!(typeof localStorage[API.token_name] === 'undefined') && localStorage[API.token_name] !== '');
                     },
                     redirectIfNotExists: function () {
@@ -1036,8 +1064,8 @@ angular.module('starter.services', [])
                         url: API.base_url + 'direccion/insertar',
                         method: "POST",
                         headers: headers,
-                        data:data
-                        
+                        data: data
+
                     }).success(function (data, status, headers, config) {
                         datos = data.data;
                         return datos;
@@ -1052,30 +1080,30 @@ angular.module('starter.services', [])
             }])
 
 
-         .factory('pedido', ['$http', 'auth', function ($http, auth) {
+        .factory('pedido', ['$http', 'auth', function ($http, auth) {
                 // Might use a resource here that returns a JSON array
 
                 var headers = {};
                 headers[API.token_name] = auth.getToken();
                 var dataPedido = {};
 
-                
+
                 dataPedido.setEncabezado = function (data) {
-                    
+
                     return($http({
                         url: API.base_url + 'pedidoencabezado/insertar',
                         method: "POST",
                         headers: headers,
-                        data:data
-                        
+                        data: data
+
                     }).success(function (data, status, headers, config) {
-                      
+
                         return data;
                     }).error(function (error, status) {
                         debugger;
-                   
+
                         return error;
-                        
+
                     })
                             )
 
@@ -1086,15 +1114,15 @@ angular.module('starter.services', [])
                         url: API.base_url + 'pedidoencabezado/insertarcart',
                         method: "POST",
                         headers: headers,
-                        data:data
-                        
+                        data: data
+
                     }).success(function (data, status, headers, config) {
-                        debugger;   
+                        debugger;
                         return data;
                     }).error(function (error, status) {
                         debugger;
                         return error;
-                        
+
                     })
                             )
 
@@ -1105,15 +1133,15 @@ angular.module('starter.services', [])
                         url: API.base_url + 'pedidoencabezado/insertarcartpromo',
                         method: "POST",
                         headers: headers,
-                        data:data
-                        
+                        data: data
+
                     }).success(function (data, status, headers, config) {
-                        debugger;   
+                        debugger;
                         return data;
                     }).error(function (error, status) {
                         debugger;
                         return error;
-                        
+
                     })
                             )
 

@@ -287,31 +287,65 @@ angular.module('starter.controllers', [])
 
             // remove item from favorite
             $scope.remove = function (index) {
+
+
                 $scope.items.splice(index, 1);
+
             }
         })
 
 // Cart controller
-        .controller('CartCtrl', function ($scope, Cart, sharedCartService) {
+        .controller('CartCtrl', function ($scope, $ionicPopup, Cart, sharedCartService) {
 
             $scope.cart = sharedCartService.cart;
             $scope.promos = sharedCartService.cartPromo;
             $scope.total = sharedCartService.total_amount;
+            $scope.item = {
+                aclaracion: sharedCartService.aclaraciones,
+            };
 
             // plus quantity
-            $scope.plusQty = function (item) {
-                item.quantity++;
-            }
+            $scope.addAclaracion = function (item) {
+                var myPopup2 = $ionicPopup.show({
+                    templateUrl: 'templates/popup-aclaracion.html',
+                    title: 'Aclaracion',
+                    scope: $scope,
+                    buttons: [
+                        {text: 'Cancelar'},
+                        {
+                            text: '<b>Aceptar</b>',
+                            type: 'button-assertive',
+                            onTap: function (e) {
+                                return item.aclaracion;
 
-            // minus quantity
-            $scope.minusQty = function (item) {
-                if (item.quantity > 1)
-                    item.quantity--;
-            }
+                            }
+                        },
+                    ]
+                });
+                myPopup2.then(function (res) {
+                    item.aclaracion = res;
+                    sharedCartService.aclaraciones = item.aclaracion;
 
+                });
+
+            };
             // remove item from cart
-            $scope.remove = function (index) {
-                $scope.cart.items.splice(index, 1);
+            $scope.removeProd = function (index) {
+                debugger;
+                sharedCartService.cart.drop(index);
+                $scope.total = sharedCartService.total_amount;
+                $scope.cart = sharedCartService.cart;
+
+
+            }
+            $scope.removePro = function (index) {
+                debugger;
+                sharedCartService.cartPromo.drop(index);
+                $scope.total = sharedCartService.total_amount;
+                $scope.promos = sharedCartService.cartPromo;
+                debugger;
+
+
             }
         })
 
@@ -511,16 +545,10 @@ angular.module('starter.controllers', [])
 
                 }
             };
+            debugger;
 
             //inicilizacion
             isLogged();
-
-
-
-
-
-
-
 
             usuario.getDirecciones($scope.usuario.id).success(function (response) {
                 $scope.addresses = response;
@@ -659,10 +687,9 @@ angular.module('starter.controllers', [])
 
                     //test
 
-                    debugger;
+
 
                     pedido.setEncabezado(pedidoEncabezado).success(function (res) {
-
                         if (res.response) {
                             var idencabezado = res.result;
                             debugger;
@@ -674,34 +701,35 @@ angular.module('starter.controllers', [])
                             promoPedido.cart = sharedCartService.cartPromo;
                             pedido.addDetallePedido(detalle).success(function (res) {
                                 debugger;
-                                pedido.addPromoPedido(promoPedido).success(function (res) {
-//      
-                                    debugger;
-                                }).error(function (err) {
-                                    debugger;
-                                    var alertPopup = $ionicPopup.alert({
-                                        title: 'Atencion',
-                                        template: err.message
-                                    });
 
-                                })
-
-
+                                if (res.response) {
+                                    sharedCartService.cleanCart();
+                                    sharedCartService.recalcularTotales();
+                                }
 
                             }).error(function (err) {
-                                debugger;
+
                                 var alertPopup = $ionicPopup.alert({
                                     title: 'Atencion',
-                                    template: err.message
+                                    template: 'No se pudo pedir algunos productos intente mas tarde nuevamente'
                                 });
 
                             })
+                            pedido.addPromoPedido(promoPedido).success(function (res) {
+                                debugger;
+                                if (res.response) {
+                                    sharedCartService.cleanCartPromo();
+                                    sharedCartService.recalcularTotales();
+                                }
+//      
+                                debugger;
+                            }).error(function (err) {
 
-
-
-                            //insertar productos y promos
-
-
+                                var alertPopup = $ionicPopup.alert({
+                                    title: 'Atencion',
+                                    template: 'No se pudo pedir algunas promos intente mas tarde nuevamente'
+                                });
+                            })
                         } else {
                             var alertPopup = $ionicPopup.alert({
                                 title: 'Atencion',
@@ -710,7 +738,7 @@ angular.module('starter.controllers', [])
 
                         }
                     }).error(function (err) {
-                        debugger;
+
                         var alertPopup = $ionicPopup.alert({
                             title: 'Atencion',
                             template: err.message

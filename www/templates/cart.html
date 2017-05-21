@@ -18,7 +18,7 @@
                     ${{ item.productoP.precioBase}}
                     <span class="dark">x {{ item.cantidad}}</span>
                 </h4>
-                <button class="button button-assertive">
+                <button class="button button-assertive" ng-click="removeProd($index)">
                     <i class="icon ion-trash-a"></i>
                 </button>
             </ion-item>
@@ -29,9 +29,14 @@
                     ${{ item.precioUnitario}}
                     <span class="dark">x {{ item.cantidad}}</span>
                 </h4>
-                <button class="button button-assertive" >
-                    <i class="icon ion-trash-a" ng-click="remove($index)"></i>
+                <button class="button button-assertive"  ng-click="removePro($index)">
+                    <i class="icon ion-trash-a" ></i>
                 </button>
+            </ion-item>
+               <ion-item  ng-click="addAclaracion(item)">
+                <strong>Añadir Aclaracion al Pedido</strong>
+                <br>      
+                <ion-input  type="text" ng-value="item.aclaracion"> {{item.aclaracion}}</ion-input>
             </ion-item>
 
         </div> 
