@@ -237,6 +237,9 @@ angular.module('starter.controllers', [])
                         productoPedido.img = item.producto.slider;
                         productoPedido.descripcion = item.producto.prod_descripcionProducto;
                         productoPedido.aclaracion = item.aclaracion || "Sin Aclaracion";
+                        productoPedido.componentestxt = '';
+                        productoPedido.componentes = [];
+
                         detalle.productoP = productoPedido;
                         detalle.cantidad = parseFloat(res);
                         sharedCartService.cart.add(detalle);
@@ -431,6 +434,7 @@ angular.module('starter.controllers', [])
                     promoPedido.cantidad = 1;
                     promoPedido.idPromo = promo.pro_id;
                     promoPedido.detallePp = promo.pro_descripcion;
+                    promoPedido.aclaracion = '';
 
                     angular.forEach(items, function (value, key) {
                         var prodPedido = {};
@@ -439,6 +443,7 @@ angular.module('starter.controllers', [])
                         prodPedido.idVariedad = ((typeof value.selectedVariedad === 'undefined') ? -1 : value.selectedVariedad.var_id);
                         prodPedido.precioCalc = 0;
                         prodPedido.nombreVariedad = ((typeof value.selectedVariedad === 'undefined') ? '' : value.selectedVariedad.var_nombre);
+                        prodPedido.aclaracion = '';
                         promoPedido.productosP.push(prodPedido);
 
                     });
@@ -489,12 +494,34 @@ angular.module('starter.controllers', [])
         )
 
 // Checkout controller
-        .controller('CheckoutCtrl', function ($scope, $state, $ionicModal, $ionicPopup, auth, usuario, sharedCartService, pedido) {
+        .controller('CheckoutCtrl', function ($scope, $state, $ionicPopup, $window, auth, usuario, sharedCartService, pedido) {
             $scope.addresses = [];
+            $scope.usuario = {};
+            isLogged = function () {
+
+                if (auth.hasToken())
+
+                {
+                    $scope.usuario = auth.datosUsuario();
+
+
+                } else {
+
+                    $state.go('login', {}, {location: "replace"});
+
+                }
+            };
+
+            //inicilizacion
+            isLogged();
 
 
 
-            $scope.usuario = auth.datosUsuario();
+
+
+
+
+
             usuario.getDirecciones($scope.usuario.id).success(function (response) {
                 $scope.addresses = response;
             });
@@ -504,72 +531,119 @@ angular.module('starter.controllers', [])
             ];
             $scope.total = sharedCartService.total_amount;
 
+
             $scope.data = {
                 payment: 'Efectivo'
             };
 
-            $scope.createAdress = function (res) {
+            $scope.addManipulation = function (edit_val) {  // Takes care of address add and edit ie Address Manipulator
+
+
+                if (edit_val != null) {
+
+                    $scope.data = edit_val; // For editing address 
+                    // poner al telefono como un numero.
+                    var title = "Editar Direccion";
+                    var sub_title = "Editar su Domicilio";
+                } else {
+                    $scope.data = {};    // For adding new address
+                    var title = "Agregar Domicilio";
+                    var sub_title = "Agregar un nuevo Domicilio";
+                }
+                // An elaborate, custom popup
+                var addressPopup = $ionicPopup.show({
+                    template: '<input type="text"   placeholder="Nombre Lugar"  ng-model="data.dir_nombre"> <br/> ' +
+                            '<input type="text"   placeholder="Direccion" ng-model="data.dir_direccion"> <br/> ' +
+                            '<textarea placeholder="Aclaraciones" cols="40" rows="3" ng-model="data.dir_aclaracion"></textarea> <br/> ' +
+                            '<input type="number" placeholder="Telefono Fijo" ng-model="data.dir_telefonoFijo">',
+                    title: title,
+                    subTitle: sub_title,
+                    scope: $scope,
+                    buttons: [
+                        {text: 'Close'},
+                        {
+                            text: '<b>Save</b>',
+                            type: 'button-positive',
+                            onTap: function (e) {
+
+                                if (!$scope.data.dir_nombre || !$scope.data.dir_direccion || !$scope.data.dir_telefonoFijo || !$scope.data.dir_aclaracion) {
+                                    e.preventDefault(); //don't allow the user to close unless he enters full details
+                                } else {
+                                    return $scope.data;
+                                }
+                            }
+                        }
+                    ]
+                });
+
+                addressPopup.then(function (res) {
+                    createAdress(res);
+
+
+
+                });
+
+            };
+
+
+
+            createAdress = function (res) {
 
                 var direccion = {};
 
                 if (res != null) {
-                    if (res.dir_idPersona) {
-                        direccion.dir_nombre = res.dir_nombre;
-                        direccion.dir_telefonoFijo = res.dir_telefonoFijo;
-                        direccion.dir_direccion = res.dir_direccion;
+                    direccion.dir_nombre = res.dir_nombre;
+                    direccion.dir_telefonoFijo = res.dir_telefonoFijo;
+                    direccion.dir_direccion = res.dir_direccion;
+                    direccion.dir_aclaracion = res.dir_aclaracion;
 
-                    } else
-                    {
-                        direccion.dir_nombre = res.dir_nombre;
-                        direccion.dir_telefonoFijo = res.dir_telefonoFijo;
-                        direccion.dir_direccion = res.dir_direccion;
+                    if (res.dir_idPersona) {
+                        //par actualizar
+
+                    } else {
                         direccion.dir_idPersona = $scope.usuario.id;
                         usuario.addDireccion(direccion).success(function (res) {
+                            debugger;
                             if (res.response) {
+
                                 $window.location.reload(true);
+
+
+
                             } else {
+                                var alertPopup = $ionicPopup.alert({
+                                    title: 'Atencion',
+                                    template: res.message
+                                });
+
 
                             }
+                        }).error(function (err) {
+                            debugger;
+                            var alertPopup = $ionicPopup.alert({
+                                title: 'Atencion',
+                                template: err.message
+                            });
+
                         });
 
+
                     }
-
-
-                }
-                $scope.modal.hide();
-            };
-
-            $ionicModal.fromTemplateUrl('templates/modaladress.html', {
-                scope: $scope
-            }).then(function (modal) {
-
-                $scope.modal = modal;
-            });
-
-            $scope.openModal = function (edit_val) {
-                if (edit_val != null) {
-                    $scope.data = edit_val; // For editing address 
-                    // poner al telefono como un numero.
-                    $scope.title = "Editar Direccion";
-                    $scope.sub_title = "Editar su Domicilio";
-                } else {
-                    $scope.data = {};    // For adding new address
-                    $scope.title = "Agregar Domicilio";
-                    $scope.sub_title = "Agregar un nuevo Domicilio";
                 }
 
-                $scope.modal.show();
             };
 
+
+//            
 
             $scope.pay = function () {
-                debugger;
+
 
                 ;
                 var payment = $scope.data.payment;
                 var address = $scope.data.address;
 
-                if (!(typeof payment === 'undefined')&& !(typeof address === 'undefined'))
+                if (!(typeof payment === 'undefined') && !(typeof address === 'undefined'))
                 {
 
 
@@ -583,13 +657,49 @@ angular.module('starter.controllers', [])
                     pedidoEncabezado.pe_medioPago = payment;
                     pedidoEncabezado.pe_idEstado = 1;
 
+                    //test
+
+                    debugger;
+
                     pedido.setEncabezado(pedidoEncabezado).success(function (res) {
-                        debugger;
 
                         if (res.response) {
-
                             var idencabezado = res.result;
+                            debugger;
+                            var detalle = {};
+                            detalle.idPedidoEncabezado = res.result;
+                            detalle.cart = sharedCartService.cart;
+                            var promoPedido = {};
+                            promoPedido.idPedidoEncabezado = res.result;
+                            promoPedido.cart = sharedCartService.cartPromo;
+                            pedido.addDetallePedido(detalle).success(function (res) {
+                                debugger;
+                                pedido.addPromoPedido(promoPedido).success(function (res) {
+//      
+                                    debugger;
+                                }).error(function (err) {
+                                    debugger;
+                                    var alertPopup = $ionicPopup.alert({
+                                        title: 'Atencion',
+                                        template: err.message
+                                    });
 
+                                })
+
+
+
+                            }).error(function (err) {
+                                debugger;
+                                var alertPopup = $ionicPopup.alert({
+                                    title: 'Atencion',
+                                    template: err.message
+                                });
+
+                            })
+
+
+
+                            //insertar productos y promos
 
 
                         } else {
@@ -601,6 +711,10 @@ angular.module('starter.controllers', [])
                         }
                     }).error(function (err) {
                         debugger;
+                        var alertPopup = $ionicPopup.alert({
+                            title: 'Atencion',
+                            template: err.message
+                        });
 
                     });
 

@@ -37,87 +37,10 @@ angular.module('starter.services', [])
                 cartObj.idPE = -1;
                 cartObj.comentariosP = '';
 
-                cartObj.generarPedido = function (data) {
-
-                    var data2 = {};
-                    data2.pe_idCliente = data.idCliente;
-                    data2.pe_idDireccion = data.idDireccion;
-                    data2.pe_medioPago = data.medioPago;
-                    data2.pe_comentarios = cartObj.comentariosP;
-                    data2.pe_idPersona = data.idCliente;
-                    data2.pe_cli_tel = data.tel;
-                    data2.pe_idEstado = 1;
-
-                    restApi.call({
-                        method: 'post',
-                        url: 'pedidoencabezado/insertar',
-                        data: data2,
-                        response: function (r) {
-                            debugger;
-                            cartObj.idPE = r.result;
-                        },
-                        error: function (r) {
-                            debugger;
-
-                        },
-                        validationError: function (r) {
-                            debugger;
-
-                        }
-                    });
-                }
-                cartObj.generarDetalle = function () {
-
-                    angular.forEach(cartObj.cart, function (value, key) {
-                        var prodPedido = {};
-                        prodPedido.precioBase = value.producto.prod_precioBase;
-                        prodPedido.idProducto = value.producto.prod_id;
-                        prodPedido.idVariedad = value.variedad.var_id;
-                        prodPedido.precioCalc = value.price + value.compAmount;
-                        prodPedido.componentes = value.componentes;
-                        restApi.call({
-                            method: 'post',
-                            url: 'productopedido/insertar',
-                            data: prodPedido,
-                            response: function (r) {
-
-                                cartObj.registrarDetalle(value, r.result);
-                            },
-                            error: function (r) {
-
-                            },
-                            validationError: function (r) {
-
-                            }
-                        });
-                    });
-                }
-                cartObj.registrarDetalle = function (value, idpp) {
-
-                    var detallePedido = {};
-                    detallePedido.dp_Cantidad = parseInt(value.qty);
-                    detallePedido.dp_PrecioUnitario = value.price + value.compAmount;
-                    detallePedido.dp_idProductoPedido = idpp;
-                    detallePedido.dp_idPedidoEncabezado = cartObj.idPE;
-                    restApi.call({
-                        method: 'post',
-                        url: 'detallepedido/insertar',
-                        data: detallePedido,
-                        response: function (r) {
-
-                        },
-                        error: function (r) {
-
-                            //abria que limpiar el carro si guardo
-
-                        },
-                        validationError: function (r) {
-
-                        }
-                    });
-                }
+             
                 cartObj.vaciarCarro = function () {
-                    cartObj.cart = []; //lista de productos  (producto, cantidad)         
+                    cartObj.cart = [];
+                    cartObj.cartPromo = [];//lista de productos  (producto, cantidad)         
                     cartObj.total_amount = 0; // total de productos
                     cartObj.total_compAmount = 0; // total de componentes
                     cartObj.total_qty = 0; // cant producto
@@ -125,13 +48,7 @@ angular.module('starter.services', [])
                     cartObj.idPE = -1;
                     cartObj.comentariosP = '';
                 };
-                cartObj.cargarComentarios = function () {
-
-                    angular.forEach(cartObj.cart, function (value, key) {
-
-                        cartObj.comentariosP = cartObj.comentariosP + ' Producto = ' + value.producto.prod_nombre + ' comentario =' + value.comentario + '\n';
-                    });
-                }
+              
 
                 //productos
                 cartObj.cart.add = function (detalle) {
@@ -259,7 +176,8 @@ angular.module('starter.services', [])
                         //                                                                        $state.go('login');
                     },
                     hasToken: function () {
-                        return (localStorage[API.token_name] !== '');
+                     
+                        return (!(typeof localStorage[API.token_name] === 'undefined') && localStorage[API.token_name] !== '');
                     },
                     redirectIfNotExists: function () {
                         if (!auth.hasToken()) {
@@ -1143,7 +1061,7 @@ angular.module('starter.services', [])
 
                 
                 dataPedido.setEncabezado = function (data) {
-                    debugger;
+                    
                     return($http({
                         url: API.base_url + 'pedidoencabezado/insertar',
                         method: "POST",
@@ -1151,11 +1069,51 @@ angular.module('starter.services', [])
                         data:data
                         
                     }).success(function (data, status, headers, config) {
-                    debugger;   
+                      
                         return data;
-                    }).error(function (err) {
+                    }).error(function (error, status) {
                         debugger;
-                        error = err;
+                   
+                        return error;
+                        
+                    })
+                            )
+
+                };
+                dataPedido.addDetallePedido = function (data) {
+                    debugger;
+                    return($http({
+                        url: API.base_url + 'pedidoencabezado/insertarcart',
+                        method: "POST",
+                        headers: headers,
+                        data:data
+                        
+                    }).success(function (data, status, headers, config) {
+                        debugger;   
+                        return data;
+                    }).error(function (error, status) {
+                        debugger;
+                        return error;
+                        
+                    })
+                            )
+
+                };
+                dataPedido.addPromoPedido = function (data) {
+                    debugger;
+                    return($http({
+                        url: API.base_url + 'pedidoencabezado/insertarcartpromo',
+                        method: "POST",
+                        headers: headers,
+                        data:data
+                        
+                    }).success(function (data, status, headers, config) {
+                        debugger;   
+                        return data;
+                    }).error(function (error, status) {
+                        debugger;
+                        return error;
+                        
                     })
                             )
 
