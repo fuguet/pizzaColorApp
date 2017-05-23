@@ -3,72 +3,92 @@
 -->
 <ion-view view-title="Settings" class="has-footer-buttons">
 
-  <ion-content>
+    <ion-content>
 
-    <!-- Cover and profile picture -->
-    <div class="profile-cover">
-      <div class="row">
+        <!-- Cover and profile picture -->
+        <div class="profile-cover">
+            <div class="row">
 
-        <div class="col-33 text-center">
-          <img class="profile-picture circle" ng-src="img/people/max.png">
+                <div class="col-33 text-center">
+                    <img class="profile-picture circle" ng-src="img/people/max.png">
+                </div>
+
+                <div class="col-66">
+                    <h4 class="padding-top no-margin light">{{usuario.nombrecompleto}}</h4>
+                </div>
+
+            </div>
         </div>
 
-        <div class="col-66">
-          <h4 class="padding-top no-margin light">{{usuario.nombre}}</h4>
-          <h4 class="padding-top no-margin light">{{usuario.email}}</h4>
+        <!-- User infomation -->
+        <div class="list">
+
+            <div class="item item-toggle">
+                <span class="assertive">Notification</span>
+                <label class="toggle toggle-assertive">
+                    <input type="checkbox">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </div>
+            <label class="item item-input ic-selected">
+                <a class="icon icon-right ion-android-call" style="margin-right: 10px;"></a>
+                <input style="color: #000;" ng-model="usuario.celular" type="text" placeholder="Telephone" >
+            </label>
+
+            <label class="item item-input ic-selected">
+                <a class="icon icon-right ion-email" style="margin-right: 10px;"></a>
+                <input style="color: #000;" ng-model="usuario.email" type="email"  placeholder="Email">
+            </label>
+
+            <label class="item item-input ic-selected">
+                <a class="icon icon-right ion-locked" style="margin-right: 10px;"></a>
+                <input style="color: #000;" ng-model="data_editable.password" type="password" placeholder="Update Password">
+            </label>
+            <!--Address Header-->
+
+          
+            <div class="item item-divider item-icon-right">           
+                  Mis Direcciones             
+                    <i class="icon ion-android-add-circle assertive" ng-click="addManipulation()" ></i>          
+            </div>
+
+
+            <div ng-repeat="item in addresses"   >
+                <div class="list  list-inset" >
+                    <div class="item item-divider">
+                        <a class="icon icon-right ion-ios-location positive"></a>
+                        {{item.dir_nombre}}
+                        <div style="float: right;">
+                            <a ng-click="addManipulation(item)" class="icon icon-right ion-edit dark" ></a>
+                            <a ng-click="deleteAddress(item.dir_id)" class="icon icon-right ion-android-delete dark"></a>
+                        </div>
+                    </div>
+                    <div class="item item-body" >
+
+                        <span> Direccion: {{item.dir_direccion}} </span>         
+                        <span>Tel: {{item.dir_telefonoFijo}}</span>
+
+                    </div>
+                </div>
+            </div>
+
 
         </div>
 
-      </div>
-    </div>
+    </ion-content>
 
-    <!-- User infomation -->
-    <div class="list">
+    <ion-footer-bar class="bar-assertive">
+        <div class="row item-button-group">
 
-      <div class="item item-toggle">
-        <span class="assertive">Notification</span>
-        <label class="toggle toggle-assertive">
-          <input type="checkbox">
-          <div class="track">
-            <div class="handle"></div>
-          </div>
-        </label>
-      </div>
+            <div class="col button button-stable">
+                CANCEL
+            </div>
 
-      <label class="item item-input item-stacked-label">
-        <span class="input-label assertive">Credit card #No</span>
-        <input type="text" value="XXXX XXXX XXXX 4678">
-      </label>
-
-      <label class="item item-input item-stacked-label">
-        <span class="input-label assertive">Expires</span>
-        <input type="text" value="08/16">
-      </label>
-
-      <label class="item item-input item-stacked-label">
-        <span class="input-label assertive">CVV-Code</span>
-        <input type="text" value="3013">
-      </label>
-
-      <label class="item item-input item-stacked-label">
-        <span class="input-label assertive">Address</span>
-        <input type="text" value="St Luiz, Barcelona">
-      </label>
-
-    </div>
-
-  </ion-content>
-
-  <ion-footer-bar class="bar-assertive">
-    <div class="row item-button-group">
-
-      <div class="col button button-stable">
-        CANCEL
-      </div>
-
-      <div class="col button button-assertive">
-        SAVE
-      </div>
-    </div>
-  </ion-footer-bar>
+            <div class="col button button-assertive">
+                SAVE
+            </div>
+        </div>
+    </ion-footer-bar>
 </ion-view>

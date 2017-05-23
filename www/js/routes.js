@@ -72,7 +72,7 @@ angular.module('starter.routes', [])
                     .state('last_orders', {
                         url: '/last-orders/',
                         templateUrl: 'templates/last-orders.html',
-                        controller: 'CartCtrl'
+                        controller: 'LastoCtrl'
                     })
 
                     .state('offer', {

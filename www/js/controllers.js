@@ -279,6 +279,41 @@ angular.module('starter.controllers', [])
             };
         })
 
+// LastOrder controller
+        .controller('LastoCtrl', function ($scope, $state,usuario,auth ) {
+
+            $scope.usuario = {};
+            $scope.pedidos = {};
+            isLogged = function () {
+
+                if (auth.hasToken())
+
+                {
+                    $scope.usuario = auth.datosUsuario();
+
+
+                } else {
+
+                    $state.go('login', {}, {location: "replace"});
+
+                }
+            };
+            //inicilizacion
+            isLogged();
+            
+             usuario.getPedidos($scope.usuario.id).success(function (response) {
+                 debugger;
+
+
+                $scope.pedidos= response;
+
+            });
+            
+            
+
+            // get all favorite items
+
+        })
 // Favorite controller
         .controller('FavoriteCtrl', function ($scope, $state, Items) {
 
@@ -822,10 +857,111 @@ angular.module('starter.controllers', [])
         })
 
 // Setting Controller
-        .controller('SettingCtrl', function ($scope, $state, auth) {
+        .controller('SettingCtrl', function ($scope, $ionicPopup, $state, auth, usuario, $window) {
             //$scope.usuario = {};
-            $scope.usuario = auth.datosUsuario();
-            console.log($scope.usuario);
+            $scope.addresses = [];
+
+            $scope.usuario = {};
+            isLogged = function () {
+
+                if (auth.hasToken())
+
+                {
+                    $scope.usuario = auth.datosUsuario();
+                    debugger;
+
+
+                } else {
+
+                    $state.go('login', {}, {location: "replace"});
+
+                }
+            };
+            debugger;
+
+            //inicilizacion
+            isLogged();
+            usuario.getDirecciones($scope.usuario.id).success(function (response) {
+                $scope.addresses = response;
+                debugger;
+            });
+            $scope.addManipulation = function (edit_val) {  // Takes care of address add and edit ie Address Manipulator
+
+
+                if (edit_val != null) {
+
+                    $scope.data = edit_val; // For editing address 
+                    // poner al telefono como un numero.
+                    var title = "Editar Direccion";
+                    var sub_title = "Editar su Domicilio";
+                } else {
+                    $scope.data = {};    // For adding new address
+                    var title = "Agregar Domicilio";
+                    var sub_title = "Agregar un nuevo Domicilio";
+                }
+                // An elaborate, custom popup
+                var addressPopup = $ionicPopup.show({
+                    template: '<input type="text"   placeholder="Nombre Lugar"  ng-model="data.dir_nombre"> <br/> ' +
+                            '<input type="text"   placeholder="Direccion" ng-model="data.dir_direccion"> <br/> ' +
+                            '<textarea placeholder="Aclaraciones" cols="40" rows="3" ng-model="data.dir_aclaracion"></textarea> <br/> ' +
+                            '<input type="number" placeholder="Telefono Fijo" ng-model="data.dir_telefonoFijo" ng-value="data.dir_telefonoFijo">',
+                    title: title,
+                    subTitle: sub_title,
+                    scope: $scope,
+                    buttons: [
+                        {text: 'Close'},
+                        {
+                            text: '<b>Save</b>',
+                            type: 'button-positive',
+                            onTap: function (e) {
+
+                                if (!$scope.data.dir_nombre || !$scope.data.dir_direccion || !$scope.data.dir_telefonoFijo || !$scope.data.dir_aclaracion) {
+                                    e.preventDefault(); //don't allow the user to close unless he enters full details
+                                } else {
+                                    return $scope.data;
+                                }
+                            }
+                        }
+                    ]
+                });
+
+                addressPopup.then(function (res) {
+                    createAdress(res);
+
+
+
+                });
+
+            };
+
+            $scope.deleteAddress = function (del_id) {
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'Eliminar Domicilio',
+                    template: 'Esta seguro de eliminar este domicilio',
+                    buttons: [
+                        {text: 'No', type: 'button-stable'},
+                        {text: 'Si', type: 'button-assertive', onTap: function () {
+                                return del_id;
+                            }}
+                    ]
+                });
+
+                confirmPopup.then(function (res) {
+                    if (res) {
+                        debugger;
+                        usuario.deleteDireccion(res).success(function (r) {
+                            if (r.response) {
+
+                                $window.location.reload(true);
+                            }
+                        });
+
+
+                        //eliminar direccion de la base
+
+                    }
+                });
+            };
 
         })
 

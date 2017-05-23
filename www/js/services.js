@@ -1075,6 +1075,41 @@ angular.module('starter.services', [])
                             )
 
                 };
+                dataUsuario.deleteDireccion = function (id) {
+                    debugger;
+                    return($http({
+                        url: API.base_url + 'direccion/eliminar/'+id,
+                        method: "DELETE",
+                        headers: headers                     
+
+                    }).success(function (data, status, headers, config) {
+                        datos = data.data;
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
+                
+                  dataUsuario.getPedidos = function (id) {
+                    debugger;
+                    return($http({
+                        url: API.base_url + 'pedidoencabezado/listarcliente/'+id,
+                        method: "GET",
+                        headers: headers                     
+
+                    }).success(function (data, status, headers, config) {
+                        datos = data.data;
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
+                
+                
 
                 return dataUsuario;
             }])
@@ -1146,6 +1181,8 @@ angular.module('starter.services', [])
                             )
 
                 };
+                
+                
 
                 return dataPedido;
             }])
