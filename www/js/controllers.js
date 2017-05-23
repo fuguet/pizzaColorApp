@@ -829,7 +829,7 @@ angular.module('starter.controllers', [])
         .controller('AddressCtrl', function ($scope, $state) {
             function initialize() {
                 // set up begining position
-                var myLatlng = new google.maps.LatLng(21.0227358, 105.8194541);
+                var myLatlng = new google.maps.LatLng(-25.5984759,-54.5749279);
 
                 // set option for map
                 var mapOptions = {
