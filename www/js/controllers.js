@@ -696,7 +696,7 @@ angular.module('starter.controllers', [])
         )
 
 // Checkout controller
-        .controller('CheckoutCtrl', function ($scope, $state, $ionicPopup, $window, $ionicSideMenuDelegate, $ionicHistory, auth, usuario, sharedCartService, pedido, empresa) {
+        .controller('CheckoutCtrl', function ($scope, $state, $ionicPopup, $window, $ionicSideMenuDelegate, $ionicHistory, auth, usuario, sharedCartService, pedido, empresa, sharedUtils) {
             $scope.addresses = [];
             $scope.usuario = {};
             $scope.parametros = {};
@@ -865,6 +865,8 @@ angular.module('starter.controllers', [])
                         pedidoEncabezado.pe_medioPago = payment;
                         pedidoEncabezado.pe_idEstado = 1;
 
+                        sharedUtils.showLoading();
+
                         pedido.setEncabezado(pedidoEncabezado).success(function (res) {
                             if (res.response) {
                                 var idencabezado = res.result;
@@ -876,14 +878,43 @@ angular.module('starter.controllers', [])
                                 promoPedido.idPedidoEncabezado = res.result;
                                 promoPedido.cart = sharedCartService.cartPromo;
                                 pedido.addDetallePedido(detalle).success(function (res) {
-                                    debugger;
-
                                     if (res.response) {
                                         sharedCartService.cleanCart();
                                         sharedCartService.recalcularTotales();
-                                    }
+                                        pedido.addPromoPedido(promoPedido).success(function (res) {
+                                            if (res.response) {
+                                                sharedCartService.cleanCartPromo();
+                                                sharedCartService.recalcularTotales();
+                                                sharedUtils.hideLoading();
+                                                var alertPopup = $ionicPopup.alert({
+                                                    title: 'Atencion',
+                                                    template: 'El pedido se genero correctamente'
+                                                });
+                                                $ionicHistory.nextViewOptions({
+                                                    historyRoot: true
+                                                });
+                                                $ionicSideMenuDelegate.canDragContent(true);  // Sets up the sideMenu dragable
+                                                $state.go('last_orders', {}, {location: "replace"});
 
+                                            } else {
+                                                sharedUtils.hideLoading();
+                                            }
+//      
+                                            debugger;
+                                        })
+                                                .error(function (err) {
+                                                    sharedUtils.hideLoading();
+
+                                                    var alertPopup = $ionicPopup.alert({
+                                                        title: 'Atencion',
+                                                        template: 'No se pudo pedir algunas promos intente mas tarde nuevamente'
+                                                    });
+                                                })
+                                    } else {
+                                        sharedUtils.hideLoading();
+                                    }
                                 }).error(function (err) {
+                                    sharedUtils.hideLoading();
 
                                     var alertPopup = $ionicPopup.alert({
                                         title: 'Atencion',
@@ -891,34 +922,21 @@ angular.module('starter.controllers', [])
                                     });
 
                                 })
-                                pedido.addPromoPedido(promoPedido).success(function (res) {
-                                    debugger;
-                                    if (res.response) {
-                                        sharedCartService.cleanCartPromo();
-                                        sharedCartService.recalcularTotales();
-                                    }
-//      
-                                    debugger;
-                                }).error(function (err) {
-
-                                    var alertPopup = $ionicPopup.alert({
-                                        title: 'Atencion',
-                                        template: 'No se pudo pedir algunas promos intente mas tarde nuevamente'
-                                    });
-                                })
                             } else {
+                                sharedUtils.hideLoading();
                                 var alertPopup = $ionicPopup.alert({
                                     title: 'Atencion',
                                     template: res.message
                                 });
-
                             }
                         }).error(function (err) {
+                            sharedUtils.hideLoading();
 
                             var alertPopup = $ionicPopup.alert({
                                 title: 'Atencion',
                                 template: err.message
                             });
+
 
                         });
                     } else
@@ -938,7 +956,10 @@ angular.module('starter.controllers', [])
         )
 
 // Address controller
-        .controller('AddressCtrl', function ($scope, $state, externalAppsService) {
+        .controller('AddressCtrl', function ($scope, $state,$ionicPopup, externalAppsService, sharedCartService) {
+
+      
+
             function initialize() {
                 // set up begining position
                 var myLatlng = new google.maps.LatLng(-25.5984759, -54.5749279);
@@ -1070,7 +1091,10 @@ angular.module('starter.controllers', [])
                             debugger;
                             if (res.response) {
 
-                                $window.location.reload(true);
+                                usuario.getDirecciones($scope.usuario.id).success(function (response) {
+                                    $scope.addresses = response;
+
+                                });
 
 
 
@@ -1099,7 +1123,11 @@ angular.module('starter.controllers', [])
                                     debugger;
                                     if (res.response) {
 
-                                        $window.location.reload(true);
+                                        usuario.getDirecciones($scope.usuario.id).success(function (response) {
+                                            $scope.addresses = response;
+
+                                        });
+
 
 
 
@@ -1144,7 +1172,11 @@ angular.module('starter.controllers', [])
                         usuario.deleteDireccion(res).success(function (r) {
                             if (r.response) {
 
-                                $window.location.reload(true);
+                                usuario.getDirecciones($scope.usuario.id).success(function (response) {
+                                    $scope.addresses = response;
+
+                                });
+
                             }
                         });
 

@@ -36,6 +36,8 @@ angular.module('starter.services', [])
                 cartObj.total_qty = 0; // cant product 
                 cartObj.aclaraciones = '';
 
+                cartObj.resumen = '';
+
 
                 cartObj.cleanCart = function () {
                     cartObj.cart = [];
@@ -73,6 +75,35 @@ angular.module('starter.services', [])
 
                     $rootScope.totalCart = cartObj.total_qty;
 
+                }
+
+                cartObj.cart.generarResumen = function () {             
+                    var resumentxt = '';
+                    for (var i = 0, len = cartObj.cart.length; i < len; i++) {
+                       var temp = '*' + cartObj.cart[i].cantidad + '-' + cartObj.cart[i].productoP.nombre + '-'+
+                                   cartObj.cart[i].productoP.nombreVariedad+'-$'+cartObj.cart[i].productoP.precioBase;
+                       resumentxt=resumentxt + ' \n'+ temp;
+                   }
+                     cartObj.resumen= cartObj.resumen +' \n'+ resumentxt
+                     cartObj.cartPromo.generarResumen();
+                }
+                
+                cartObj.cartPromo.generarResumen = function () {
+                    debugger;
+                    var resumentxt = '';
+                    for (var i = 0, len = cartObj.cartPromo.length; i < len; i++) {
+                       var temp = '*' + cartObj.cartPromo[i].cantidad + '-' + cartObj.cartPromo[i].nombre + '-'+
+                                  '-$'+cartObj.cartPromo[i].precioUnitario;
+                        for (var j = 0, len2 = cartObj.cartPromo[i].productosP.length; j < len2; j++) {
+                            if(cartObj.cartPromo[i].productosP[j].nombreVariedad.length >0)
+                            temp= temp +' \n'+'-*' +cartObj.cartPromo[i].productosP[j].nombreVariedad;
+                        
+                        } 
+                       resumentxt=resumentxt + ' \n'+ temp;    
+                       debugger;
+
+                    }
+                     cartObj.resumen= cartObj.resumen +' \n'+ resumentxt
                 }
 
 
@@ -971,7 +1002,7 @@ angular.module('starter.services', [])
                 return dataCredencial;
             }])
 
-        .factory('externalAppsService', ['$window',function ($window) {
+        .factory('externalAppsService', ['$window', function ($window) {
                 // Might use a resource here that returns a JSON array
 
 
