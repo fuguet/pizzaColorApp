@@ -696,7 +696,7 @@ angular.module('starter.controllers', [])
         )
 
 // Checkout controller
-        .controller('CheckoutCtrl', function ($scope, $state, $ionicPopup, $window, auth, usuario, sharedCartService, pedido, empresa) {
+        .controller('CheckoutCtrl', function ($scope, $state, $ionicPopup, $window, $ionicSideMenuDelegate, $ionicHistory, auth, usuario, sharedCartService, pedido, empresa) {
             $scope.addresses = [];
             $scope.usuario = {};
             $scope.parametros = {};
@@ -711,7 +711,13 @@ angular.module('starter.controllers', [])
 
                 } else {
 
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    });
+                    $ionicSideMenuDelegate.canDragContent(true);  // Sets up the sideMenu dragable
                     $state.go('login', {}, {location: "replace"});
+
+
 
                 }
             };
@@ -786,8 +792,6 @@ angular.module('starter.controllers', [])
 
             };
 
-
-
             createAdress = function (res) {
 
                 var direccion = {};
@@ -806,8 +810,9 @@ angular.module('starter.controllers', [])
                         usuario.addDireccion(direccion).success(function (res) {
                             debugger;
                             if (res.response) {
-
-                                $window.location.reload(true);
+                                usuario.getDirecciones($scope.usuario.id).success(function (response) {
+                                    $scope.addresses = response;
+                                });
 
 
 
@@ -835,136 +840,105 @@ angular.module('starter.controllers', [])
             };
 
 
-//            
-
             $scope.pay = function () {
-
-
-                ;
                 var payment = $scope.data.payment;
                 var address = $scope.data.address;
 
-                if (!(typeof payment === 'undefined') && !(typeof address === 'undefined'))
-                {
 
+                if (sharedCartService.total_qty < 1 && sharedCartService.total_qty < 1) {
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    });
+                    $ionicSideMenuDelegate.canDragContent(true);  // Sets up the sideMenu dragable
+                    $state.go('home', {}, {location: "replace"});
 
-                    var pedidoEncabezado = {};
-                    pedidoEncabezado.pe_idCliente = address.dir_idPersona
-                    pedidoEncabezado.pe_aclaraciones = '';
-                    pedidoEncabezado.pe_total = sharedCartService.total_amount;
-                    pedidoEncabezado.pe_idPersona = address.dir_idPersona;
-                    pedidoEncabezado.pe_cli_tel = address.dir_telefonoFijo;
-                    pedidoEncabezado.pe_idDireccion = address.dir_id;
-                    pedidoEncabezado.pe_medioPago = payment;
-                    pedidoEncabezado.pe_idEstado = 1;
+                } else {
+                    if (!(typeof payment === 'undefined') && !(typeof address === 'undefined'))
+                    {
+                        var pedidoEncabezado = {};
+                        pedidoEncabezado.pe_idCliente = address.dir_idPersona
+                        pedidoEncabezado.pe_aclaraciones = '';
+                        pedidoEncabezado.pe_total = sharedCartService.total_amount;
+                        pedidoEncabezado.pe_idPersona = address.dir_idPersona;
+                        pedidoEncabezado.pe_cli_tel = address.dir_telefonoFijo;
+                        pedidoEncabezado.pe_idDireccion = address.dir_id;
+                        pedidoEncabezado.pe_medioPago = payment;
+                        pedidoEncabezado.pe_idEstado = 1;
 
-                    //test
-
-
-
-                    pedido.setEncabezado(pedidoEncabezado).success(function (res) {
-                        if (res.response) {
-                            var idencabezado = res.result;
-                            debugger;
-                            var detalle = {};
-                            detalle.idPedidoEncabezado = res.result;
-                            detalle.cart = sharedCartService.cart;
-                            var promoPedido = {};
-                            promoPedido.idPedidoEncabezado = res.result;
-                            promoPedido.cart = sharedCartService.cartPromo;
-                            pedido.addDetallePedido(detalle).success(function (res) {
+                        pedido.setEncabezado(pedidoEncabezado).success(function (res) {
+                            if (res.response) {
+                                var idencabezado = res.result;
                                 debugger;
+                                var detalle = {};
+                                detalle.idPedidoEncabezado = res.result;
+                                detalle.cart = sharedCartService.cart;
+                                var promoPedido = {};
+                                promoPedido.idPedidoEncabezado = res.result;
+                                promoPedido.cart = sharedCartService.cartPromo;
+                                pedido.addDetallePedido(detalle).success(function (res) {
+                                    debugger;
 
-                                if (res.response) {
-                                    sharedCartService.cleanCart();
-                                    sharedCartService.recalcularTotales();
-                                }
+                                    if (res.response) {
+                                        sharedCartService.cleanCart();
+                                        sharedCartService.recalcularTotales();
+                                    }
 
-                            }).error(function (err) {
+                                }).error(function (err) {
 
-                                var alertPopup = $ionicPopup.alert({
-                                    title: 'Atencion',
-                                    template: 'No se pudo pedir algunos productos intente mas tarde nuevamente'
-                                });
+                                    var alertPopup = $ionicPopup.alert({
+                                        title: 'Atencion',
+                                        template: 'No se pudo pedir algunos productos intente mas tarde nuevamente'
+                                    });
 
-                            })
-                            pedido.addPromoPedido(promoPedido).success(function (res) {
-                                debugger;
-                                if (res.response) {
-                                    sharedCartService.cleanCartPromo();
-                                    sharedCartService.recalcularTotales();
-                                }
+                                })
+                                pedido.addPromoPedido(promoPedido).success(function (res) {
+                                    debugger;
+                                    if (res.response) {
+                                        sharedCartService.cleanCartPromo();
+                                        sharedCartService.recalcularTotales();
+                                    }
 //      
-                                debugger;
-                            }).error(function (err) {
+                                    debugger;
+                                }).error(function (err) {
 
+                                    var alertPopup = $ionicPopup.alert({
+                                        title: 'Atencion',
+                                        template: 'No se pudo pedir algunas promos intente mas tarde nuevamente'
+                                    });
+                                })
+                            } else {
                                 var alertPopup = $ionicPopup.alert({
                                     title: 'Atencion',
-                                    template: 'No se pudo pedir algunas promos intente mas tarde nuevamente'
+                                    template: res.message
                                 });
-                            })
-                        } else {
+
+                            }
+                        }).error(function (err) {
+
                             var alertPopup = $ionicPopup.alert({
                                 title: 'Atencion',
-                                template: res.message
+                                template: err.message
                             });
 
-                        }
-                    }).error(function (err) {
-
+                        });
+                    } else
+                    {
                         var alertPopup = $ionicPopup.alert({
                             title: 'Atencion',
-                            template: err.message
+                            template: 'Debe elegir una Direccion y un Medio de Pago'
                         });
-
-                    });
-
-
-
-
-
-
-
-                    //preguntar como ahcer las llamadas asincronicas
-//                  sharedUtils.showAlert("Info", "El Pedido se realizo con Exito");
-//                    $state.go('lastOrders', {}, {location: "replace", reload: true});
-
-
-                    //                    // Go to past order page
-//                    $ionicHistory.nextViewOptions({
-//                        historyRoot: true
-//                    });
-//                    
-                    //cargar item al carrito
-
-//
-//                    //Remove users cart
-
-
-                } else
-                {
-                    var alertPopup = $ionicPopup.alert({
-                        title: 'Atencion',
-                        template: 'Debe elegir una Direccion y un Medio de Pago'
-                    });
-
-
-
+                    }
                 }
+
+
+
             }
-
-
-
-
-
-
-
 
         }
         )
 
 // Address controller
-        .controller('AddressCtrl', function ($scope, $state,externalAppsService) {
+        .controller('AddressCtrl', function ($scope, $state, externalAppsService) {
             function initialize() {
                 // set up begining position
                 var myLatlng = new google.maps.LatLng(-25.5984759, -54.5749279);
@@ -975,7 +949,7 @@ angular.module('starter.controllers', [])
                     title: "Pizza Color Delivery!",
                     icon: image
                 });
-                
+
                 // set option for map
                 var mapOptions = {
                     center: myLatlng,
@@ -990,9 +964,9 @@ angular.module('starter.controllers', [])
                 // assign to stop
                 $scope.map = map;
             }
-             $scope.openMaps = function () {
-               externalAppsService.openExternalUrl("geo:#{-25.5984759},#{-54.5749279}?q=#Gustavo Eppens 258, Puerto Iguazú, Misiónes")
-               
+            $scope.openMaps = function () {
+                externalAppsService.openExternalUrl("geo:#{-25.5984759},#{-54.5749279}?q=#Gustavo Eppens 258, Puerto Iguazú, Misiónes")
+
             }
             // load map when the ui is loaded
             $scope.init = function () {
