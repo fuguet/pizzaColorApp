@@ -41,14 +41,16 @@ angular.module('starter.services', [])
 
                 cartObj.cleanCart = function () {
                     cartObj.cart = [];
-                    cartObj.aclaraciones = ''
+                    cartObj.aclaraciones = '';
+                     cartObj.resumen = '';
 // cantidad de componente
 
                 };
 
                 cartObj.cleanCartPromo = function () {
                     cartObj.cartPromo = [];//lista de productos  (producto, cantidad)  
-                    cartObj.aclaraciones = ''
+                    cartObj.aclaraciones = '';
+                     cartObj.resumen = '';
 
                 };
 
@@ -85,7 +87,7 @@ angular.module('starter.services', [])
                        resumentxt=resumentxt + ' \n'+ temp;
                    }
                      cartObj.resumen= cartObj.resumen +' \n'+ resumentxt
-                     cartObj.cartPromo.generarResumen();
+                    return cartObj.cartPromo.generarResumen();
                 }
                 
                 cartObj.cartPromo.generarResumen = function () {
@@ -104,6 +106,8 @@ angular.module('starter.services', [])
 
                     }
                      cartObj.resumen= cartObj.resumen +' \n'+ resumentxt
+                     
+                     return  cartObj.resumen;
                 }
 
 

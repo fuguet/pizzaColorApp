@@ -864,6 +864,8 @@ angular.module('starter.controllers', [])
                         pedidoEncabezado.pe_idDireccion = address.dir_id;
                         pedidoEncabezado.pe_medioPago = payment;
                         pedidoEncabezado.pe_idEstado = 1;
+                        pedidoEncabezado.pe_resumen = sharedCartService.generarResumen();
+                        
 
                         sharedUtils.showLoading();
 
