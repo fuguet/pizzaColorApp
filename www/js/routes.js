@@ -1,5 +1,5 @@
 angular.module('starter.routes', [])
-.config(function ($stateProvider, $urlRouterProvider) {
+        .config(function ($stateProvider, $urlRouterProvider) {
 
             // Ionic uses AngularUI Router which uses the concept of states
             // Learn more here: https://github.com/angular-ui/ui-router
@@ -10,6 +10,8 @@ angular.module('starter.routes', [])
                     .state('login', {
                         url: '/login',
                         templateUrl: 'templates/login.html',
+                        params: {'correo': '',
+                                 'password':''},
                         controller: 'AuthCtrl'
                     })
 
@@ -47,7 +49,7 @@ angular.module('starter.routes', [])
                         templateUrl: 'templates/item.html',
                         controller: 'ItemCtrl'
                     })
-                    
+
                     .state('itemoffer', {
                         url: '/itemoffer/:id',
                         templateUrl: 'templates/itemoffer.html',
@@ -129,6 +131,11 @@ angular.module('starter.routes', [])
                         url: '/about-us',
                         templateUrl: 'templates/about-us.html',
                         controller: 'AboutCtrl'
+                    })
+                    .state('logout', {
+                        url: '/logout',
+                        templateUrl: 'templates/logout.html',
+                        controller: 'LogoutCtrl'
                     })
             // if none of the above states are matched, use this as the fallback
             $urlRouterProvider.otherwise('/home');

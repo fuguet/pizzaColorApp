@@ -12,13 +12,14 @@
         <div ng-repeat="item in pedidos"   >
             <div class="list  list-inset" >
                 <div class="item item-divider">
-                    <i class="icon ion-android-cart balanced"></i>
+                    <i class="icon ion-android-cart" ng-class="{'energized': item.pe_idEstado == 1,'positive': item.pe_idEstado==2,'balanced': item.pe_idEstado==3,'assertive': item.pe_idEstado==4}"></i>
                      # Pedido {{item.pe_id}}
                                       
                 </div>
                 <div class="item item-body" >
 
-                    Estado:<span class="balanced"> {{item.descripcion}} </span>         
+                    Estado:<span ng-class="{'energized': item.pe_idEstado == 1,'positive': item.pe_idEstado==2,'balanced': item.pe_idEstado==3,'assertive': item.pe_idEstado==4}"> 
+                            {{item.descripcion}} </span>         
                     <span style="float: right;">Total $ {{item.pe_Total}}</span>
 
                 </div>
@@ -27,3 +28,4 @@
 
     </ion-content>
 </ion-view>
+

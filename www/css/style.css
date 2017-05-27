@@ -1,0 +1,12 @@
+.pendiente {
+  color : energized;
+}
+.enviando {
+   color : balanced;
+}
+.preparando {
+  color: positive;
+}
+.cancelado {
+  color: assertive;
+}

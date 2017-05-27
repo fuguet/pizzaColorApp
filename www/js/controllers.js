@@ -3,7 +3,7 @@ angular.module('starter.controllers', [])
 
 // Authentication controller
 // Put your login, register functions here
-        .controller('AuthCtrl', function ($scope, $rootScope, $ionicHistory, sharedUtils, $state, $ionicSideMenuDelegate, auth, restApi) {
+        .controller('AuthCtrl', function ($scope, $rootScope, $ionicHistory, sharedUtils, $state, $stateParams, $ionicSideMenuDelegate, auth, credenciales) {
             // hide back butotn in next view
             $ionicHistory.nextViewOptions({
                 disableBack: true
@@ -12,75 +12,99 @@ angular.module('starter.controllers', [])
                 $state.go('home', {}, {location: "replace"});
 
             }
+            debugger;
+            $scope.user = {
+                email: $stateParams.correo,
+                password: $stateParams.password
+            }
+
+
 
 
             //chekear si ya esta logeado
 
             $scope.login = function (formName, cred) {
 
-                auth.getToken();
-
                 if (formName.$valid)
 
                 {  // Check if the form data is valid or not
+                    var data = {
+                        Correo: cred.email,
+                        Password: cred.password
+                    };
 
                     sharedUtils.showLoading();
 
-                    restApi.call(
-                            {
-                                method: 'post',
-                                url: 'auth/autenticar',
-                                data: {
-                                    Correo: cred.email,
-                                    Password: cred.password
-                                },
-                                response: function (r)
-                                {
+                    credenciales.login(data).success(function (r) {
 
-                                    if (r.response)
-                                    {
-
-                                        auth.setToken(r.result);
-                                        $ionicHistory.nextViewOptions({
-                                            historyRoot: true
-                                        });
-                                        $ionicSideMenuDelegate.canDragContent(true);  // Sets up the sideMenu dragable
-                                        $rootScope.extras = true;
-                                        sharedUtils.hideLoading();
-                                        $state.go('home', {}, {location: "replace"});
-                                    } else
-
-                                    {
-                                        sharedUtils.hideLoading();
-                                        sharedUtils.showAlert("Please note", "Authentication Error");
-                                        alert(r.message);
-
-                                    }
-                                },
-                                error: function (r) {
-
-                                    sharedUtils.hideLoading();
-                                    sharedUtils.showAlert("Please note", "Authentication Error");
-                                    alert(r.message);
-
-                                },
-                                validationError: function (r) {
-                                    sharedUtils.showAlert(r);
-                                    sharedUtils.hideLoading();
-
-                                }
+                        if (r.response)
+                        {
+                            auth.setToken(r.result);
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true
                             });
+                            $ionicSideMenuDelegate.canDragContent(true);  // Sets up the sideMenu dragable
+                            sharedUtils.hideLoading();
+                            $state.go('home', {}, {location: "replace"});
+                        } else
+                        {
+                            sharedUtils.hideLoading();
+                            sharedUtils.showAlert("Atencion", r.message);
+                        }
+                    }).error(function (err) {
+                        debugger;
+                        sharedUtils.hideLoading();
+                        sharedUtils.showAlert("Atencion", err.message);
+                    });
+
 
 
 
                 } else {
-                    sharedUtils.showAlert("Please note", "Entered data is not valid");
+                    sharedUtils.showAlert("Atencion", "Los datos no son validos");
                 }
 
 
 
             }
 
+            $scope.sigup = function (formName, user) {
+                if (formName.$valid)
+
+                {  // Check if the form data is valid or not
+
+
+                    sharedUtils.showLoading();
+
+                    credenciales.sigup(user).success(function (r) {
+                        debugger;
+
+                        if (r.response)
+                        {
+
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true
+                            });
+                            $ionicSideMenuDelegate.canDragContent(true);  // Sets up the sideMenu dragable
+                            sharedUtils.hideLoading();
+
+                            $state.go('login', {"correo": user.per_email, "password": user.per_password}, {location: "replace"});
+                        } else
+                        {
+                            sharedUtils.hideLoading();
+                            sharedUtils.showAlert("Atencion", r.message);
+                        }
+                    }).error(function (err) {
+                        debugger;
+                        sharedUtils.hideLoading();
+                        sharedUtils.showAlert("Atencion", err.message);
+                    });
+
+                } else {
+                    sharedUtils.showAlert("Atencion", "Los datos no son validos");
+                }
+
+            }
 
 
 
@@ -95,9 +119,11 @@ angular.module('starter.controllers', [])
         })
 
 // Home controller
-        .controller('HomeCtrl', function ($scope, $ionicSlideBoxDelegate, $state, $rootScope, Menu, promo, categoria, empresa, openHours) {
+        .controller('HomeCtrl', function ($scope, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $state, $rootScope, promo, categoria, empresa, openHours, sharedUtils) {
             // get all categories from service
 //            $scope.categories = Menu.all();
+            debugger;
+
             empresa.getHorarios().success(function (response) {
 
                 $scope.days = response.data;
@@ -107,22 +133,28 @@ angular.module('starter.controllers', [])
 
 
             });
+            incialite = function () {
+                sharedUtils.showLoading();
+                categoria.getCategorias().success(function (response) {
 
-            $scope.slides = [];
-
-            categoria.getCategorias().success(function (response) {
-
-                $scope.categories = response.data;
-            });
-
-
-
-            promo.getPromos().success(function (response) {
-                $scope.promos = response.data;
-                angular.forEach(response.data, function (value, key) {
-                    $scope.slides.push(value.slider);
+                    $scope.categories = response.data;
+                    promo.getPromos().success(function (response) {
+                        $scope.promos = response.data;
+                        sharedUtils.hideLoading();
+                    });
                 });
-            });
+
+            }
+
+//            $scope.slides = [];
+            incialite();
+
+
+
+
+
+
+
 
             //actualizar slider
             $scope.updateSlider = function () {
@@ -130,10 +162,11 @@ angular.module('starter.controllers', [])
             }
 
 
+
         })
 
 // Categories controller
-        .controller('CategoriesCtrl', function ($scope, $state, Categories, $stateParams, categoria) {
+        .controller('CategoriesCtrl', function ($scope, $state, $stateParams, categoria) {
             categoria.getCategorias().success(function (response) {
                 $scope.categories = response.data;
 
@@ -144,21 +177,36 @@ angular.module('starter.controllers', [])
 
 
 // Category controller
-        .controller('CategoryCtrl', function ($scope, $state, Categories, $stateParams, producto, categoria) {
+        .controller('CategoryCtrl', function ($scope, $state, $stateParams, producto, categoria, sharedUtils) {
 
 
             var id = $stateParams.id;
             $scope.products = {};
             $scope.category = {};
+            var initialice = function () {
+                sharedUtils.showLoading();
+                producto.getProductoCat(id).success(function (response) {
+                    $scope.products = response.data;
+                    categoria.getCategoria(id).success(function (response) {
+                        $scope.category = response;
+                        sharedUtils.hideLoading();
+                    }).error(function (err) {
+                        sharedUtils.hideLoading();
 
-            producto.getProductoCat(id).success(function (response) {
-                $scope.products = response.data;
+                    });
 
-            });
-            categoria.getCategoria(id).success(function (response) {
+                }).error(function (err) {
+                    sharedUtils.hideLoading();
 
-                $scope.category = response;
-            });
+                });
+                ;
+            }
+
+            initialice();
+
+
+
+
 
 
             // get all items from service by category id
@@ -166,7 +214,7 @@ angular.module('starter.controllers', [])
         })
 
 // Item controller
-        .controller('ItemCtrl', function ($scope, $state, Items, $stateParams, $ionicPopup, $ionicNavBarDelegate, producto, sharedCartService) {
+        .controller('ItemCtrl', function ($scope, $state, $stateParams, $ionicPopup, $ionicNavBarDelegate, producto, sharedCartService) {
             var id = $stateParams.id;
 
 
@@ -280,7 +328,7 @@ angular.module('starter.controllers', [])
         })
 
 // LastOrder controller
-        .controller('LastoCtrl', function ($scope, $state,usuario,auth ) {
+        .controller('LastoCtrl', function ($scope, $state, usuario, auth) {
 
             $scope.usuario = {};
             $scope.pedidos = {};
@@ -300,44 +348,50 @@ angular.module('starter.controllers', [])
             };
             //inicilizacion
             isLogged();
-            
-             usuario.getPedidos($scope.usuario.id).success(function (response) {
-                 debugger;
+
+            usuario.getPedidos($scope.usuario.id).success(function (response) {
+                debugger;
 
 
-                $scope.pedidos= response;
+                $scope.pedidos = response;
 
             });
-            
-            
+
+
 
             // get all favorite items
 
         })
 // Favorite controller
-        .controller('FavoriteCtrl', function ($scope, $state, Items) {
+        .controller('FavoriteCtrl', function ($scope, $state) {
 
-            // get all favorite items
-            $scope.items = Items.all()
-
-            // remove item from favorite
-            $scope.remove = function (index) {
-
-
-                $scope.items.splice(index, 1);
-
-            }
+//            // get all favorite items
+//            $scope.items = Items.all()
+//
+//            // remove item from favorite
+//            $scope.remove = function (index) {
+//
+//
+//                $scope.items.splice(index, 1);
+//
+//            }
         })
 
 // Cart controller
-        .controller('CartCtrl', function ($scope, $ionicPopup, Cart, sharedCartService) {
+        .controller('CartCtrl', function ($scope, $ionicPopup, $state, sharedCartService, empresa) {
 
             $scope.cart = sharedCartService.cart;
             $scope.promos = sharedCartService.cartPromo;
             $scope.total = sharedCartService.total_amount;
+            $scope.vacio = !(sharedCartService.total_qty > 0);
+            $scope.parametros = {};
             $scope.item = {
                 aclaracion: sharedCartService.aclaraciones,
             };
+            empresa.getParametros().success(function (response) {
+                debugger;
+                $scope.parametros = response;
+            });
 
             // plus quantity
             $scope.addAclaracion = function (item) {
@@ -382,10 +436,24 @@ angular.module('starter.controllers', [])
 
 
             }
+
+            $scope.checkOut = function () {
+                $scope.total = sharedCartService.total_amount;
+                if ($scope.total >= $scope.parametros.par_pedidoMinimo) {
+                    $state.go('checkout', {}, {});
+                } else {
+                    var alertPopup = $ionicPopup.alert({
+                        title: 'Atencion',
+                        template: "Debe completar el Pedido Minimo"
+                    });
+
+                }
+
+            }
         })
 
 // Offer controller
-        .controller('OfferCtrl', function ($scope, $state, Items, $ionicSideMenuDelegate, $ionicSlideBoxDelegate, promo) {
+        .controller('OfferCtrl', function ($scope, $state, $ionicSideMenuDelegate, $ionicSlideBoxDelegate, promo) {
             // get all items form Items model
 //            $scope.items = Items.all();
 
@@ -408,21 +476,40 @@ angular.module('starter.controllers', [])
             // disabled swipe menu
             $ionicSideMenuDelegate.canDragContent(false);
         })
-        .controller('ItemOfferCtrl', function ($scope, $state, Items, $stateParams, $ionicPopup, $ionicNavBarDelegate, producto, promo, sharedCartService) {
+        .controller('ItemOfferCtrl', function ($scope, $state, $stateParams, $ionicPopup, $ionicNavBarDelegate, producto, promo, sharedCartService, sharedUtils) {
             var id = $stateParams.id;
             var cantidadVariedadesSel = 0;
             var checkVar = function (item) {
                 return item.cantVar > 0;
             }
             // get item from service by item id
-            promo.getPromo(id).success(function (response) {
-                $scope.promo = response;
-            });
 
-            promo.getProductoPromo(id).success(function (response) {
-                $scope.items = response;
+            var initialice = function () {
+                sharedUtils.showLoading();
+                promo.getPromo(id).success(function (response) {
+                    debugger;
+                    $scope.promo = response;
+                    promo.getProductoPromo(id).success(function (response) {
+                        $scope.items = response;
+                        sharedUtils.hideLoading();
 
-            });
+                    }).error(function (err) {
+                        sharedUtils.hideLoading();
+
+                    })
+
+                }).error(function (err) {
+                    sharedUtils.hideLoading();
+
+                });
+                ;
+            }
+
+            initialice();
+
+           
+
+
             $scope.toggleFav = function () {
                 $scope.item.faved = !$scope.item.faved;
             }
@@ -563,9 +650,11 @@ angular.module('starter.controllers', [])
         )
 
 // Checkout controller
-        .controller('CheckoutCtrl', function ($scope, $state, $ionicPopup, $window, auth, usuario, sharedCartService, pedido) {
+        .controller('CheckoutCtrl', function ($scope, $state, $ionicPopup, $window, auth, usuario, sharedCartService, pedido, empresa) {
             $scope.addresses = [];
             $scope.usuario = {};
+            $scope.parametros = {};
+
             isLogged = function () {
 
                 if (auth.hasToken())
@@ -584,7 +673,10 @@ angular.module('starter.controllers', [])
 
             //inicilizacion
             isLogged();
-
+            empresa.getParametros().success(function (response) {
+                debugger;
+                $scope.parametros = response;
+            });
             usuario.getDirecciones($scope.usuario.id).success(function (response) {
                 $scope.addresses = response;
             });
@@ -829,7 +921,7 @@ angular.module('starter.controllers', [])
         .controller('AddressCtrl', function ($scope, $state) {
             function initialize() {
                 // set up begining position
-                var myLatlng = new google.maps.LatLng(-25.5984759,-54.5749279);
+                var myLatlng = new google.maps.LatLng(-25.5984759, -54.5749279);
 
                 // set option for map
                 var mapOptions = {
@@ -865,28 +957,22 @@ angular.module('starter.controllers', [])
             isLogged = function () {
 
                 if (auth.hasToken())
-
                 {
                     $scope.usuario = auth.datosUsuario();
-                    debugger;
-
-
                 } else {
-
                     $state.go('login', {}, {location: "replace"});
-
                 }
             };
-            debugger;
+
 
             //inicilizacion
             isLogged();
             usuario.getDirecciones($scope.usuario.id).success(function (response) {
                 $scope.addresses = response;
-                debugger;
+
             });
             $scope.addManipulation = function (edit_val) {  // Takes care of address add and edit ie Address Manipulator
-
+                debugger;
 
                 if (edit_val != null) {
 
@@ -904,7 +990,7 @@ angular.module('starter.controllers', [])
                     template: '<input type="text"   placeholder="Nombre Lugar"  ng-model="data.dir_nombre"> <br/> ' +
                             '<input type="text"   placeholder="Direccion" ng-model="data.dir_direccion"> <br/> ' +
                             '<textarea placeholder="Aclaraciones" cols="40" rows="3" ng-model="data.dir_aclaracion"></textarea> <br/> ' +
-                            '<input type="number" placeholder="Telefono Fijo" ng-model="data.dir_telefonoFijo" ng-value="data.dir_telefonoFijo">',
+                            '<input type="text" placeholder="Telefono Fijo" ng-model="data.dir_telefonoFijo">',
                     title: title,
                     subTitle: sub_title,
                     scope: $scope,
@@ -914,8 +1000,9 @@ angular.module('starter.controllers', [])
                             text: '<b>Save</b>',
                             type: 'button-positive',
                             onTap: function (e) {
+                                debugger;
 
-                                if (!$scope.data.dir_nombre || !$scope.data.dir_direccion || !$scope.data.dir_telefonoFijo || !$scope.data.dir_aclaracion) {
+                                if (!$scope.data.dir_nombre || !$scope.data.dir_direccion || !$scope.data.dir_telefonoFijo) {
                                     e.preventDefault(); //don't allow the user to close unless he enters full details
                                 } else {
                                     return $scope.data;
@@ -933,7 +1020,80 @@ angular.module('starter.controllers', [])
                 });
 
             };
+            createAdress = function (res) {
 
+                var direccion = {};
+                debugger;
+
+                if (res != null) {
+                    direccion.dir_nombre = res.dir_nombre;
+                    direccion.dir_telefonoFijo = res.dir_telefonoFijo;
+                    direccion.dir_direccion = res.dir_direccion;
+                    direccion.dir_aclaracion = res.dir_aclaracion;
+
+                    if (res.dir_idPersona) {
+                        debugger;
+
+                        usuario.updateDireccion(res).success(function (res) {
+                            debugger;
+                            if (res.response) {
+
+                                $window.location.reload(true);
+
+
+
+                            } else {
+                                var alertPopup = $ionicPopup.alert({
+                                    title: 'Atencion',
+                                    template: res.message
+                                });
+
+
+                            }
+                        }).error(function (err) {
+                            debugger;
+                            var alertPopup = $ionicPopup.alert({
+                                title: 'Atencion',
+                                template: err.message
+                            });
+
+                        });
+
+                    } else {
+                        debugger;
+                        direccion.dir_idPersona = $scope.usuario.id;
+                        usuario.addDireccion(direccion)
+                                .success(function (res) {
+                                    debugger;
+                                    if (res.response) {
+
+                                        $window.location.reload(true);
+
+
+
+                                    } else {
+                                        var alertPopup = $ionicPopup.alert({
+                                            title: 'Atencion',
+                                            template: res.message
+                                        });
+
+
+                                    }
+                                })
+                                .error(function (err) {
+                                    debugger;
+                                    var alertPopup = $ionicPopup.alert({
+                                        title: 'Atencion',
+                                        template: err.message
+                                    });
+
+                                });
+
+
+                    }
+                }
+
+            };
             $scope.deleteAddress = function (del_id) {
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'Eliminar Domicilio',
@@ -1091,5 +1251,13 @@ angular.module('starter.controllers', [])
             });
 
 
+
+        })
+// Logout controller
+        .controller('LogoutCtrl', function ($scope, $state, auth) {
+            // get all posts from services
+            auth.logout();
+
+            $state.go('login', {}, {location: "replace"})
 
         })

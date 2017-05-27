@@ -1,53 +1,60 @@
 <ion-view view-title="Login" hide-nav-bar="true" class="login-bg">
-  <ion-content class="login-bg">
+    <ion-content class="login-bg">
 
-    <div class="login-content">
+        <div class="login-content">
 
-      <!-- Logo -->
-      <div class="padding text-center">
-        <div class="logo assertive-bg">
-          <i class="light ion-ios-home-outline"></i>
+            <!-- Logo -->
+            <div class="padding text-center">
+                <div class="logo assertive-bg">
+                    <i class="light ion-ios-home-outline"></i>
+                </div>
+                <h2 class="light">
+                    Ionic Restaurant
+                </h2>
+            </div>
+
+            <!-- Login form -->
+            <form name="sigupForm" class="list " id="login-form1">
+                <div class="list">
+
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Nombre y Apellido</span>
+                        <input ng-model="user.per_nombre" type="text" required>
+                    </label>
+
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Celular</span>
+                        <input ng-model="user.per_celular" type="number" required>
+                    </label>
+
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Email</span>
+                        <input ng-model="user.per_email" type="email" required>
+                    </label>
+
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Password</span>
+                        <input ng-model="user.per_password" type="password" required>
+                    </label>
+
+
+                </div>
+            </form>
+
+            <div class="padding-top">
+                <button class="button button-block button-assertive" ng-click="sigup(sigupForm, user)">
+                    Registrar
+                </button>
+            </div>
+
+
+            <!-- Other links -->
+            <div class="text-center">
+                <a ui-sref="login" class="light"><span>Ya tiene Cuenta?</span></a>
+            </div>
+
         </div>
-        <h2 class="light">
-          Ionic Restaurant
-        </h2>
-      </div>
 
-      <!-- Login form -->
-      <div class="list">
-
-        <label class="item item-input item-stacked-label">
-          <span class="input-label">Name</span>
-          <input type="text">
-        </label>
-
-        <label class="item item-input item-stacked-label">
-          <span class="input-label">Email</span>
-          <input type="text">
-        </label>
-
-        <label class="item item-input item-stacked-label">
-          <span class="input-label">Password</span>
-          <input type="password">
-        </label>
-
-
-      </div>
-
-      <div class="padding-top">
-        <button class="button button-block button-assertive" ui-sref="home">
-          SIGN UP
-        </button>
-      </div>
-
-
-      <!-- Other links -->
-      <div class="text-center">
-        <a ui-sref="login" class="light">I have an account</span></a>
-      </div>
-
-    </div>
-
-  </ion-content>
+    </ion-content>
 </ion-view>
 

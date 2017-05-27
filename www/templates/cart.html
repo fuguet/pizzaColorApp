@@ -4,56 +4,67 @@
   The CartCtrl pulls data from Cart service (service.js)
   The Cart service returns array of items data
 -->
-<ion-view cache-view="false" view-title="Cart">
+<ion-view cache-view="false" view-title="Mi Pedido">
 
     <ion-content class="stable-bg">
-        <div class="item item-divider">
-            <span>Pizza Color Delivery</span>  <span class="pull-right">Total: ${{total}}</span>
-        </div>
-        <div class="list list-inset">
-            <ion-item ng-repeat="item in cart" class="item-button-right">
-                <h3>{{ item.productoP.nombre}}({{ item.productoP.nombreVariedad}})</h3>
-                <p>{{ item.productoP.descripcion}}</p>
-                <h4 class="price pull-left assertive">
-                    ${{ item.productoP.precioBase}}
-                    <span class="dark">x {{ item.cantidad}}</span>
-                </h4>
-                <button class="button button-assertive" ng-click="removeProd($index)">
-                    <i class="icon ion-trash-a"></i>
-                </button>
-            </ion-item>
-            <ion-item ng-repeat="item in promos" class="item-button-right">
-                <h3>{{ item.nombre}}</h3>
-                <p>{{ item.detallePp}}</p>
-                <h4 class="price pull-left assertive">
-                    ${{ item.precioUnitario}}
-                    <span class="dark">x {{ item.cantidad}}</span>
-                </h4>
-                <button class="button button-assertive"  ng-click="removePro($index)">
-                    <i class="icon ion-trash-a" ></i>
-                </button>
-            </ion-item>
-               <ion-item  ng-click="addAclaracion(item)">
-                <strong>Añadir Aclaracion al Pedido</strong>
-                <br>      
-                <ion-input  type="text" ng-value="item.aclaracion"> {{item.aclaracion}}</ion-input>
-            </ion-item>
+        <div ng-if="!vacio" class="title">
+            <div class="item item-divider">
+                <span>Pizza Color Delivery</span>  <span class="pull-right">Total: ${{total}}</span>
+                <p>Pedido Minimo $ {{parametros.par_pedidoMinimo}}</p> 
+            </div>
+            <div class="list list-inset">
+                <ion-item ng-repeat="item in cart" class="item-button-right">
+                    <h3>{{ item.productoP.nombre}}({{ item.productoP.nombreVariedad}})</h3>
+                    <p>{{ item.productoP.descripcion}}</p>
+                    <h4 class="price pull-left assertive">
+                        ${{ item.productoP.precioBase}}
+                        <span class="dark">x {{ item.cantidad}}</span>
+                    </h4>
+                    <button class="button button-assertive" ng-click="removeProd($index)">
+                        <i class="icon ion-trash-a"></i>
+                    </button>
+                </ion-item>
+                <ion-item ng-repeat="item in promos" class="item-button-right">
+                    <h3>{{ item.nombre}}</h3>
+                    <p>{{ item.detallePp}}</p>
+                    <h4 class="price pull-left assertive">
+                        ${{ item.precioUnitario}}
+                        <span class="dark">x {{ item.cantidad}}</span>
+                    </h4>
+                    <button class="button button-assertive"  ng-click="removePro($index)">
+                        <i class="icon ion-trash-a" ></i>
+                    </button>
+                </ion-item>
+                <ion-item  ng-click="addAclaracion(item)">
+                    <strong>Añadir Aclaracion al Pedido</strong>
+                    <br>      
+                    <ion-input  type="text" ng-value="item.aclaracion"> {{item.aclaracion}}</ion-input>
+                </ion-item>
 
-        </div> 
+            </div> 
 
-        <button class="button button-block button-positive"  ui-sref="home">
-            Agregar mas Comida
-        </button>
-
+            <button class="button button-block button-positive"  ui-sref="home">
+                Agregar mas Comida
+            </button>
+            </div>
+            <div ng-if="vacio" class="title">
+                Su pedido esta Vacio!
+             <button class="button button-block button-positive"  ui-sref="home">
+                Pedir  Comida
+            </button>
+            </div>
     </ion-content>
 
-    <ion-footer-bar class="bar-assertive">
-        <div class="button-bar">
-            <div class="button" ui-sref="checkout">Relizar Pedido</div>
+    <ion-footer-bar  class="bar-assertive">
+        <div ng-if="!vacio" class="button-bar">
+            <div class="button" ng-click="checkOut()">Relizar Pedido</div>
 
             <div class="button text-2x">
                 ${{total}}
             </div>
         </div>
     </ion-footer-bar>
+
+
+
 </ion-view>

@@ -54,8 +54,10 @@
 
                 <!-- Cart button -->
                 <ion-nav-buttons side="right">
-                    <button class="button button-icon button-clear ion-android-more-vertical" ui-sref="home">
-                    </button>
+                    <button ui-sref="cart" class="button button-icon button-clear ion-ios-cart-outline">
+                    {{totalCart}}
+                </button>
+                  
                 </ion-nav-buttons>
             </ion-nav-bar>
 
@@ -70,8 +72,8 @@
                 <!-- User profile -->
                 <div class="text-center">
                     <a ui-sref="user">
-                        <img class="profile-picture circle" menu-close="" src="img/people/adam.jpg">
-                        <h4>Adam Lambert</h4>
+                        <img class="profile-picture circle" menu-close="" src="img/people/logo.jpg">
+                        <h4>Pizza Color Delivery</h4>
                     </a>
                 </div>
 
@@ -84,56 +86,56 @@
 
                     <div class="item item-icon-left" ui-sref="categories">
                         <i class="icon ion-grid"></i>
-                        Categories
+                        Categorias
                     </div>
 
                     <div class="item item-icon-left" ui-sref="offer">
                         <i class="icon ion-ios-pricetag-outline"></i>
-                        Offers
-                        <span class="badge badge-assertive">5</span>
+                        Combos
+                        <span class="badge badge-assertive">12</span>
                     </div>
 
                     <div class="item item-icon-left" ui-sref="cart">
                         <i class="icon ion-ios-cart-outline"></i>
-                        My Cart
-                        <span class="badge badge-assertive">10</span>
+                        Mi Pedido
+                        <span class="badge badge-assertive">{{totalCart}}</span>
                     </div>
 
                     <div class="item item-icon-left" ui-sref="last_orders">
                         <i class="icon ion-ios-timer-outline"></i>
-                        Last orders
+                        Ultimos Pedidos
                     </div>
 
-                    <div class="item item-icon-left" ui-sref="favorite">
+                  <!--   <div class="item item-icon-left" ui-sref="favorite">
                         <i class="icon ion-ios-star-outline"></i>
                         Favorite
-                    </div>
+                    </div> -->
 
                     <div class="item item-icon-left" ui-sref="setting">
-                        <i class="icon ion-ios-gear-outline"></i>
-                        Settings
+                        <i class="icon ion-ios-person-outline"></i>
+                        Perfil Usuario
                     </div>
 
-                    <div class="item item-icon-left" ui-sref="news">
+                    <!--   <div class="item item-icon-left" ui-sref="news">
                         <i class="icon ion-ios-paper-outline"></i>
                         News
-                    </div>
+                    </div>-->
 
                     <div class="item item-icon-left" ui-sref="about_us">
                         <i class="icon ion-ios-information-outline"></i>
-                        About us
+                        Informacion 
                     </div>
                     <div class="item item-icon-left" ui-sref="address">
                         <i class="icon ion-android-map"></i>
                         Ubicacion
                     </div>
 
-                    <div class="item item-icon-left" ui-sref="chats">
+                       <!-- <div class="item item-icon-left" ui-sref="chats">
                         <i class="icon ion-ios-help-outline"></i>
                         Supports
-                    </div>
+                    </div>-->
 
-                    <div class="item item-icon-left" ui-sref="login">
+                    <div class="item item-icon-left" ui-sref="logout">
                         <i class="icon ion-log-out"></i>
                         Logout
                     </div>
