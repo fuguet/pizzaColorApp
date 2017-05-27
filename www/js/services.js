@@ -222,8 +222,8 @@ angular.module('starter.services', [])
                     },
                     datosUsuario: function () {
                         debugger;
-                        
-                        
+
+
                         usuario = {"id": "", "nombre": "", "celular": "", "email": ""};
 
                         usuario.id = auth.getUserData().id;
@@ -946,7 +946,7 @@ angular.module('starter.services', [])
                 };
                 dataCredencial.sigup = function (data) {
                     debugger;
-                      return($http({
+                    return($http({
                         url: API.base_url + 'auth/registrar',
                         method: "POST",
                         headers: headers,
@@ -964,9 +964,46 @@ angular.module('starter.services', [])
                             )
 
                 };
-             
+
 
 
 
                 return dataCredencial;
+            }])
+
+        .factory('externalAppsService', ['$window',function ($window) {
+                // Might use a resource here that returns a JSON array
+
+
+
+
+                var service = {
+                    openExternalUrl: openExternalUrl,
+                    openMapsApp: openMapsApp
+                };
+                return service;
+
+
+                function openExternalUrl(url) {
+                    $window.open(url, '_system', 'location=yes');
+                    return false;
+                }
+
+                function openMapsApp(coords) {
+                    debugger;
+                    var q;
+                    if (ionic.Platform.isAndroid()) {
+                        q = 'geo:' + coords + '?q=' + coords;
+                    } else {
+                        q = 'maps://maps.apple.com/?q=' + coords;
+                    }
+                    q = q.replace(' ', '');
+                    $window.location.href = q;
+                    return q;
+                }
+
+
+
+
+
             }])

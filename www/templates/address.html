@@ -4,8 +4,15 @@
 <ion-view view-title="Ubicacion" class="has-footer-buttons" ng-init="init()">
 
 
-  <ion-content class="stable-bg checkout-page">
-    <div id="map" data-tap-disabled="true"></div>
-  </ion-content>
+    <ion-content class="stable-bg checkout-page">
+        <div id="map" data-tap-disabled="true"></div>
 
+    </ion-content>
+    <ion-footer-bar class="bar-balanced">
+
+        <button class="button button-block button-positive"  ng-click="openMaps()" >
+           Como Llegar
+        </button>
+       
+    </ion-footer-bar>
 </ion-view>

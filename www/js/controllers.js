@@ -166,11 +166,23 @@ angular.module('starter.controllers', [])
         })
 
 // Categories controller
-        .controller('CategoriesCtrl', function ($scope, $state, $stateParams, categoria) {
-            categoria.getCategorias().success(function (response) {
-                $scope.categories = response.data;
+        .controller('CategoriesCtrl', function ($scope, $state, $stateParams, sharedUtils, categoria) {
 
-            });
+            var initialice = function () {
+                sharedUtils.showLoading();
+                categoria.getCategorias().success(function (response) {
+                    $scope.categories = response.data;
+                    sharedUtils.hideLoading();
+
+                }).error(function (err) {
+                    sharedUtils.hideLoading();
+
+                });
+
+            }
+
+            initialice();
+
 
 
         })
@@ -214,18 +226,26 @@ angular.module('starter.controllers', [])
         })
 
 // Item controller
-        .controller('ItemCtrl', function ($scope, $state, $stateParams, $ionicPopup, $ionicNavBarDelegate, producto, sharedCartService) {
+        .controller('ItemCtrl', function ($scope, $state, $stateParams, $ionicPopup, $ionicNavBarDelegate, sharedUtils, producto, sharedCartService) {
             var id = $stateParams.id;
 
 
-            // get item from service by item id
+            var initialice = function () {
+                sharedUtils.showLoading();
+                producto.getProducto(id).success(function (response) {
+                    $scope.item = response;
+                    sharedUtils.hideLoading();
 
-            producto.getProducto(id).success(function (response) {
+                }).error(function (err) {
+                    sharedUtils.hideLoading();
+
+                });
+
+            }
+
+            initialice();
 
 
-                $scope.item = response;
-
-            });
 
 
 //            $scope.item = Items.get(1);
@@ -378,7 +398,7 @@ angular.module('starter.controllers', [])
         })
 
 // Cart controller
-        .controller('CartCtrl', function ($scope, $ionicPopup, $state, sharedCartService, empresa) {
+        .controller('CartCtrl', function ($scope, $ionicPopup, $ionicHistory, $ionicSideMenuDelegate, $state, sharedCartService, empresa) {
 
             $scope.cart = sharedCartService.cart;
             $scope.promos = sharedCartService.cartPromo;
@@ -450,12 +470,38 @@ angular.module('starter.controllers', [])
                 }
 
             }
+
+            $scope.pedirComida = function () {
+
+                $ionicHistory.nextViewOptions({
+                    historyRoot: true
+                });
+                $ionicSideMenuDelegate.canDragContent(true);  // Sets up the sideMenu dragable      
+                $state.go('home', {}, {location: "replace"})
+
+            }
         })
 
 // Offer controller
-        .controller('OfferCtrl', function ($scope, $state, $ionicSideMenuDelegate, $ionicSlideBoxDelegate, promo) {
+        .controller('OfferCtrl', function ($scope, $state, $ionicSideMenuDelegate, sharedUtils, $ionicSlideBoxDelegate, promo) {
             // get all items form Items model
 //            $scope.items = Items.all();
+            var initialice = function () {
+                sharedUtils.showLoading();
+                promo.getPromos().success(function (response) {
+                    $scope.promos = response.data;
+                    sharedUtils.hideLoading();
+
+
+                }).error(function (err) {
+                    sharedUtils.hideLoading();
+
+                });
+                ;
+            }
+
+            initialice();
+
 
             promo.getPromos().success(function (response) {
                 $scope.promos = response.data;
@@ -507,7 +553,7 @@ angular.module('starter.controllers', [])
 
             initialice();
 
-           
+
 
 
             $scope.toggleFav = function () {
@@ -918,23 +964,35 @@ angular.module('starter.controllers', [])
         )
 
 // Address controller
-        .controller('AddressCtrl', function ($scope, $state) {
+        .controller('AddressCtrl', function ($scope, $state,externalAppsService) {
             function initialize() {
                 // set up begining position
                 var myLatlng = new google.maps.LatLng(-25.5984759, -54.5749279);
+                var image = 'img/marker.jpg';
 
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    title: "Pizza Color Delivery!",
+                    icon: image
+                });
+                
                 // set option for map
                 var mapOptions = {
                     center: myLatlng,
                     zoom: 16,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
+
                 };
                 // init map
                 var map = new google.maps.Map(document.getElementById("map"),
                         mapOptions);
-
+                marker.setMap(map);
                 // assign to stop
                 $scope.map = map;
+            }
+             $scope.openMaps = function () {
+               externalAppsService.openExternalUrl("geo:#{-25.5984759},#{-54.5749279}?q=#Gustavo Eppens 258, Puerto Iguazú, Misiónes")
+               
             }
             // load map when the ui is loaded
             $scope.init = function () {
@@ -1196,7 +1254,7 @@ angular.module('starter.controllers', [])
         })
 
 // About controller
-        .controller('AboutCtrl', function ($scope, $state, empresa, openHours) {
+        .controller('AboutCtrl', function ($scope, $state, empresa, openHours, externalAppsService) {
             // working hours
             $scope.dias = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
 
@@ -1248,7 +1306,21 @@ angular.module('starter.controllers', [])
             empresa.getDatosContacto().success(function (response) {
                 $scope.contac = response;
 
+
             });
+            $scope.openFacebookPage = function () {
+                externalAppsService.openExternalUrl($scope.contac.dcon_facebook);
+            }
+
+            $scope.openPage = function () {
+                externalAppsService.openExternalUrl($scope.contac.dcon_website);
+            }
+
+            $scope.openTwitterPage = function () {
+                externalAppsService.openExternalUrl($scope.contac.dcon_twitter);
+            }
+
+
 
 
 

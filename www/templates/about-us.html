@@ -34,20 +34,20 @@
           
         <a class="item item-icon-left">
           <i class="icon ion-email"></i>Email: {{ contac.dcon_email}}</a>
-        <a href="#" class="item item-icon-left">
+        <a class="item item-icon-left"  ui-sref="address">
           <i class="icon ion-map"></i>Direccion : {{contac.dcon_direccion}} </a>
       </div>
 
       <h4>Nuestras Redes Sociales</h4>
       
       <div class="list card">
-        <a class="item item-icon-left">
-          <i class="icon ion-social-facebook" href="{{contac.dcon_facebook}}"></i> {{contac.dcon_facebook}}
+        <a class="item item-icon-left" ng-click="openFacebookPage()" >
+          <i class="icon ion-social-facebook"></i>  Facebook
         </a>
-        <a class="item item-icon-left">
-          <i class="icon ion-social-twitter" href="{{contac.dcon_twitter}}"></i> {{contac.dcon_twitter}}
+        <a class="item item-icon-left" ng-click="openTwitterPage()" >
+          <i class="icon ion-social-twitter"></i> Twitter
         </a>
-        <a class="item item-icon-left" href="{{contac.dcon_website }}"><i class="icon ion-social-pinterest"></i> {{contac.dcon_website }}
+        <a class="item item-icon-left" ng-click="openPage()" ><i class="icon ion-social-pinterest"></i> Pagina Web
         </a>
       </div>
 
