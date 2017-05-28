@@ -29,14 +29,14 @@
 
     <!-- Buttons -->
     <div class="row item-button-group">
-      <div class="col button button-stable" ng-click="toggleFav()">
-        <i class="text-2x ion-android-star-outline" ng-hide="item.faved"></i>
-        <i class="text-2x ion-android-star" ng-show="item.faved"></i>
-        <span class="text-sm">ADD TO FAVORITE</span>
+      <div class="col button button-stable" ng-click="">
+        <i class="text-2x ion-android-star-outline" ng-hide=""></i>
+        <i class="text-2x ion-android-star" ng-show=""></i>
+        <span class="text-sm">Agregar a Favoritos</span>
       </div>
       <div class="col button button-assertive" ng-click="addCart(item)">
         <i class="text-2x ion-ios-cart-outline"></i>
-        <span class="text-sm">ADD TO CART</span>
+        <span class="text-sm">Agregar al Pedido</span>
       </div>
     </div>
 
@@ -51,7 +51,7 @@
       </ion-item>
       <ion-checkbox ng-repeat="extra in item.componentes" class="item-checkbox-right checkbox-assertive">{{ extra.com_nombre }}: {{ extra.com_precio | currency}}</ion-checkbox>
 
-      <ion-item class="item-divider">
+      <ion-item ng-if="item.variedades.lenght > 0" class="item-divider">
         Sizes
       </ion-item>
       <ion-radio ng-model="item.selectedVariedad" ng-repeat="size in item.variedades" ng-value="size">{{ size.var_nombre }}: {{ size.var_precio | currency}}</ion-radio>

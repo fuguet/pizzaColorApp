@@ -11,6 +11,7 @@
             <div class="item item-divider">
                 <span>Pizza Color Delivery</span>  <span class="pull-right">Total: ${{total}}</span>
                 <p>Pedido Minimo $ {{parametros.par_pedidoMinimo}}</p> 
+                 <p>Tiempo de Entrega: {{parametros.par_tiempoEntrega}} min Aprox</p>
             </div>
             <div class="list list-inset">
                 <ion-item ng-repeat="item in cart" class="item-button-right">
@@ -48,7 +49,7 @@
             </button>
             </div>
             <div ng-if="vacio" class="title">
-                Su pedido esta Vacio!
+                Aun no a pedido!
              <button class="button button-block button-positive"  ng-click="pedirComida()">
                 Pedir  Comida
             </button>

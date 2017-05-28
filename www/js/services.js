@@ -84,31 +84,34 @@ angular.module('starter.services', [])
                     for (var i = 0, len = cartObj.cart.length; i < len; i++) {
                         var temp = '*' + cartObj.cart[i].cantidad + '-' + cartObj.cart[i].productoP.nombre + '-' +
                                 cartObj.cart[i].productoP.nombreVariedad + '-$' + cartObj.cart[i].productoP.precioBase;
-                        resumentxt = resumentxt + ' \n' + temp;
+                        resumentxt = resumentxt + temp + ' \n';
                     }
-                    cartObj.resumen = cartObj.resumen + ' \n' + resumentxt
+                    cartObj.resumen = resumentxt + ' \n'
 
                     resumentxt = '';
-                    
+
                     for (var i = 0, len = cartObj.cartPromo.length; i < len; i++) {
                         var temp = '*' + cartObj.cartPromo[i].cantidad + '-' + cartObj.cartPromo[i].nombre + '-' +
-                                '-$' + cartObj.cartPromo[i].precioUnitario;
+                                '-$' + cartObj.cartPromo[i].precioUnitario + ' \n';
+
                         for (var j = 0, len2 = cartObj.cartPromo[i].productosP.length; j < len2; j++) {
                             if (cartObj.cartPromo[i].productosP[j].nombreVariedad.length > 0)
-                                temp = temp + ' \n' + '-*' + cartObj.cartPromo[i].productosP[j].nombreVariedad;
+                                temp = temp + '-*' + cartObj.cartPromo[i].productosP[j].nombreVariedad + ' \n';
 
                         }
-                        resumentxt = resumentxt + ' \n' + temp;
-     
+                        resumentxt = resumentxt + temp + ' \n';
+
                     }
-                    
-                    cartObj.resumen = cartObj.resumen + ' \n' + resumentxt
+
+                    cartObj.resumen = cartObj.resumen + resumentxt
+                    debugger;
 
                     return  cartObj.resumen;
 
+
                 }
 
-               
+
 
                 //productos
                 cartObj.cart.add = function (detalle) {
@@ -872,7 +875,25 @@ angular.module('starter.services', [])
 
                 };
 
+                dataUsuario.save = function (id, data) {
+                    debugger;
 
+                    return($http({
+                        url: API.base_url + 'persona/actualizar/' + id,
+                        method: "PUT",
+                        data: data,
+                        headers: headers
+
+                    }).success(function (data, status, headers, config) {
+                        datos = data.data;
+                        return datos;
+                    }).error(function (err) {
+                        debugger;
+                        error = err;
+                    })
+                            )
+
+                };
 
                 return dataUsuario;
             }])

@@ -269,12 +269,12 @@ angular.module('starter.controllers', [])
                 } else {
                     var myPopup = $ionicPopup.show({
                         templateUrl: 'templates/popup-quantityMitad.html',
-                        title: 'Quantity',
+                        title: 'Cantidad',
                         scope: $scope,
                         buttons: [
-                            {text: 'Cancel'},
+                            {text: 'Cancelar'},
                             {
-                                text: '<b>Save</b>',
+                                text: '<b>Guardar</b>',
                                 type: 'button-assertive',
                                 onTap: function (e) {
                                     if (!$scope.data.quantity) {
@@ -574,9 +574,9 @@ angular.module('starter.controllers', [])
                             title: 'Seleccione',
                             scope: $scope,
                             buttons: [
-                                {text: 'Cancel'},
+                                {text: 'Cancelar'},
                                 {
-                                    text: '<b>Save</b>',
+                                    text: '<b>Guardar</b>',
                                     type: 'button-assertive',
                                     onTap: function (e) {
 
@@ -652,12 +652,12 @@ angular.module('starter.controllers', [])
                     // An elaborate, custom popup
                     var myPopup = $ionicPopup.show({
                         templateUrl: 'templates/popup-quantity.html',
-                        title: 'Quantity',
+                        title: 'Cantidad',
                         scope: $scope,
                         buttons: [
-                            {text: 'Cancel'},
+                            {text: 'Cancelar'},
                             {
-                                text: '<b>Save</b>',
+                                text: '<b>Guardar</b>',
                                 type: 'button-assertive',
                                 onTap: function (e) {
                                     if (!$scope.data.quantity) {
@@ -766,9 +766,9 @@ angular.module('starter.controllers', [])
                     subTitle: sub_title,
                     scope: $scope,
                     buttons: [
-                        {text: 'Close'},
+                        {text: 'Cerrar'},
                         {
-                            text: '<b>Save</b>',
+                            text: '<b>Guardar</b>',
                             type: 'button-positive',
                             onTap: function (e) {
 
@@ -859,7 +859,7 @@ angular.module('starter.controllers', [])
                         pedidoEncabezado.pe_aclaraciones = '';
                         pedidoEncabezado.pe_total = sharedCartService.total_amount;
                         pedidoEncabezado.pe_idPersona = address.dir_idPersona;
-                        pedidoEncabezado.pe_cli_tel = address.dir_telefonoFijo;
+                        pedidoEncabezado.pe_cli_tel = $scope.usuario.celular;
                         pedidoEncabezado.pe_idDireccion = address.dir_id;
                         pedidoEncabezado.pe_medioPago = payment;
                         pedidoEncabezado.pe_idEstado = 1;
@@ -925,8 +925,9 @@ angular.module('starter.controllers', [])
                                     });
 
                                 })
-                            } else 
-                            {   debugger;
+                            } else
+                            {
+                                debugger;
                                 sharedUtils.hideLoading();
                                 var alertPopup = $ionicPopup.alert({
                                     title: 'Atencion',
@@ -1017,6 +1018,7 @@ angular.module('starter.controllers', [])
                 if (auth.hasToken())
                 {
                     $scope.usuario = auth.datosUsuario();
+                    debugger;
                 } else {
                     $state.go('login', {}, {location: "replace"});
                 }
@@ -1053,9 +1055,9 @@ angular.module('starter.controllers', [])
                     subTitle: sub_title,
                     scope: $scope,
                     buttons: [
-                        {text: 'Close'},
+                        {text: 'Cancelar'},
                         {
-                            text: '<b>Save</b>',
+                            text: '<b>Guardar</b>',
                             type: 'button-positive',
                             onTap: function (e) {
 
@@ -1191,6 +1193,32 @@ angular.module('starter.controllers', [])
                     }
                 });
             };
+
+            $scope.guardar = function () {
+                debugger;
+                var data = {}
+                var id = $scope.usuario.id;
+                data.per_celular = $scope.usuario.celular;
+
+                if ((typeof $scope.usuario.password === 'undefined')) {
+
+                } else {
+                    data.per_password = $scope.usuario.password;
+                }
+
+                usuario.save(id,data).success(function (res) {
+                    debugger;
+                    if(res.response){
+                          var alertPopup = $ionicPopup.alert({
+                            title: 'Informacion',
+                            template: 'Los cambio se Guardaron Correctamente'
+                        });
+                        
+                    }
+                });
+
+
+            }
 
         })
 
