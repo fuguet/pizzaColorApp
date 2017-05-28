@@ -42,7 +42,7 @@ angular.module('starter.services', [])
                 cartObj.cleanCart = function () {
                     cartObj.cart = [];
                     cartObj.aclaraciones = '';
-                     cartObj.resumen = '';
+                    cartObj.resumen = '';
 // cantidad de componente
 
                 };
@@ -50,7 +50,7 @@ angular.module('starter.services', [])
                 cartObj.cleanCartPromo = function () {
                     cartObj.cartPromo = [];//lista de productos  (producto, cantidad)  
                     cartObj.aclaraciones = '';
-                     cartObj.resumen = '';
+                    cartObj.resumen = '';
 
                 };
 
@@ -79,37 +79,36 @@ angular.module('starter.services', [])
 
                 }
 
-                cartObj.cart.generarResumen = function () {             
+                cartObj.generarResumen = function () {
                     var resumentxt = '';
                     for (var i = 0, len = cartObj.cart.length; i < len; i++) {
-                       var temp = '*' + cartObj.cart[i].cantidad + '-' + cartObj.cart[i].productoP.nombre + '-'+
-                                   cartObj.cart[i].productoP.nombreVariedad+'-$'+cartObj.cart[i].productoP.precioBase;
-                       resumentxt=resumentxt + ' \n'+ temp;
-                   }
-                     cartObj.resumen= cartObj.resumen +' \n'+ resumentxt
-                    return cartObj.cartPromo.generarResumen();
-                }
-                
-                cartObj.cartPromo.generarResumen = function () {
-                    debugger;
-                    var resumentxt = '';
-                    for (var i = 0, len = cartObj.cartPromo.length; i < len; i++) {
-                       var temp = '*' + cartObj.cartPromo[i].cantidad + '-' + cartObj.cartPromo[i].nombre + '-'+
-                                  '-$'+cartObj.cartPromo[i].precioUnitario;
-                        for (var j = 0, len2 = cartObj.cartPromo[i].productosP.length; j < len2; j++) {
-                            if(cartObj.cartPromo[i].productosP[j].nombreVariedad.length >0)
-                            temp= temp +' \n'+'-*' +cartObj.cartPromo[i].productosP[j].nombreVariedad;
-                        
-                        } 
-                       resumentxt=resumentxt + ' \n'+ temp;    
-                       debugger;
-
+                        var temp = '*' + cartObj.cart[i].cantidad + '-' + cartObj.cart[i].productoP.nombre + '-' +
+                                cartObj.cart[i].productoP.nombreVariedad + '-$' + cartObj.cart[i].productoP.precioBase;
+                        resumentxt = resumentxt + ' \n' + temp;
                     }
-                     cartObj.resumen= cartObj.resumen +' \n'+ resumentxt
-                     
-                     return  cartObj.resumen;
+                    cartObj.resumen = cartObj.resumen + ' \n' + resumentxt
+
+                    resumentxt = '';
+                    
+                    for (var i = 0, len = cartObj.cartPromo.length; i < len; i++) {
+                        var temp = '*' + cartObj.cartPromo[i].cantidad + '-' + cartObj.cartPromo[i].nombre + '-' +
+                                '-$' + cartObj.cartPromo[i].precioUnitario;
+                        for (var j = 0, len2 = cartObj.cartPromo[i].productosP.length; j < len2; j++) {
+                            if (cartObj.cartPromo[i].productosP[j].nombreVariedad.length > 0)
+                                temp = temp + ' \n' + '-*' + cartObj.cartPromo[i].productosP[j].nombreVariedad;
+
+                        }
+                        resumentxt = resumentxt + ' \n' + temp;
+     
+                    }
+                    
+                    cartObj.resumen = cartObj.resumen + ' \n' + resumentxt
+
+                    return  cartObj.resumen;
+
                 }
 
+               
 
                 //productos
                 cartObj.cart.add = function (detalle) {
@@ -888,6 +887,7 @@ angular.module('starter.services', [])
 
 
                 dataPedido.setEncabezado = function (data) {
+                    debugger;
 
                     return($http({
                         url: API.base_url + 'pedidoencabezado/insertar',

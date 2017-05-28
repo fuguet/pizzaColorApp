@@ -12,7 +12,7 @@ angular.module('starter.controllers', [])
                 $state.go('home', {}, {location: "replace"});
 
             }
-            debugger;
+
             $scope.user = {
                 email: $stateParams.correo,
                 password: $stateParams.password
@@ -52,7 +52,7 @@ angular.module('starter.controllers', [])
                             sharedUtils.showAlert("Atencion", r.message);
                         }
                     }).error(function (err) {
-                        debugger;
+
                         sharedUtils.hideLoading();
                         sharedUtils.showAlert("Atencion", err.message);
                     });
@@ -77,7 +77,7 @@ angular.module('starter.controllers', [])
                     sharedUtils.showLoading();
 
                     credenciales.sigup(user).success(function (r) {
-                        debugger;
+
 
                         if (r.response)
                         {
@@ -95,7 +95,7 @@ angular.module('starter.controllers', [])
                             sharedUtils.showAlert("Atencion", r.message);
                         }
                     }).error(function (err) {
-                        debugger;
+
                         sharedUtils.hideLoading();
                         sharedUtils.showAlert("Atencion", err.message);
                     });
@@ -122,7 +122,6 @@ angular.module('starter.controllers', [])
         .controller('HomeCtrl', function ($scope, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $state, $rootScope, promo, categoria, empresa, openHours, sharedUtils) {
             // get all categories from service
 //            $scope.categories = Menu.all();
-            debugger;
 
             empresa.getHorarios().success(function (response) {
 
@@ -370,7 +369,7 @@ angular.module('starter.controllers', [])
             isLogged();
 
             usuario.getPedidos($scope.usuario.id).success(function (response) {
-                debugger;
+
 
 
                 $scope.pedidos = response;
@@ -409,7 +408,7 @@ angular.module('starter.controllers', [])
                 aclaracion: sharedCartService.aclaraciones,
             };
             empresa.getParametros().success(function (response) {
-                debugger;
+
                 $scope.parametros = response;
             });
 
@@ -440,7 +439,7 @@ angular.module('starter.controllers', [])
             };
             // remove item from cart
             $scope.removeProd = function (index) {
-                debugger;
+
                 sharedCartService.cart.drop(index);
                 $scope.total = sharedCartService.total_amount;
                 $scope.cart = sharedCartService.cart;
@@ -448,11 +447,11 @@ angular.module('starter.controllers', [])
 
             }
             $scope.removePro = function (index) {
-                debugger;
+
                 sharedCartService.cartPromo.drop(index);
                 $scope.total = sharedCartService.total_amount;
                 $scope.promos = sharedCartService.cartPromo;
-                debugger;
+
 
 
             }
@@ -533,7 +532,7 @@ angular.module('starter.controllers', [])
             var initialice = function () {
                 sharedUtils.showLoading();
                 promo.getPromo(id).success(function (response) {
-                    debugger;
+
                     $scope.promo = response;
                     promo.getProductoPromo(id).success(function (response) {
                         $scope.items = response;
@@ -721,12 +720,12 @@ angular.module('starter.controllers', [])
 
                 }
             };
-            debugger;
+
 
             //inicilizacion
             isLogged();
             empresa.getParametros().success(function (response) {
-                debugger;
+
                 $scope.parametros = response;
             });
             usuario.getDirecciones($scope.usuario.id).success(function (response) {
@@ -808,7 +807,7 @@ angular.module('starter.controllers', [])
                     } else {
                         direccion.dir_idPersona = $scope.usuario.id;
                         usuario.addDireccion(direccion).success(function (res) {
-                            debugger;
+
                             if (res.response) {
                                 usuario.getDirecciones($scope.usuario.id).success(function (response) {
                                     $scope.addresses = response;
@@ -825,7 +824,7 @@ angular.module('starter.controllers', [])
 
                             }
                         }).error(function (err) {
-                            debugger;
+
                             var alertPopup = $ionicPopup.alert({
                                 title: 'Atencion',
                                 template: err.message
@@ -865,14 +864,16 @@ angular.module('starter.controllers', [])
                         pedidoEncabezado.pe_medioPago = payment;
                         pedidoEncabezado.pe_idEstado = 1;
                         pedidoEncabezado.pe_resumen = sharedCartService.generarResumen();
-                        
+                        debugger;
+
 
                         sharedUtils.showLoading();
 
                         pedido.setEncabezado(pedidoEncabezado).success(function (res) {
                             if (res.response) {
-                                var idencabezado = res.result;
                                 debugger;
+                                var idencabezado = res.result;
+
                                 var detalle = {};
                                 detalle.idPedidoEncabezado = res.result;
                                 detalle.cart = sharedCartService.cart;
@@ -902,7 +903,7 @@ angular.module('starter.controllers', [])
                                                 sharedUtils.hideLoading();
                                             }
 //      
-                                            debugger;
+
                                         })
                                                 .error(function (err) {
                                                     sharedUtils.hideLoading();
@@ -924,7 +925,8 @@ angular.module('starter.controllers', [])
                                     });
 
                                 })
-                            } else {
+                            } else 
+                            {   debugger;
                                 sharedUtils.hideLoading();
                                 var alertPopup = $ionicPopup.alert({
                                     title: 'Atencion',
@@ -932,6 +934,7 @@ angular.module('starter.controllers', [])
                                 });
                             }
                         }).error(function (err) {
+                            debugger;
                             sharedUtils.hideLoading();
 
                             var alertPopup = $ionicPopup.alert({
@@ -958,9 +961,9 @@ angular.module('starter.controllers', [])
         )
 
 // Address controller
-        .controller('AddressCtrl', function ($scope, $state,$ionicPopup, externalAppsService, sharedCartService) {
+        .controller('AddressCtrl', function ($scope, $state, $ionicPopup, externalAppsService, sharedCartService) {
 
-      
+
 
             function initialize() {
                 // set up begining position
@@ -1027,7 +1030,7 @@ angular.module('starter.controllers', [])
 
             });
             $scope.addManipulation = function (edit_val) {  // Takes care of address add and edit ie Address Manipulator
-                debugger;
+
 
                 if (edit_val != null) {
 
@@ -1055,7 +1058,7 @@ angular.module('starter.controllers', [])
                             text: '<b>Save</b>',
                             type: 'button-positive',
                             onTap: function (e) {
-                                debugger;
+
 
                                 if (!$scope.data.dir_nombre || !$scope.data.dir_direccion || !$scope.data.dir_telefonoFijo) {
                                     e.preventDefault(); //don't allow the user to close unless he enters full details
@@ -1078,7 +1081,7 @@ angular.module('starter.controllers', [])
             createAdress = function (res) {
 
                 var direccion = {};
-                debugger;
+
 
                 if (res != null) {
                     direccion.dir_nombre = res.dir_nombre;
@@ -1087,10 +1090,10 @@ angular.module('starter.controllers', [])
                     direccion.dir_aclaracion = res.dir_aclaracion;
 
                     if (res.dir_idPersona) {
-                        debugger;
+
 
                         usuario.updateDireccion(res).success(function (res) {
-                            debugger;
+
                             if (res.response) {
 
                                 usuario.getDirecciones($scope.usuario.id).success(function (response) {
@@ -1109,7 +1112,7 @@ angular.module('starter.controllers', [])
 
                             }
                         }).error(function (err) {
-                            debugger;
+
                             var alertPopup = $ionicPopup.alert({
                                 title: 'Atencion',
                                 template: err.message
@@ -1118,11 +1121,11 @@ angular.module('starter.controllers', [])
                         });
 
                     } else {
-                        debugger;
+
                         direccion.dir_idPersona = $scope.usuario.id;
                         usuario.addDireccion(direccion)
                                 .success(function (res) {
-                                    debugger;
+
                                     if (res.response) {
 
                                         usuario.getDirecciones($scope.usuario.id).success(function (response) {
@@ -1143,7 +1146,7 @@ angular.module('starter.controllers', [])
                                     }
                                 })
                                 .error(function (err) {
-                                    debugger;
+
                                     var alertPopup = $ionicPopup.alert({
                                         title: 'Atencion',
                                         template: err.message
@@ -1170,7 +1173,7 @@ angular.module('starter.controllers', [])
 
                 confirmPopup.then(function (res) {
                     if (res) {
-                        debugger;
+
                         usuario.deleteDireccion(res).success(function (r) {
                             if (r.response) {
 
