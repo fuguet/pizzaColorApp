@@ -457,6 +457,7 @@ angular.module('starter.controllers', [])
 
             $scope.checkOut = function () {
                 $scope.total = sharedCartService.total_amount;
+                debugger;
                 if ($scope.total >= $scope.parametros.par_pedidoMinimo) {
                     $state.go('checkout', {}, {});
                 } else {
