@@ -243,10 +243,6 @@ angular.module('starter.controllers', [])
             }
 
             initialice();
-
-
-
-
 //            $scope.item = Items.get(1);
 
             // toggle favorite
@@ -289,28 +285,31 @@ angular.module('starter.controllers', [])
                     });
                     myPopup.then(function (res) {
 
-                        $scope.data.quantity = res;
-                        var productoPedido = {};
-                        var detalle = {};
+                        if (res) {
+                            $scope.data.quantity = res;
+                            var productoPedido = {};
+                            var detalle = {};
 
 
 //                        productoPedido.precioBase = ((typeof item.selectedVariedad === 'undefined') ? item.producto.prod_precioBase : item.selectedVariedad.var_precio);
-                        productoPedido.precioBase = ((typeof item.selectedVariedad === 'undefined') ? item.producto.prod_precioBase : item.selectedVariedad.var_precio);
+                            productoPedido.precioBase = ((typeof item.selectedVariedad === 'undefined') ? item.producto.prod_precioBase : item.selectedVariedad.var_precio);
 
-                        productoPedido.idProducto = item.producto.prod_id;
-                        productoPedido.idVariedad = ((typeof item.selectedVariedad === 'undefined') ? -1 : item.selectedVariedad.var_id);
-                        productoPedido.nombreVariedad = ((typeof item.selectedVariedad === 'undefined') ? '' : item.selectedVariedad.var_nombre);
-                        productoPedido.nombre = item.producto.prod_nombre;
-                        productoPedido.img = item.producto.slider;
-                        productoPedido.descripcion = item.producto.prod_descripcionProducto;
-                        productoPedido.aclaracion = item.aclaracion || "Sin Aclaracion";
-                        productoPedido.componentestxt = '';
-                        productoPedido.componentes = [];
+                            productoPedido.idProducto = item.producto.prod_id;
+                            productoPedido.idVariedad = ((typeof item.selectedVariedad === 'undefined') ? -1 : item.selectedVariedad.var_id);
+                            productoPedido.nombreVariedad = ((typeof item.selectedVariedad === 'undefined') ? '' : item.selectedVariedad.var_nombre);
+                            productoPedido.nombre = item.producto.prod_nombre;
+                            productoPedido.img = item.producto.slider;
+                            productoPedido.descripcion = item.producto.prod_descripcionProducto;
+                            productoPedido.aclaracion = item.aclaracion || "Sin Aclaracion";
+                            productoPedido.componentestxt = '';
+                            productoPedido.componentes = [];
 
-                        detalle.productoP = productoPedido;
-                        detalle.cantidad = parseFloat(res);
-                        sharedCartService.cart.add(detalle);
-                        $ionicNavBarDelegate.back();
+                            detalle.productoP = productoPedido;
+                            detalle.cantidad = parseFloat(res);
+                            sharedCartService.cart.add(detalle);
+                            $ionicNavBarDelegate.back();
+                        }
+
 
                     });
 
@@ -594,13 +593,16 @@ angular.module('starter.controllers', [])
                             ]
                         });
                         myPopup.then(function (res) {
-                            if ((typeof optionO.selectedVariedad === 'undefined')) {
-                                optionO.selectedVariedad = res;
-                                cantidadVariedadesSel += 1;
+                            debugger;
+                            if (res) {
+                                if ((typeof optionO.selectedVariedad === 'undefined')) {
+                                    optionO.selectedVariedad = res;
+                                    cantidadVariedadesSel += 1;
 
-                            } else {
-                                optionO.selectedVariedad = res;
+                                } else {
+                                    optionO.selectedVariedad = res;
 
+                                }
                             }
                         });
 
@@ -1206,14 +1208,14 @@ angular.module('starter.controllers', [])
                     data.per_password = $scope.usuario.password;
                 }
 
-                usuario.save(id,data).success(function (res) {
+                usuario.save(id, data).success(function (res) {
                     debugger;
-                    if(res.response){
-                          var alertPopup = $ionicPopup.alert({
+                    if (res.response) {
+                        var alertPopup = $ionicPopup.alert({
                             title: 'Informacion',
                             template: 'Los cambio se Guardaron Correctamente'
                         });
-                        
+
                     }
                 });
 
