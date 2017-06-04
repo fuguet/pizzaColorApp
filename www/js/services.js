@@ -40,7 +40,7 @@ angular.module('starter.services', [])
 
 
                 cartObj.cleanCart = function () {
-                    cartObj.cart = [];
+                    cartObj.cart.splice(0, cartObj.cart.length);
                     cartObj.aclaraciones = '';
                     cartObj.resumen = '';
 // cantidad de componente
@@ -48,7 +48,7 @@ angular.module('starter.services', [])
                 };
 
                 cartObj.cleanCartPromo = function () {
-                    cartObj.cartPromo = [];//lista de productos  (producto, cantidad)  
+                    cartObj.cartPromo.splice(0, cartObj.cartPromo.length) ;//lista de productos  (producto, cantidad)  
                     cartObj.aclaraciones = '';
                     cartObj.resumen = '';
 
