@@ -286,6 +286,8 @@ angular.module('starter.controllers', [])
                     myPopup.then(function (res) {
 
                         if (res) {
+                            debugger;
+                            sharedUtils.showLoading();
                             $scope.data.quantity = res;
                             var productoPedido = {};
                             var detalle = {};
@@ -307,6 +309,7 @@ angular.module('starter.controllers', [])
                             detalle.productoP = productoPedido;
                             detalle.cantidad = parseFloat(res);
                             sharedCartService.cart.add(detalle);
+                            sharedUtils.hideLoading();
                             $ionicNavBarDelegate.back();
                         }
 
@@ -675,10 +678,13 @@ angular.module('starter.controllers', [])
                     });
                     myPopup.then(function (res) {
                         if (res) {
+                             sharedUtils.showLoading();
                             $scope.data.quantity = res;
                             promoPedido.cantidad = res;
                             sharedCartService.cartPromo.add(promoPedido);
+                              sharedUtils.hideLoading();
                             $ionicNavBarDelegate.back();
+                            
                         }
 
 
