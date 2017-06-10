@@ -254,7 +254,7 @@ angular.module('starter.controllers', [])
             $scope.addCart = function (item) {
 
                 $scope.data = {
-                    quantity: 1
+                    quantity: "1"
                 }
 
                 if (item.variedades.length > 0 && (typeof item.selectedVariedad === 'undefined')) {
@@ -263,34 +263,66 @@ angular.module('starter.controllers', [])
                         template: 'Seleccione una Variedad'
                     });
                 } else {
-                    var myPopup = $ionicPopup.show({
-                        templateUrl: 'templates/popup-quantityMitad.html',
-                        title: 'Cantidad',
-                        scope: $scope,
-                        buttons: [
-                            {text: 'Cancelar'},
-                            {
-                                text: '<b>Guardar</b>',
-                                type: 'button-assertive',
-                                onTap: function (e) {
-                                    if (!$scope.data.quantity) {
-                                        //don't allow the user to close unless he enters note
-                                        e.preventDefault();
-                                    } else {
-                                        return $scope.data.quantity;
+                    $scope.item;
+                    if ($scope.item.producto.prod_unidad == 2) {
+                        var myPopup = $ionicPopup.show({
+                            templateUrl: 'templates/popup-quantityMitad.html',
+                            title: 'Cantidad',
+                            scope: $scope,
+                            buttons: [
+                                {text: 'Cancelar'},
+                                {
+                                    text: '<b>Guardar</b>',
+                                    type: 'button-assertive',
+                                    onTap: function (e) {
+                                        if (!$scope.data.quantity) {
+                                            //don't allow the user to close unless he enters note
+                                            e.preventDefault();
+                                            debugger;
+                                        } else {
+                                            debugger;
+                                            return $scope.data.quantity;
+                                        }
                                     }
-                                }
-                            },
-                        ]
-                    });
+                                },
+                            ]
+                        });
+                    } else {
+                        var myPopup = $ionicPopup.show({
+                            templateUrl: 'templates/popup-quantity2.html',
+                            title: 'Cantidad',
+                            scope: $scope,
+                            buttons: [
+                                {text: 'Cancelar'},
+                                {
+                                    text: '<b>Guardar</b>',
+                                    type: 'button-assertive',
+                                    onTap: function (e) {
+                                        if (!$scope.data.quantity) {
+                                            //don't allow the user to close unless he enters note
+                                            e.preventDefault();
+                                            debugger;
+                                        } else {
+                                            debugger;
+                                            return $scope.data.quantity;
+                                        }
+                                    }
+                                },
+                            ]
+                        });
+                    }
+
+
+
                     myPopup.then(function (res) {
 
                         if (res) {
-                            debugger;
                             sharedUtils.showLoading();
                             $scope.data.quantity = res;
                             var productoPedido = {};
                             var detalle = {};
+
+
 
 
 //                        productoPedido.precioBase = ((typeof item.selectedVariedad === 'undefined') ? item.producto.prod_precioBase : item.selectedVariedad.var_precio);
@@ -300,6 +332,7 @@ angular.module('starter.controllers', [])
                             productoPedido.idVariedad = ((typeof item.selectedVariedad === 'undefined') ? -1 : item.selectedVariedad.var_id);
                             productoPedido.nombreVariedad = ((typeof item.selectedVariedad === 'undefined') ? '' : item.selectedVariedad.var_nombre);
                             productoPedido.nombre = item.producto.prod_nombre;
+                            productoPedido.idCategoria = item.producto.prod_idCategoria;
                             productoPedido.img = item.producto.slider;
                             productoPedido.descripcion = item.producto.prod_descripcionProducto;
                             productoPedido.aclaracion = item.aclaracion || "Sin Aclaracion";
@@ -309,8 +342,22 @@ angular.module('starter.controllers', [])
                             detalle.productoP = productoPedido;
                             detalle.cantidad = parseFloat(res);
                             sharedCartService.cart.add(detalle);
+                            if (detalle.cantidad == 0.5) {
+                                debugger;
+
+                                item = {
+                                    variedad: productoPedido.nombreVariedad,
+                                    categoria: productoPedido.idCategoria
+                                }
+                                sharedCartService.cartMitad.add(item);
+
+
+                            }
+
+
                             sharedUtils.hideLoading();
                             $ionicNavBarDelegate.back();
+
                         }
 
 
@@ -459,11 +506,22 @@ angular.module('starter.controllers', [])
             }
 
             $scope.checkOut = function () {
+                debugger;
                 $scope.total = sharedCartService.total_amount;
                 debugger;
                 if ($scope.total >= $scope.parametros.par_pedidoMinimo) {
-                    $state.go('checkout', {}, {});
+                    if (sharedCartService.cartMitad.isEmpty()) {
+                        $state.go('checkout', {}, {});
+                    } else
+                    {
+                        var alertPopup = $ionicPopup.alert({
+                            title: 'Atencion',
+                            template: "Falta Pedir Otra Media Pizza " + sharedCartService.cartMitad[0].variedad
+                        });
+                    }
+
                 } else {
+
                     var alertPopup = $ionicPopup.alert({
                         title: 'Atencion',
                         template: "Debe completar el Pedido Minimo"
@@ -562,11 +620,6 @@ angular.module('starter.controllers', [])
                 $scope.item.faved = !$scope.item.faved;
             }
             $scope.selOptions = function (optionO) {
-
-
-                $scope.data = {
-                    quantity: 1
-                };
                 $scope.options = [];
                 var idProd = optionO.prod_id;
                 producto.getProducto(idProd).success(function (response) {
@@ -632,7 +685,7 @@ angular.module('starter.controllers', [])
             $scope.addCart = function (promo, items) {
                 if (cantidadVariedadesSel >= items.filter(checkVar).length) {
                     $scope.data = {
-                        quantity: 1
+                        quantity: "1"
                     }
                     var promoPedido = {};
                     promoPedido.productosP = []
@@ -657,7 +710,7 @@ angular.module('starter.controllers', [])
                     //promoPedido.aclaracion= 
                     // An elaborate, custom popup
                     var myPopup = $ionicPopup.show({
-                        templateUrl: 'templates/popup-quantity.html',
+                        templateUrl: 'templates/popup-quantity2.html',
                         title: 'Cantidad',
                         scope: $scope,
                         buttons: [
@@ -678,13 +731,13 @@ angular.module('starter.controllers', [])
                     });
                     myPopup.then(function (res) {
                         if (res) {
-                             sharedUtils.showLoading();
-                            $scope.data.quantity = res;
-                            promoPedido.cantidad = res;
+                            sharedUtils.showLoading();
+                            $scope.data.quantity = parseFloat(res);
+                            promoPedido.cantidad = parseFloat(res);
                             sharedCartService.cartPromo.add(promoPedido);
-                              sharedUtils.hideLoading();
+                            sharedUtils.hideLoading();
                             $ionicNavBarDelegate.back();
-                            
+
                         }
 
 

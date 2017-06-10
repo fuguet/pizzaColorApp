@@ -31,10 +31,12 @@ angular.module('starter.services', [])
 
                 var cartObj = {};
                 cartObj.cart = [];//lista de productos  (producto, cantidad)  
-                cartObj.cartPromo = [];//lista de promos      
+                cartObj.cartPromo = [];//lista de promos
+                cartObj.cartMitad = [];
                 cartObj.total_amount = 0; // total de productos       
                 cartObj.total_qty = 0; // cant product 
                 cartObj.aclaraciones = '';
+                
 
                 cartObj.resumen = '';
 
@@ -48,11 +50,75 @@ angular.module('starter.services', [])
                 };
 
                 cartObj.cleanCartPromo = function () {
-                    cartObj.cartPromo.splice(0, cartObj.cartPromo.length) ;//lista de productos  (producto, cantidad)  
+                    cartObj.cartPromo.splice(0, cartObj.cartPromo.length);//lista de productos  (producto, cantidad)  
                     cartObj.aclaraciones = '';
                     cartObj.resumen = '';
 
                 };
+                
+                //mantiene array de las varidades pedidas en 1/2 si se pide de nuevo quita esa variedad cosa que al finalizar el pedido
+                //carmitad tendra todas las varidades que falta pedir una mitad pudiendo asi validar que media pizza falto pedir para completar.
+                //queda desarrollar que pasa cuando se elimina un producto que tenia mitad
+                
+                cartObj.cartMitad.add =  function(variedad){
+                  var i = cartObj.cartMitad.find(variedad);
+                  if(i == -1){
+                      cartObj.cartMitad.push(variedad);
+                  }else
+                  {
+                      cartObj.cartMitad.splice(i,1);
+                      
+                  }
+                                        
+                }
+                
+                cartObj.cartMitad.find = function (producto2) {
+                    var result = -1;
+
+                    for (var i = 0, len = cartObj.cartMitad.length; i < len; i++) {
+                        if (angular.equals(cartObj.cartMitad[i], producto2)) {
+                            result = i;
+                            break;
+                        }
+                    }
+                    return result;
+                    //revisar hacerlo con each
+                };
+                cartObj.cartMitad.isEmpty = function () {
+                    return !(cartObj.cartMitad.length >0);
+                    //revisar hacerlo con each
+                };
+                cartObj.cartMitad.drop = function(variedad){
+                  var i = cartObj.cartMitad.find(variedad);
+                  if(i != -1){
+                       cartObj.cartMitad.splice(i,1);
+                  }
+                                        
+                }
+                
+                
+
+                cartObj.itemImcopleto = function () {
+
+                    var variedad = {}
+                    var cantidad = 0;
+
+                    for (var i = 0, len = cartObj.cart.length; i < len; i++) {
+
+                        if (cartObj.cart[i].cantidad == 0.5) {
+                            if (variedad) {
+                                if(variedad == cartObj.cart[i].nombreVariedad)
+                                   cantidad+=cartObj.cart[i].cantidad;
+                                                                                            
+                            } else {
+                                variedad = cartObj.cart[i].nombreVariedad;
+                                cantidad = cartObj.cart[i].cantidad;
+                            }
+
+                        }
+
+                    }
+                }
 
                 cartObj.recalcularTotales = function () {
                     cartObj.total_amount = 0; // total de productos       
@@ -111,8 +177,6 @@ angular.module('starter.services', [])
 
                 }
 
-
-
                 //productos
                 cartObj.cart.add = function (detalle) {
 
@@ -144,12 +208,21 @@ angular.module('starter.services', [])
                 };
                 cartObj.cart.drop = function (ind) {
 
-                    var temp = cartObj.cart[ind];
-                    debugger;
-                    cartObj.total_qty -= parseInt(temp.cantidad);
-                    cartObj.total_amount -= (parseInt(temp.cantidad) * parseInt(temp.productoP.precioBase));
+                    var temp = cartObj.cart[ind];                  
+                    cartObj.total_qty -= parseFloat(temp.cantidad);
+                    cartObj.total_amount -= (parseFloat(temp.cantidad) * parseFloat(temp.productoP.precioBase));
                     cartObj.cart.splice(ind, 1);
                     $rootScope.totalCart = cartObj.total_qty;
+                    debugger;
+                    if(!(temp.cantidad % 1 == 0)){
+                         var item = {
+                                    variedad: temp.productoP.nombreVariedad,
+                                    categoria: temp.productoP.idCategoria
+                                }
+                         cartObj.cartMitad.drop(item);         
+                    }
+                    
+                    
                 };
                 cartObj.cart.increment = function (id) {
 
@@ -157,13 +230,13 @@ angular.module('starter.services', [])
                     var temp = cartObj.cart[ind];
                     temp.qty += 1;
                     cartObj.total_qty += 1;
-                    cartObj.total_amount += (parseInt(cartObj.cart[ind].price));
+                    cartObj.total_amount += (parseFloat(cartObj.cart[ind].price));
                 };
                 cartObj.cart.decrement = function (id) {
                     var ind = cartObj.cart.find(id);
                     var temp = cartObj.cart[ind];
                     cartObj.total_qty -= 1;
-                    cartObj.total_amount -= parseInt(temp.price);
+                    cartObj.total_amount -= parseFloat(temp.price);
                     if (cartObj.cart[cartObj.cart.find(id)].qty == 1) {  // if the cart item was only 1 in qty
                         cartObj.cart.splice(cartObj.cart.find(id), 1); //edited
                     } else {
@@ -199,7 +272,7 @@ angular.module('starter.services', [])
                     var temp = cartObj.cartPromo[ind];
 
                     debugger;
-                    cartObj.total_qty -= parseInt(temp.cantidad);
+                    cartObj.total_qty -= parseFloat(temp.cantidad);
                     cartObj.total_amount -= parseFloat(parseFloat(temp.cantidad) * parseFloat(temp.precioUnitario));
                     cartObj.cartPromo.splice(ind, 1);
                     $rootScope.totalCart = cartObj.total_qty;
@@ -317,105 +390,7 @@ angular.module('starter.services', [])
                 };
             }])
 
-        .factory('Chats', function () {
-            // Might use a resource here that returns a JSON array
 
-            // Some fake testing data
-            var chats = [
-                {
-                    id: 0,
-                    name: 'Ben Sparrow',
-                    lastText: 'You on your way?',
-                    face: 'img/people/ben.png',
-                    messages: [
-                        {
-                            type: 'received',
-                            text: 'Hey, How are you? wanna hang out this friday?',
-                            image: '',
-                            time: 'Thursday 05:55 PM'
-                        },
-                        {
-                            type: 'sent',
-                            text: 'Good, Yes sure why not :D',
-                            image: '',
-                            time: 'Thursday 05:56 PM'
-                        },
-                        {
-                            type: 'received',
-                            text: 'Check out this view from my last trip',
-                            image: '',
-                            time: 'Thursday 05:57 PM'
-                        },
-                        {
-                            type: 'sent',
-                            text: 'Looks Great is that view in Canada?',
-                            image: '',
-                            time: 'Thursday 05:58 PM'
-                        },
-                        {
-                            type: 'received',
-                            text: 'Yes, it\'s in Canada',
-                            image: '',
-                            time: 'Thursday 05:57 PM'
-                        }
-                    ]
-                },
-                {
-                    id: 1,
-                    name: 'Max Lynx',
-                    lastText: 'Hey, it\'s me',
-                    face: 'img/people/max.png'
-                },
-                {
-                    id: 2,
-                    name: 'Adam Bradleyson',
-                    lastText: 'I should buy a boat',
-                    face: 'img/people/adam.jpg'
-                },
-                {
-
-                    d: 3,
-                    name: 'Perry Governor',
-                    lastText: 'Look at my mukluks!',
-                    face: 'img/people/perry.png'
-                },
-                {
-                    id: 4,
-                    name: 'Mike Harrington',
-                    lastText: 'This is wicked good ice cream.',
-                    face: 'img/people/mike.png'
-                },
-                {
-                    id: 5,
-                    name: 'Ben Sparrow',
-                    lastText: 'You on your way?',
-                    face: 'img/people/ben.png'
-                },
-                {
-                    id: 6,
-                    name: 'Max Lynx',
-                    lastText: 'Hey, it\'s me',
-                    face: 'img/people/max.png'
-                }
-            ];
-
-            return {
-                all: function () {
-                    return chats;
-                },
-                remove: function (chat) {
-                    chats.splice(chats.indexOf(chat), 1);
-                },
-                get: function (chatId) {
-                    for (var i = 0; i < chats.length; i++) {
-                        if (chats[i].id === parseInt(chatId)) {
-                            return chats[i];
-                        }
-                    }
-                    return null;
-                }
-            };
-        })
         .factory('Posts', function () {
             // Might use a resource here that returns a JSON array
 
