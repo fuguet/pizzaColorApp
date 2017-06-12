@@ -19,8 +19,9 @@
                 <div class="item item-body" >
 
                     Estado:<span ng-class="{'energized': item.pe_idEstado == 1,'positive': item.pe_idEstado==2,'balanced': item.pe_idEstado==3,'assertive': item.pe_idEstado==4}"> 
-                        {{item.descripcion}} <span ng-if="item.pe_idEstado==3"> por Juan  </span>   </span>          
+                        {{item.descripcion}}    </span>          
                     <span style="float: right;">Total $ {{item.pe_Total}}</span>
+                    <p ng-if="item.pe_idEstado==3">Repartidor: {{item.pe_nombreEmp}}   </p>
 
                 </div>
             </div>
