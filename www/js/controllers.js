@@ -278,9 +278,9 @@ angular.module('starter.controllers', [])
                                         if (!$scope.data.quantity) {
                                             //don't allow the user to close unless he enters note
                                             e.preventDefault();
-                                            debugger;
+                                          
                                         } else {
-                                            debugger;
+                                          
                                             return $scope.data.quantity;
                                         }
                                     }
@@ -322,12 +322,7 @@ angular.module('starter.controllers', [])
                             var productoPedido = {};
                             var detalle = {};
 
-
-
-
-//                        productoPedido.precioBase = ((typeof item.selectedVariedad === 'undefined') ? item.producto.prod_precioBase : item.selectedVariedad.var_precio);
                             productoPedido.precioBase = ((typeof item.selectedVariedad === 'undefined') ? item.producto.prod_precioBase : item.selectedVariedad.var_precio);
-
                             productoPedido.idProducto = item.producto.prod_id;
                             productoPedido.idVariedad = ((typeof item.selectedVariedad === 'undefined') ? -1 : item.selectedVariedad.var_id);
                             productoPedido.nombreVariedad = ((typeof item.selectedVariedad === 'undefined') ? '' : item.selectedVariedad.var_nombre);
@@ -338,10 +333,13 @@ angular.module('starter.controllers', [])
                             productoPedido.aclaracion = item.aclaracion || "Sin Aclaracion";
                             productoPedido.componentestxt = '';
                             productoPedido.componentes = [];
+                            productoPedido.aderezo= parseInt(item.producto.prod_isAderezo);
 
                             detalle.productoP = productoPedido;
                             detalle.cantidad = parseFloat(res);
                             sharedCartService.cart.add(detalle);
+                        
+                           
                             if (detalle.cantidad == 0.5) {
                                 debugger;
 
@@ -695,9 +693,13 @@ angular.module('starter.controllers', [])
                     promoPedido.idPromo = promo.pro_id;
                     promoPedido.detallePp = promo.pro_descripcion;
                     promoPedido.aclaracion = '';
+                    promoPedido.aderezos=0;
+                    
 
                     angular.forEach(items, function (value, key) {
                         var prodPedido = {};
+                        
+                 
                         prodPedido.precioBase = value.prod_precioBase;
                         prodPedido.idProducto = value.prod_id;
                         prodPedido.idVariedad = ((typeof value.selectedVariedad === 'undefined') ? -1 : value.selectedVariedad.var_id);
@@ -705,6 +707,8 @@ angular.module('starter.controllers', [])
                         prodPedido.nombreVariedad = ((typeof value.selectedVariedad === 'undefined') ? '' : value.selectedVariedad.var_nombre);
                         prodPedido.aclaracion = '';
                         promoPedido.productosP.push(prodPedido);
+                        promoPedido.aderezos+=parseInt(value.prod_isAderezo);
+                        
 
                     });
                     //promoPedido.aclaracion= 

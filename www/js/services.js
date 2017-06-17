@@ -35,8 +35,10 @@ angular.module('starter.services', [])
                 cartObj.cartMitad = [];
                 cartObj.total_amount = 0; // total de productos       
                 cartObj.total_qty = 0; // cant product 
+                cartObj.qtyAderezo = 0; //cant producto con aderezos
+
                 cartObj.aclaraciones = '';
-                
+
 
                 cartObj.resumen = '';
 
@@ -54,24 +56,25 @@ angular.module('starter.services', [])
                     cartObj.aclaraciones = '';
                     cartObj.resumen = '';
 
+
                 };
-                
+
                 //mantiene array de las varidades pedidas en 1/2 si se pide de nuevo quita esa variedad cosa que al finalizar el pedido
                 //carmitad tendra todas las varidades que falta pedir una mitad pudiendo asi validar que media pizza falto pedir para completar.
                 //queda desarrollar que pasa cuando se elimina un producto que tenia mitad
-                
-                cartObj.cartMitad.add =  function(variedad){
-                  var i = cartObj.cartMitad.find(variedad);
-                  if(i == -1){
-                      cartObj.cartMitad.push(variedad);
-                  }else
-                  {
-                      cartObj.cartMitad.splice(i,1);
-                      
-                  }
-                                        
+
+                cartObj.cartMitad.add = function (variedad) {
+                    var i = cartObj.cartMitad.find(variedad);
+                    if (i == -1) {
+                        cartObj.cartMitad.push(variedad);
+                    } else
+                    {
+                        cartObj.cartMitad.splice(i, 1);
+
+                    }
+
                 }
-                
+
                 cartObj.cartMitad.find = function (producto2) {
                     var result = -1;
 
@@ -85,44 +88,23 @@ angular.module('starter.services', [])
                     //revisar hacerlo con each
                 };
                 cartObj.cartMitad.isEmpty = function () {
-                    return !(cartObj.cartMitad.length >0);
+                    return !(cartObj.cartMitad.length > 0);
                     //revisar hacerlo con each
                 };
-                cartObj.cartMitad.drop = function(variedad){
-                  var i = cartObj.cartMitad.find(variedad);
-                  if(i != -1){
-                       cartObj.cartMitad.splice(i,1);
-                  }
-                                        
-                }
-                
-                
-
-                cartObj.itemImcopleto = function () {
-
-                    var variedad = {}
-                    var cantidad = 0;
-
-                    for (var i = 0, len = cartObj.cart.length; i < len; i++) {
-
-                        if (cartObj.cart[i].cantidad == 0.5) {
-                            if (variedad) {
-                                if(variedad == cartObj.cart[i].nombreVariedad)
-                                   cantidad+=cartObj.cart[i].cantidad;
-                                                                                            
-                            } else {
-                                variedad = cartObj.cart[i].nombreVariedad;
-                                cantidad = cartObj.cart[i].cantidad;
-                            }
-
-                        }
-
+                cartObj.cartMitad.drop = function (variedad) {
+                    var i = cartObj.cartMitad.find(variedad);
+                    if (i != -1) {
+                        cartObj.cartMitad.splice(i, 1);
                     }
+
                 }
+
+
 
                 cartObj.recalcularTotales = function () {
                     cartObj.total_amount = 0; // total de productos       
                     cartObj.total_qty = 0;
+                    cartObj.qtyAderezo = 0;
 
                     for (var i = 0, len = cartObj.cart.length; i < len; i++) {
                         cartObj.total_qty += cartObj.cart[i].cantidad;
@@ -190,8 +172,10 @@ angular.module('starter.services', [])
                         cartObj.cart.push(detalle);
                         cartObj.total_qty += detalle.cantidad;
                         cartObj.total_amount += parseFloat(parseFloat(detalle.cantidad) * parseFloat(detalle.productoP.precioBase));
-                    }
 
+                    }
+                    debugger;
+                    cartObj.qtyAderezo += detalle.productoP.aderezo;
                     $rootScope.totalCart = cartObj.total_qty;
                 };
                 cartObj.cart.find = function (producto2) {
@@ -208,21 +192,22 @@ angular.module('starter.services', [])
                 };
                 cartObj.cart.drop = function (ind) {
 
-                    var temp = cartObj.cart[ind];                  
+                    var temp = cartObj.cart[ind];
                     cartObj.total_qty -= parseFloat(temp.cantidad);
                     cartObj.total_amount -= (parseFloat(temp.cantidad) * parseFloat(temp.productoP.precioBase));
+                    cartObj.qtyAderezo -= temp.productoP.aderezo;
                     cartObj.cart.splice(ind, 1);
                     $rootScope.totalCart = cartObj.total_qty;
                     debugger;
-                    if(!(temp.cantidad % 1 == 0)){
-                         var item = {
-                                    variedad: temp.productoP.nombreVariedad,
-                                    categoria: temp.productoP.idCategoria
-                                }
-                         cartObj.cartMitad.drop(item);         
+                    if (!(temp.cantidad % 1 == 0)) {
+                        var item = {
+                            variedad: temp.productoP.nombreVariedad,
+                            categoria: temp.productoP.idCategoria
+                        }
+                        cartObj.cartMitad.drop(item);
                     }
-                    
-                    
+
+
                 };
                 cartObj.cart.increment = function (id) {
 
@@ -274,14 +259,16 @@ angular.module('starter.services', [])
                     debugger;
                     cartObj.total_qty -= parseFloat(temp.cantidad);
                     cartObj.total_amount -= parseFloat(parseFloat(temp.cantidad) * parseFloat(temp.precioUnitario));
+                    cartObj.qtyAderezo -= temp.aderezos;
                     cartObj.cartPromo.splice(ind, 1);
                     $rootScope.totalCart = cartObj.total_qty;
                 };
                 cartObj.cartPromo.add = function (promoPedido) {
-
+                    debugger;
                     cartObj.cartPromo.push(promoPedido);
                     cartObj.total_qty += promoPedido.cantidad;
                     cartObj.total_amount += parseFloat(parseFloat(promoPedido.cantidad) * parseFloat(promoPedido.precioUnitario));
+                    cartObj.qtyAderezo += promoPedido.aderezos;
                     $rootScope.totalCart = cartObj.total_qty;
 
                 };
