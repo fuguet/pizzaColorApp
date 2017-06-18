@@ -36,6 +36,11 @@
                         <i class="icon ion-trash-a" ></i>
                     </button>
                 </ion-item>
+                 <ion-item  ng-click="selAderezos(item)">
+                    <strong>Añadir Aderezos al Pedido</strong>
+                    <br>      
+                    <ion-input  type="text" ng-value="item.aderezos"> {{item.aderezos}}</ion-input>
+                </ion-item>
                 <ion-item  ng-click="addAclaracion(item)">
                     <strong>Añadir Cometario al Pedido</strong>
                     <br>      

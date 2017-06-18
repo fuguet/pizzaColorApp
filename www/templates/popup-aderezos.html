@@ -1,0 +1,10 @@
+
+<ion-list>
+    <ion-checkbox 
+        ng-repeat="option in aderezos"  
+        ng-model="option.selected"
+       class="item-checkbox-right checkbox-assertive">
+    
+        {{ option.ade_nombre}}
+    </ion-checkbox>
+</ion-list>

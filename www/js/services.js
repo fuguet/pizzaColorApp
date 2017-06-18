@@ -38,6 +38,7 @@ angular.module('starter.services', [])
                 cartObj.qtyAderezo = 0; //cant producto con aderezos
 
                 cartObj.aclaraciones = '';
+                cartObj.aderezos = '';
 
 
                 cartObj.resumen = '';
@@ -660,6 +661,24 @@ angular.module('starter.services', [])
                     })
                             )
                 };
+
+                dataEmpresa.getAderezos = function () {
+                    return($http({
+                        url: API.base_url + 'aderezo/listar1',
+                        method: "GET",
+                        headers: headers
+                    }).success(function (data, status, headers, config) {
+                   
+                        datos = data;
+                        return datos;
+                    }).error(function (err) {
+                        
+                        error = err;
+                    })
+                            )
+                };
+
+
 
 
 

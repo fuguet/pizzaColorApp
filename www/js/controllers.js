@@ -278,9 +278,9 @@ angular.module('starter.controllers', [])
                                         if (!$scope.data.quantity) {
                                             //don't allow the user to close unless he enters note
                                             e.preventDefault();
-                                          
+
                                         } else {
-                                          
+
                                             return $scope.data.quantity;
                                         }
                                     }
@@ -333,13 +333,13 @@ angular.module('starter.controllers', [])
                             productoPedido.aclaracion = item.aclaracion || "Sin Aclaracion";
                             productoPedido.componentestxt = '';
                             productoPedido.componentes = [];
-                            productoPedido.aderezo= parseInt(item.producto.prod_isAderezo);
+                            productoPedido.aderezo = parseInt(item.producto.prod_isAderezo);
 
                             detalle.productoP = productoPedido;
                             detalle.cantidad = parseFloat(res);
                             sharedCartService.cart.add(detalle);
-                        
-                           
+
+
                             if (detalle.cantidad == 0.5) {
                                 debugger;
 
@@ -451,6 +451,7 @@ angular.module('starter.controllers', [])
             $scope.total = sharedCartService.total_amount;
             $scope.vacio = !(sharedCartService.total_qty > 0);
             $scope.parametros = {};
+            $scope.aderezos = {};
             $scope.item = {
                 aclaracion: sharedCartService.aclaraciones,
             };
@@ -458,6 +459,12 @@ angular.module('starter.controllers', [])
 
                 $scope.parametros = response;
             });
+
+            empresa.getAderezos().success(function (response) {
+
+                $scope.aderezos = response.data;
+            });
+
 
             // plus quantity
             $scope.addAclaracion = function (item) {
@@ -484,6 +491,63 @@ angular.module('starter.controllers', [])
                 });
 
             };
+
+            $scope.selAderezos = function (item) {
+                if ($scope.aderezos.length > 0) {
+                    var myPopup = $ionicPopup.show({
+                        templateUrl: 'templates/popup-aderezos.html',
+                        title: 'Elija sus Aderezos',
+                        scope: $scope,
+                        buttons: [
+                            {text: 'Cancelar'},
+                            {
+                                text: '<b>Guardar</b>',
+                                type: 'button-assertive',
+                                onTap: function (e) {
+
+                                    var   texAde='';
+                                    angular.forEach($scope.aderezos, function (aderezo) {
+                                        if (aderezo.selected) {
+                                          
+                                            texAde += aderezo.ade_nombre + ' ';
+                                        }
+                                    })
+
+                                    return texAde;
+                                }
+                            },
+                        ]
+                    });
+                    myPopup.then(function (res) {
+                        debugger;
+                        if (res) {
+                           
+                            item.aderezos=res;
+                             sharedCartService.aderezos = item.aderezos;
+
+                        }else{
+                            item.aderezos='Sin Aderezos'
+                             sharedCartService.aderezos = item.aderezos;
+                        }
+                    });
+
+                }
+
+
+                $scope.SelectedVariedadChange = function (variedad) {
+
+                    $scope.selectedVariedad = variedad;
+
+                };
+
+
+
+
+
+                // An elaborate, custom popup
+
+            };
+
             // remove item from cart
             $scope.removeProd = function (index) {
 
@@ -693,13 +757,13 @@ angular.module('starter.controllers', [])
                     promoPedido.idPromo = promo.pro_id;
                     promoPedido.detallePp = promo.pro_descripcion;
                     promoPedido.aclaracion = '';
-                    promoPedido.aderezos=0;
-                    
+                    promoPedido.aderezos = 0;
+
 
                     angular.forEach(items, function (value, key) {
                         var prodPedido = {};
-                        
-                 
+
+
                         prodPedido.precioBase = value.prod_precioBase;
                         prodPedido.idProducto = value.prod_id;
                         prodPedido.idVariedad = ((typeof value.selectedVariedad === 'undefined') ? -1 : value.selectedVariedad.var_id);
@@ -707,8 +771,8 @@ angular.module('starter.controllers', [])
                         prodPedido.nombreVariedad = ((typeof value.selectedVariedad === 'undefined') ? '' : value.selectedVariedad.var_nombre);
                         prodPedido.aclaracion = '';
                         promoPedido.productosP.push(prodPedido);
-                        promoPedido.aderezos+=parseInt(value.prod_isAderezo);
-                        
+                        promoPedido.aderezos += parseInt(value.prod_isAderezo);
+
 
                     });
                     //promoPedido.aclaracion= 
