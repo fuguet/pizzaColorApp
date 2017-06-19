@@ -994,6 +994,9 @@ angular.module('starter.controllers', [])
                         pedidoEncabezado.pe_medioPago = payment;
                         pedidoEncabezado.pe_idEstado = 1;
                         pedidoEncabezado.pe_resumen = sharedCartService.generarResumen();
+                        pedidoEncabezado.pe_aderezos=sharedCartService.aderezos;
+                        pedidoEncabezado.pe_cantAderezos=sharedCartService.qtyAderezo;
+                        
                         debugger;
 
 
