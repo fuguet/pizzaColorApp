@@ -444,20 +444,32 @@ angular.module('starter.controllers', [])
         })
 
 // Cart controller
-        .controller('CartCtrl', function ($scope, $ionicPopup, $ionicHistory, $ionicSideMenuDelegate, $state, sharedCartService, empresa) {
+        .controller('CartCtrl', function ($scope,$rootScope, $ionicPopup, $ionicHistory, $ionicSideMenuDelegate, $state, sharedCartService,openHours, empresa) {
 
             $scope.cart = sharedCartService.cart;
             $scope.promos = sharedCartService.cartPromo;
             $scope.total = sharedCartService.total_amount;
             $scope.vacio = !(sharedCartService.total_qty > 0);
+            $scope.llevaAderezo = (sharedCartService.qtyAderezo > 0)
             $scope.parametros = {};
             $scope.aderezos = {};
+
+            debugger;
             $scope.item = {
                 aclaracion: sharedCartService.aclaraciones,
             };
             empresa.getParametros().success(function (response) {
 
                 $scope.parametros = response;
+            });
+            empresa.getHorarios().success(function (response) {
+
+                $scope.days = response.data;
+                var respuesta = openHours.isOpen($scope.days);
+                $rootScope.open = respuesta.valor;
+                $scope.message = respuesta.message;
+
+
             });
 
             empresa.getAderezos().success(function (response) {
@@ -505,10 +517,10 @@ angular.module('starter.controllers', [])
                                 type: 'button-assertive',
                                 onTap: function (e) {
 
-                                    var   texAde='';
+                                    var texAde = '';
                                     angular.forEach($scope.aderezos, function (aderezo) {
                                         if (aderezo.selected) {
-                                          
+
                                             texAde += aderezo.ade_nombre + ' ';
                                         }
                                     })
@@ -521,13 +533,13 @@ angular.module('starter.controllers', [])
                     myPopup.then(function (res) {
                         debugger;
                         if (res) {
-                           
-                            item.aderezos=res;
-                             sharedCartService.aderezos = item.aderezos;
 
-                        }else{
-                            item.aderezos='Sin Aderezos'
-                             sharedCartService.aderezos = item.aderezos;
+                            item.aderezos = res;
+                            sharedCartService.aderezos = item.aderezos;
+
+                        } else {
+                            item.aderezos = 'Sin Aderezos'
+                            sharedCartService.aderezos = item.aderezos;
                         }
                     });
 
@@ -571,6 +583,18 @@ angular.module('starter.controllers', [])
                 debugger;
                 $scope.total = sharedCartService.total_amount;
                 debugger;
+                if ( !($rootScope.open && ($scope.parametros.par_habilitado==1))){
+                    
+                    var alertPopup = $ionicPopup.alert({
+                        title: 'Atencion',
+                        template: "Por el momento no podemos atender su pedido"
+                    });
+                    alertPopup.then(function (res) {
+                            $state.go('home', {}, {});
+                    })
+                  
+                }
+                else{
                 if ($scope.total >= $scope.parametros.par_pedidoMinimo) {
                     if (sharedCartService.cartMitad.isEmpty()) {
                         $state.go('checkout', {}, {});
@@ -590,6 +614,7 @@ angular.module('starter.controllers', [])
                     });
 
                 }
+            }
 
             }
 
@@ -994,9 +1019,9 @@ angular.module('starter.controllers', [])
                         pedidoEncabezado.pe_medioPago = payment;
                         pedidoEncabezado.pe_idEstado = 1;
                         pedidoEncabezado.pe_resumen = sharedCartService.generarResumen();
-                        pedidoEncabezado.pe_aderezos=sharedCartService.aderezos;
-                        pedidoEncabezado.pe_cantAderezos=sharedCartService.qtyAderezo;
-                        
+                        pedidoEncabezado.pe_aderezos = sharedCartService.aderezos;
+                        pedidoEncabezado.pe_cantAderezos = sharedCartService.qtyAderezo;
+
                         debugger;
 
 
