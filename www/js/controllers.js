@@ -265,6 +265,7 @@ angular.module('starter.controllers', [])
                 } else {
                     $scope.item;
                     if ($scope.item.producto.prod_unidad == 2) {
+                         $scope.data.quantity = "0.5"
                         var myPopup = $ionicPopup.show({
                             templateUrl: 'templates/popup-quantityMitad.html',
                             title: 'Cantidad',
@@ -444,7 +445,7 @@ angular.module('starter.controllers', [])
         })
 
 // Cart controller
-        .controller('CartCtrl', function ($scope,$rootScope, $ionicPopup, $ionicHistory, $ionicSideMenuDelegate, $state, sharedCartService,openHours, empresa) {
+        .controller('CartCtrl', function ($scope, $rootScope, $ionicPopup, $ionicHistory, $ionicSideMenuDelegate, $state, sharedCartService, openHours, empresa) {
 
             $scope.cart = sharedCartService.cart;
             $scope.promos = sharedCartService.cartPromo;
@@ -583,38 +584,36 @@ angular.module('starter.controllers', [])
                 debugger;
                 $scope.total = sharedCartService.total_amount;
                 debugger;
-                if ( !($rootScope.open && ($scope.parametros.par_habilitado==1))){
-                    
+                if (!($rootScope.open && ($scope.parametros.par_habilitado == 1))) {
                     var alertPopup = $ionicPopup.alert({
                         title: 'Atencion',
-                        template: "Por el momento no podemos atender su pedido"
+                        template: "Por el momento no podemos recibir Pedidos por este Medio"
                     });
                     alertPopup.then(function (res) {
-                            $state.go('home', {}, {});
+                        $state.go('home', {}, {});
                     })
-                  
-                }
-                else{
-                if ($scope.total >= $scope.parametros.par_pedidoMinimo) {
-                    if (sharedCartService.cartMitad.isEmpty()) {
-                        $state.go('checkout', {}, {});
-                    } else
-                    {
-                        var alertPopup = $ionicPopup.alert({
-                            title: 'Atencion',
-                            template: "Falta Pedir Otra Media Pizza " + sharedCartService.cartMitad[0].variedad
-                        });
-                    }
 
                 } else {
+                    if ($scope.total >= $scope.parametros.par_pedidoMinimo) {
+                        if (sharedCartService.cartMitad.isEmpty()) {
+                            $state.go('checkout', {}, {});
+                        } else
+                        {
+                            var alertPopup = $ionicPopup.alert({
+                                title: 'Atencion',
+                                template: "Falta Pedir Otra Media Pizza " + sharedCartService.cartMitad[0].variedad
+                            });
+                        }
 
-                    var alertPopup = $ionicPopup.alert({
-                        title: 'Atencion',
-                        template: "Debe completar el Pedido Minimo"
-                    });
+                    } else {
 
+                        var alertPopup = $ionicPopup.alert({
+                            title: 'Atencion',
+                            template: "Debe completar el Pedido Minimo"
+                        });
+
+                    }
                 }
-            }
 
             }
 
