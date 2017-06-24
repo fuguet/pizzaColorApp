@@ -773,7 +773,7 @@ angular.module('starter.services', [])
                 debugger;
                 var headers = {};
                 headers[API.token_name] = auth.getToken();
-                headers['Content-Type'] = 'application/x-www-form-urlencoded';
+//                headers['Content-Type'] = 'application/x-www-form-urlencoded';
                 var dataUsuario = {};
 
                 dataUsuario.getDirecciones = function (id) {
