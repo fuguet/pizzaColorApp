@@ -453,7 +453,7 @@ angular.module('starter.services', [])
 
                 dataPromo.getPromos = function () {
                     return($http({
-                        url: API.base_url + 'promo/listarslider',
+                        url: API.base_url + 'public/prolistarslider',
                         method: "GET"
                     }).success(function (data, status, headers, config) {
                         datos = data.data;
@@ -466,7 +466,7 @@ angular.module('starter.services', [])
                 };
                 dataPromo.getPromo = function (idPromo) {
                     return($http({
-                        url: API.base_url + 'promo/obtenertodo/' + idPromo,
+                        url: API.base_url + 'public/proobtenertodo/' + idPromo,
                         method: "GET"
                     }).success(function (data, status, headers, config) {
                         datos = data.data;
@@ -479,7 +479,7 @@ angular.module('starter.services', [])
                 };
                 dataPromo.getProductoPromo = function (idPromo) {
                     return($http({
-                        url: API.base_url + 'promo/listarprod2/' + idPromo,
+                        url: API.base_url + 'public/prolistarprod2/' + idPromo,
                         method: "GET"
                     }).success(function (data, status, headers, config) {
 
@@ -505,7 +505,7 @@ angular.module('starter.services', [])
 
                 dataCategoria.getCategorias = function () {
                     return($http({
-                        url: API.base_url + 'categoria/listar3',
+                        url: API.base_url + 'public/catlistar3',
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
@@ -520,7 +520,7 @@ angular.module('starter.services', [])
 
                 dataCategoria.getCategoria = function (idCategoria) {
                     return($http({
-                        url: API.base_url + 'categoria/obtener/' + idCategoria,
+                        url: API.base_url + 'public/catobtener/' + idCategoria,
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
@@ -545,7 +545,7 @@ angular.module('starter.services', [])
 
                 dataProducto.getProductoCat = function (idCategoria) {
                     return($http({
-                        url: API.base_url + '/producto/listarCat2/' + idCategoria,
+                        url: API.base_url + '/public/prodlistarCat2/' + idCategoria,
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
@@ -560,7 +560,7 @@ angular.module('starter.services', [])
 
                 dataProducto.getProducto = function (idProducto) {
                     return($http({
-                        url: API.base_url + '/producto/obtenertodo/' + idProducto,
+                        url: API.base_url + '/public/prodobtenertodo/' + idProducto,
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
@@ -588,7 +588,7 @@ angular.module('starter.services', [])
 
                 dataEmpresa.getSucursal = function () {
                     return($http({
-                        url: API.base_url + 'sucursal/obtener/4',
+                        url: API.base_url + 'public/sucobtener/4',
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
@@ -603,7 +603,7 @@ angular.module('starter.services', [])
 
                 dataEmpresa.getHorarios = function () {
                     return($http({
-                        url: API.base_url + 'diahorario/listar/4',
+                        url: API.base_url + 'public/dhlistar/4',
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
@@ -619,7 +619,7 @@ angular.module('starter.services', [])
 
                 dataEmpresa.getTelefonos = function () {
                     return($http({
-                        url: API.base_url + 'datocontacto/listartelsuc/4',
+                        url: API.base_url + 'public/dclistartelsuc/4',
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
@@ -635,7 +635,7 @@ angular.module('starter.services', [])
 
                 dataEmpresa.getDatosContacto = function () {
                     return($http({
-                        url: API.base_url + 'datocontacto/obtenersuc/4',
+                        url: API.base_url + 'public/dcobtenersuc/4',
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
@@ -650,7 +650,7 @@ angular.module('starter.services', [])
 
                 dataEmpresa.getParametros = function () {
                     return($http({
-                        url: API.base_url + 'parametros/obtener/4',
+                        url: API.base_url + 'public/parobtener/4',
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
@@ -664,15 +664,15 @@ angular.module('starter.services', [])
 
                 dataEmpresa.getAderezos = function () {
                     return($http({
-                        url: API.base_url + 'aderezo/listar1',
+                        url: API.base_url + 'public/adelistar1',
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
-                   
+
                         datos = data;
                         return datos;
                     }).error(function (err) {
-                        
+
                         error = err;
                     })
                             )
@@ -770,14 +770,16 @@ angular.module('starter.services', [])
 
         .factory('usuario', ['$http', 'auth', function ($http, auth) {
                 // Might use a resource here that returns a JSON array
-
+                debugger;
                 var headers = {};
                 headers[API.token_name] = auth.getToken();
+                headers['Content-Type'] = 'application/x-www-form-urlencoded';
                 var dataUsuario = {};
 
                 dataUsuario.getDirecciones = function (id) {
+
                     return($http({
-                        url: API.base_url + 'persona/listardir/' + id,
+                        url: API.base_url + 'loginpublic/perlistardir/' + id,
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
@@ -792,15 +794,17 @@ angular.module('starter.services', [])
                 dataUsuario.addDireccion = function (data) {
                     debugger;
                     return($http({
-                        url: API.base_url + 'direccion/insertar',
+                        url: API.base_url + 'loginpublic/dirinsertar',
                         method: "POST",
                         headers: headers,
                         data: data
 
                     }).success(function (data, status, headers, config) {
+                        debugger;
                         datos = data.data;
                         return datos;
                     }).error(function (err) {
+                        debugger;
                         error = err;
                     })
                             )
@@ -809,7 +813,7 @@ angular.module('starter.services', [])
                 dataUsuario.deleteDireccion = function (id) {
                     debugger;
                     return($http({
-                        url: API.base_url + 'direccion/eliminar/' + id,
+                        url: API.base_url + 'loginpublic/direliminar/' + id,
                         method: "DELETE",
                         headers: headers
 
@@ -825,15 +829,17 @@ angular.module('starter.services', [])
                 dataUsuario.updateDireccion = function (data) {
                     debugger;
                     return($http({
-                        url: API.base_url + 'direccion/actualizar/' + data.dir_id,
+                        url: API.base_url + 'loginpublic/diractualizar/' + data.dir_id,
                         method: "PUT",
                         headers: headers,
                         data: data
 
                     }).success(function (data, status, headers, config) {
+                        debugger;
                         datos = data.data;
                         return datos;
                     }).error(function (err) {
+                        debugger;
                         error = err;
                     })
                             )
@@ -842,14 +848,16 @@ angular.module('starter.services', [])
                 dataUsuario.getPedidos = function (id) {
                     debugger;
                     return($http({
-                        url: API.base_url + 'pedidoencabezado/listarcliente/' + id,
+                        url: API.base_url + 'loginpublic/pelistarcliente/' + id,
                         method: "GET",
                         headers: headers
 
                     }).success(function (data, status, headers, config) {
+                        debugger;
                         datos = data.data;
                         return datos;
                     }).error(function (err) {
+                        debugger;
                         error = err;
                     })
                             )
@@ -860,7 +868,7 @@ angular.module('starter.services', [])
                     debugger;
 
                     return($http({
-                        url: API.base_url + 'persona/actualizar/' + id,
+                        url: API.base_url + 'loginpublic/peractualizar/' + id,
                         method: "PUT",
                         data: data,
                         headers: headers
@@ -879,7 +887,6 @@ angular.module('starter.services', [])
                 return dataUsuario;
             }])
 
-
         .factory('pedido', ['$http', 'auth', function ($http, auth) {
                 // Might use a resource here that returns a JSON array
 
@@ -892,7 +899,7 @@ angular.module('starter.services', [])
                     debugger;
 
                     return($http({
-                        url: API.base_url + 'pedidoencabezado/insertar',
+                        url: API.base_url + 'loginpublic/peinsertar',
                         method: "POST",
                         headers: headers,
                         data: data
@@ -912,7 +919,7 @@ angular.module('starter.services', [])
                 dataPedido.addDetallePedido = function (data) {
                     debugger;
                     return($http({
-                        url: API.base_url + 'pedidoencabezado/insertarcart',
+                        url: API.base_url + 'loginpublic/peinsertarcart',
                         method: "POST",
                         headers: headers,
                         data: data
@@ -931,7 +938,7 @@ angular.module('starter.services', [])
                 dataPedido.addPromoPedido = function (data) {
                     debugger;
                     return($http({
-                        url: API.base_url + 'pedidoencabezado/insertarcartpromo',
+                        url: API.base_url + 'loginpublic/peinsertarcartpromo',
                         method: "POST",
                         headers: headers,
                         data: data
