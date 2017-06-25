@@ -41,18 +41,18 @@
     </div>
 
     <ion-list>
-      <ion-item  ng-if="item.componentes.lenght > 0" class="item-divider">
+      <ion-item  ng-if="item.componentes.length > 0" class="item-divider">
         Options
       </ion-item>
       <ion-checkbox ng-repeat="option in item.componentes" class="item-checkbox-right checkbox-assertive">{{ option.com_nombre }}</ion-checkbox>
 
-      <ion-item ng-if="item.componentes.lenght > 0" class="item-divider">
+      <ion-item ng-if="item.componentes.length > 0" class="item-divider">
         Extras
       </ion-item>
       <ion-checkbox ng-repeat="extra in item.componentes" class="item-checkbox-right checkbox-assertive">{{ extra.com_nombre }}: {{ extra.com_precio | currency}}</ion-checkbox>
 
-      <ion-item ng-if="item.variedades.lenght > 0" class="item-divider">
-        Sizes
+      <ion-item ng-if="item.variedades.length > 0" class="item-divider">
+        Variedades
       </ion-item>
       <ion-radio ng-model="item.selectedVariedad" ng-repeat="size in item.variedades" ng-value="size">{{ size.var_nombre }}: {{ size.var_precio | currency}}</ion-radio>
       <ion-item  ng-click="addAclaracion(item)">

@@ -232,6 +232,7 @@ angular.module('starter.controllers', [])
             var initialice = function () {
                 sharedUtils.showLoading();
                 producto.getProducto(id).success(function (response) {
+                    debugger;
                     $scope.item = response;
                     sharedUtils.hideLoading();
 
