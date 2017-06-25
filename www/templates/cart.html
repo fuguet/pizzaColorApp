@@ -11,7 +11,7 @@
             <div class="item item-divider">
                 <span>Pizza Color Delivery</span>  <span class="pull-right">Total: ${{total}}</span>
                 <p>Pedido Minimo $ {{parametros.par_pedidoMinimo}}</p> 
-                 <p>Tiempo de Entrega: {{parametros.par_tiempoEntrega}} min Aprox</p>
+                <p>Tiempo de Entrega: {{parametros.par_tiempoEntrega}} min Aprox</p>
             </div>
             <div class="list list-inset">
                 <ion-item ng-repeat="item in cart" class="item-button-right">
@@ -36,7 +36,7 @@
                         <i class="icon ion-trash-a" ></i>
                     </button>
                 </ion-item>
-                 <ion-item  ng-if="llevaAderezo" ng-click="selAderezos(item)">
+                <ion-item  ng-if="llevaAderezo" ng-click="selAderezos(item)">
                     <strong>Añadir Aderezos al Pedido</strong>
                     <br>      
                     <ion-input  type="text" ng-value="item.aderezos"> {{item.aderezos}}</ion-input>
@@ -52,21 +52,21 @@
             <button class="button button-block button-positive"  ui-sref="home">
                 Agregar mas Comida
             </button>
-            </div>
-            <div ng-if="vacio" class="title">
-                Aun no a pedido!
-             <button class="button button-block button-positive"  ng-click="pedirComida()">
+        </div>
+        <div ng-if="vacio" class="title">
+            Aun no a pedido!
+            <button class="button button-block button-positive"  ng-click="pedirComida()">
                 Pedir  Comida
             </button>
-            </div>
+        </div>
     </ion-content>
 
     <ion-footer-bar  class="bar-assertive">
-        <div ng-if="!vacio" class="button-bar">
-            <div class="button" ng-click="checkOut()">Relizar Pedido</div>
+        <div ng-if="!vacio" class="button-bar" ng-click="checkOut()">
+            <div class="button" >Relizar Pedido </div>
 
             <div class="button text-2x">
-                ${{total}}
+                 Total : ${{total}}
             </div>
         </div>
     </ion-footer-bar>

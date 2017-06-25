@@ -47,11 +47,14 @@
         </button>
     </ion-content>
 
-    <ion-footer-bar class="bar-assertive">
-        <div class="button" ng-click="pay()" >Realizar Pedido</div>
-        <div class="title"></div>
-        <div class="button text-2x">
-            $ {{total}}
+    <ion-footer-bar  class="bar-assertive">
+        <div class="button-bar" ng-click="pay()">
+            <div class="button" >Relizar Pedido</div>
+
+            <div class="button text-2x">
+                 Total : ${{total}}
+            </div>
         </div>
     </ion-footer-bar>
+
 </ion-view>
