@@ -33,6 +33,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.routes', 'st
                     StatusBar.styleDefault();
                 }
             });
+            
+            $ionicPlatform.onHardwareBackButton(function(){
+             
+                 //Exit app
+              alert('Esta por salir?');
+                 
+             });
 
            
 

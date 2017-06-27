@@ -4,6 +4,7 @@ angular.module('starter.controllers', [])
 // Authentication controller
 // Put your login, register functions here
         .controller('AuthCtrl', function ($scope, $rootScope, $ionicHistory, sharedUtils, $state, $stateParams, $ionicSideMenuDelegate, auth, credenciales) {
+
             // hide back butotn in next view
             $ionicHistory.nextViewOptions({
                 disableBack: true
@@ -32,6 +33,8 @@ angular.module('starter.controllers', [])
                         Correo: cred.email,
                         Password: cred.password
                     };
+
+
 
                     sharedUtils.showLoading();
 
@@ -68,40 +71,42 @@ angular.module('starter.controllers', [])
 
             }
 
-            $scope.sigup = function (formName, user) {
+            $scope.sigup = function (formName, user, passwordValidator) {
                 if (formName.$valid)
 
                 {  // Check if the form data is valid or not
+                    debugger;
+                    if (passwordValidator == $scope.user.per_password) {
+                        sharedUtils.showLoading();
+
+                        credenciales.sigup(user).success(function (r) {
 
 
-                    sharedUtils.showLoading();
+                            if (r.response)
+                            {
 
-                    credenciales.sigup(user).success(function (r) {
+                                $ionicHistory.nextViewOptions({
+                                    historyRoot: true
+                                });
+                                $ionicSideMenuDelegate.canDragContent(true);  // Sets up the sideMenu dragable
+                                sharedUtils.hideLoading();
 
+                                $state.go('login', {"correo": user.per_email, "password": user.per_password}, {location: "replace"});
+                            } else
+                            {
+                                sharedUtils.hideLoading();
+                                sharedUtils.showAlert("Atención", r.message);
+                            }
+                        }).error(function (err) {
 
-                        if (r.response)
-                        {
-
-                            $ionicHistory.nextViewOptions({
-                                historyRoot: true
-                            });
-                            $ionicSideMenuDelegate.canDragContent(true);  // Sets up the sideMenu dragable
                             sharedUtils.hideLoading();
-
-                            $state.go('login', {"correo": user.per_email, "password": user.per_password}, {location: "replace"});
-                        } else
-                        {
-                            sharedUtils.hideLoading();
-                            sharedUtils.showAlert("Atencion", r.message);
-                        }
-                    }).error(function (err) {
-
-                        sharedUtils.hideLoading();
-                        sharedUtils.showAlert("Atencion", err.message);
-                    });
-
+                            sharedUtils.showAlert("Atención", err.message);
+                        });
+                    } else {
+                        sharedUtils.showAlert("Atencion", "El password no coincide ingrese nuevamente");
+                    }
                 } else {
-                    sharedUtils.showAlert("Atencion", "Los datos no son validos");
+                    sharedUtils.showAlert("Atención", "Los datos no son validos");
                 }
 
             }
@@ -135,13 +140,7 @@ angular.module('starter.controllers', [])
             });
             incialite = function () {
 
-                const deviceInfo = cordova.require("cordova-plugin-deviceinformation.DeviceInformation");
-                deviceInfo.get(function (result) {
-                    alert("result = " + result);
-                    const resultJson = JSON.parse(result);
-                }, function () {
-                    console.log("error");
-                });
+
 //                window.plugins.sim.requestReadPermission();
 //                window.plugins.sim.getSimInfo(
 //                        function (result) {
@@ -1195,29 +1194,33 @@ angular.module('starter.controllers', [])
         })
 
 // Setting Controller
-        .controller('SettingCtrl', function ($scope, $ionicPopup, $state, auth, usuario, $window) {
+        .controller('SettingCtrl', function ($scope, $ionicPopup, $state, auth, usuario, sharedUtils, $window) {
             //$scope.usuario = {};
             $scope.addresses = [];
+            $scope.passwordValidator = '';
+
 
             $scope.usuario = {};
             isLogged = function () {
 
                 if (auth.hasToken())
                 {
+                    sharedUtils.showLoading();
                     $scope.usuario = auth.datosUsuario();
-                    debugger;
+                    usuario.getDirecciones($scope.usuario.id).success(function (response) {
+                        $scope.addresses = response;
+                        sharedUtils.hideLoading();
+
+                    }).error(function (err) {
+                        sharedUtils.hideLoading();
+
+                    });
                 } else {
                     $state.go('login', {}, {location: "replace"});
                 }
             };
-
-
             //inicilizacion
             isLogged();
-            usuario.getDirecciones($scope.usuario.id).success(function (response) {
-                $scope.addresses = response;
-
-            });
             $scope.addManipulation = function (edit_val) {  // Takes care of address add and edit ie Address Manipulator
 
 
@@ -1390,19 +1393,28 @@ angular.module('starter.controllers', [])
                 if ((typeof $scope.usuario.password === 'undefined')) {
 
                 } else {
-                    data.per_password = $scope.usuario.password;
+                    debugger;
+                    if($scope.usuario.password==$scope.usuario.passwordValidator){
+
+                    data.per_password =$scope.usuario.password ;
+                    usuario.save(id, data).success(function (res) {
+                        debugger;
+                        if (res.response) {
+                            var alertPopup = $ionicPopup.alert({
+                                title: 'Informacion',
+                                template: 'Los cambio se Guardaron Correctamente'
+                            });
+
+                        }
+                    });
+                }
+                else{
+                    sharedUtils.showAlert("Atencion", "Los Password no coinciden ingrese nuevamente");
+                    
                 }
 
-                usuario.save(id, data).success(function (res) {
-                    debugger;
-                    if (res.response) {
-                        var alertPopup = $ionicPopup.alert({
-                            title: 'Informacion',
-                            template: 'Los cambio se Guardaron Correctamente'
-                        });
+                }
 
-                    }
-                });
 
 
             }
