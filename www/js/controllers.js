@@ -119,9 +119,10 @@ angular.module('starter.controllers', [])
         })
 
 // Home controller
-        .controller('HomeCtrl', function ($scope, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $state, $rootScope, promo, categoria, empresa, openHours, sharedUtils) {
+        .controller('HomeCtrl', function ($scope, $ionicPopup, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $state, $rootScope, promo, categoria, empresa, openHours, sharedUtils) {
             // get all categories from service
 //            $scope.categories = Menu.all();
+
 
             empresa.getHorarios().success(function (response) {
 
@@ -133,6 +134,33 @@ angular.module('starter.controllers', [])
 
             });
             incialite = function () {
+
+                const deviceInfo = cordova.require("cordova-plugin-deviceinformation.DeviceInformation");
+                deviceInfo.get(function (result) {
+                    alert("result = " + result);
+                    const resultJson = JSON.parse(result);
+                }, function () {
+                    console.log("error");
+                });
+//                window.plugins.sim.requestReadPermission();
+//                window.plugins.sim.getSimInfo(
+//                        function (result) {
+//                            var alertPopup = $ionicPopup.alert({
+//                                title: 'Atencion',
+//                                template: 'Provedor : ' + result.carrierName + ' Telefono: ' + result.phoneNumber +
+//                                        'IME: ' + result.deviceId
+//
+//                            });
+//
+//                        },
+//                        function (error) {
+//                            var alertPopup = $ionicPopup.alert({
+//                                title: 'Atencion',
+//                                template: "me dio error"
+//                            });
+//                        }
+//                );
+
                 sharedUtils.showLoading();
                 categoria.getCategorias().success(function (response) {
 
@@ -142,6 +170,7 @@ angular.module('starter.controllers', [])
                         sharedUtils.hideLoading();
                     });
                 });
+
 
             }
 
@@ -266,7 +295,7 @@ angular.module('starter.controllers', [])
                 } else {
                     $scope.item;
                     if ($scope.item.producto.prod_unidad == 2) {
-                         $scope.data.quantity = "0.5"
+                        $scope.data.quantity = "0.5"
                         var myPopup = $ionicPopup.show({
                             templateUrl: 'templates/popup-quantityMitad.html',
                             title: 'Cantidad',
