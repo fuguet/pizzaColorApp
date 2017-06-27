@@ -1052,55 +1052,9 @@ angular.module('starter.services', [])
 
             }])
 
-        .factory('salirService', ['$window', '$ionicPlatform', '$ionicHistory', '$timeout', function ($window, $ionicPlatform, $ionicHistory, $timeout) {
-                // Might use a resource here that returns a JSON array
-
-                var service = {
-                    salida: salida,
-                    borrarHistorial: borrarHistorial
-
-                };
-                return service;
-
-                function borrarHistorial() {
-
-                    salida();
-                    $ionicHistory.clearHistory();
-                }
-
-                function salida() {
-                    var BackButton = 0;
-
-                    $ionicPlatform.registerBackButtonAction(function () {
-
-                        if ($ionicHistory.currentStateName() == 'home') {
-
-                            if (BackButton == 0) {
-
-                                BackButton++;
-                                window.plugins.toast.showLongCenter('Presione nuevamente para salir');
-
-                                $timeout(function () {
-                                    BackButton = 0;
-                                }, 2500);
-
-                            } else {
-                                navigator.app.exitApp();
-                            }
-
-                        } else {
-                            $ionicHistory.backView();
-                        }
-
-                    }, 100);
-                }
-
-
-
-
-
-
+        .factory('BlankFactory', [function () {
 
             }])
+
 
         

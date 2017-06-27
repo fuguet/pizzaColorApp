@@ -18,9 +18,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.routes', 'st
             $ionicConfigProvider.scrolling.jsScrolling(false);
             $ionicConfigProvider.tabs.position('bottom'); // other values: top
         })
-        .run(function ($ionicPlatform) {
+        .run(function ($ionicPlatform, $ionicHistory,$state) {
             $ionicPlatform.ready(function () {
-                
+
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
                 if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -32,16 +32,36 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.routes', 'st
                     // org.apache.cordova.statusbar required
                     StatusBar.styleDefault();
                 }
-            });
-            
-            $ionicPlatform.onHardwareBackButton(function(){
-             
-                 //Exit app
-              alert('Esta por salir?');
-                 
-             });
+                var BackButton=0
+                 $ionicPlatform.registerBackButtonAction(function (event) {
 
-           
+                    if ($state.current.name == 'home' || $state.current.name == 'login' || $state.current.name == 'register' 
+                            || $state.current.name == 'categories' || $state.current.name == 'offer' || $state.current.name == 'cart' || $state.current.name == 'last_orders' 
+                            || $state.current.name == 'setting' || $state.current.name == 'setting' || $state.current.name == 'about_us' || $state.current.name == 'address') {
+
+                        if (BackButton == 0) {
+
+                            BackButton++;
+                            window.plugins.toast.showLongCenter('Presione nuevamente para salir');
+
+                            $timeout(function () {
+                                BackButton = 0;
+                            }, 1500);
+
+                        } else {
+                             ionic.Platform.exitApp()
+                        }
+
+                    } else {
+                        $ionicHistory.backView();
+                    }
+
+                }, 100);
+            });
+
+    
+
+
 
         })
 

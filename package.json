@@ -39,7 +39,6 @@
             "cordova-plugin-sim": {},
             "cordova-plugin-inappbrowser": {},
             "cordova-plugin-whitelist": {},
-            "com.danielsogl.cordova.deviceaccounts": {},
             "cordova-plugin-x-toast": {}
         },
         "platforms": [
