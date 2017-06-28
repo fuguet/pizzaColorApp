@@ -1421,69 +1421,7 @@ angular.module('starter.controllers', [])
 
         })
 
-// Chat controller, view list chats and chat detail
-        .controller('ChatCtrl', function ($scope, Chats) {
-            $scope.chats = Chats.all();
 
-            // remove a conversation
-            $scope.remove = function (chat) {
-                Chats.remove(chat);
-            };
-
-            // mute a conversation
-            $scope.mute = function (chat) {
-                // write your code here
-            }
-        })
-
-        .controller('ChatDetailCtrl', function ($scope, $stateParams, Chats, $ionicScrollDelegate, $ionicActionSheet, $timeout) {
-            //$scope.chat = Chats.get($stateParams.chatId);
-            $scope.chat = Chats.get(0);
-
-            $scope.sendMessage = function () {
-                var message = {
-                    type: 'sent',
-                    time: 'Just now',
-                    text: $scope.input.message
-                };
-
-                $scope.input.message = '';
-
-                // push to massages list
-                $scope.chat.messages.push(message);
-
-                $ionicScrollDelegate.$getByHandle('mainScroll').scrollBottom();
-            };
-
-            // hover menu
-            $scope.onMessageHold = function (e, itemIndex, message) {
-                // show hover menu
-                $ionicActionSheet.show({
-                    buttons: [
-                        {
-                            text: 'Copy Text'
-                        }, {
-                            text: 'Delete Message'
-                        }
-                    ],
-                    buttonClicked: function (index) {
-                        switch (index) {
-                            case 0: // Copy Text
-                                //cordova.plugins.clipboard.copy(message.text);
-
-                                break;
-                            case 1: // Delete
-                                // no server side secrets here :~)
-                                $scope.chat.messages.splice(itemIndex, 1);
-                                break;
-                        }
-
-                        return true;
-                    }
-                });
-            };
-
-        })
 
 // News controller
         .controller('NewsCtrl', function ($scope, $state, Posts) {

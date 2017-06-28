@@ -11,7 +11,7 @@ angular.module('starter.routes', [])
                         url: '/login',
                         templateUrl: 'templates/login.html',
                         params: {'correo': '',
-                                 'password':''},
+                            'password': ''},
                         controller: 'AuthCtrl'
                     })
 
@@ -105,20 +105,7 @@ angular.module('starter.routes', [])
                         url: '/setting',
                         templateUrl: 'templates/setting.html',
                         controller: 'SettingCtrl'
-                    })
-
-                    // Chat list
-                    .state('chats', {
-                        url: '/chats',
-                        templateUrl: 'templates/chats.html',
-                        controller: 'ChatCtrl'
-                    })
-
-                    .state('chat-detail', {
-                        url: '/chats/:chatId',
-                        templateUrl: 'templates/chat-detail.html',
-                        controller: 'ChatDetailCtrl'
-                    })
+                    })                
 
                     // News
                     .state('news', {
