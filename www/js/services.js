@@ -1052,9 +1052,6 @@ angular.module('starter.services', [])
 
             }])
 
-        .factory('BlankFactory', [function () {
-
-            }])
-
+      
 
         

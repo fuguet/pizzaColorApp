@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.ionicframework.ionicrestaurant416471" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Pizza Color Delivery</name>
+    <name>PizzaColorAPP</name>
     <description>
-        Aplicacion para Pedir delivery en Puerto Iguazu.
+        Aplicacion para pedir delivery en Puerto Iguazu.
     </description>
     <author email="facundokpo04@gmail.com" href="http://example.com.com/">
-      Facundo Andres Dominguez
+      IguSoft
     </author>
     <content src="index.html" />
     <access origin="*" />

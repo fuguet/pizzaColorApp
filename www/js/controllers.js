@@ -1187,11 +1187,6 @@ angular.module('starter.controllers', [])
             }
         })
 
-// User controller
-        .controller('UserCtrl', function ($scope, $state, auth) {
-
-
-        })
 
 // Setting Controller
         .controller('SettingCtrl', function ($scope, $ionicPopup, $state, auth, usuario, sharedUtils, $window) {

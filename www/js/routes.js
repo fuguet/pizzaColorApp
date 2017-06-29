@@ -95,17 +95,13 @@ angular.module('starter.routes', [])
                         controller: 'AddressCtrl'
                     })
 
-                    .state('user', {
-                        url: '/user',
-                        templateUrl: 'templates/user.html',
-                        controller: 'UserCtrl'
-                    })
+                   
 
                     .state('setting', {
                         url: '/setting',
                         templateUrl: 'templates/setting.html',
                         controller: 'SettingCtrl'
-                    })                
+                    })
 
                     // News
                     .state('news', {
