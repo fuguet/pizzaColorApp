@@ -48,6 +48,7 @@ angular.module('starter.services', [])
                     cartObj.cart.splice(0, cartObj.cart.length);
                     cartObj.aclaraciones = '';
                     cartObj.resumen = '';
+                    cartObj.aderezos = '';
 // cantidad de componente
 
                 };
@@ -56,6 +57,7 @@ angular.module('starter.services', [])
                     cartObj.cartPromo.splice(0, cartObj.cartPromo.length);//lista de productos  (producto, cantidad)  
                     cartObj.aclaraciones = '';
                     cartObj.resumen = '';
+                    cartObj.aderezos = '';
 
 
                 };
@@ -578,7 +580,6 @@ angular.module('starter.services', [])
                 return dataProducto;
             }])
 
-
         .factory('empresa', ['$http', 'auth', function ($http, auth) {
                 // Might use a resource here that returns a JSON array
 
@@ -684,7 +685,6 @@ angular.module('starter.services', [])
 
                 return dataEmpresa;
             }])
-
 
         .factory('openHours', ['$http', 'auth', 'empresa', function ($http, auth, empresa) {
                 // Might use a resource here that returns a JSON array
@@ -1052,6 +1052,6 @@ angular.module('starter.services', [])
 
             }])
 
-      
+
 
         

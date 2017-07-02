@@ -487,6 +487,7 @@ angular.module('starter.controllers', [])
             debugger;
             $scope.item = {
                 aclaracion: sharedCartService.aclaraciones,
+                aderezos:sharedCartService.aderezos,
             };
             empresa.getParametros().success(function (response) {
 
@@ -576,11 +577,7 @@ angular.module('starter.controllers', [])
                 }
 
 
-                $scope.SelectedVariedadChange = function (variedad) {
-
-                    $scope.selectedVariedad = variedad;
-
-                };
+             
 
 
 
