@@ -879,6 +879,9 @@ angular.module('starter.controllers', [])
             $scope.addresses = [];
             $scope.usuario = {};
             $scope.parametros = {};
+            $scope.data = {
+                payment: 'Efectivo'
+            };
 
             isLogged = function () {
 
@@ -912,30 +915,21 @@ angular.module('starter.controllers', [])
                 $scope.addresses = response;
             });
             $scope.payments = [
-                {id: 'Debito', name: 'Tarjeta Debito'},
+                {id: 'Debito', name: 'Tarjeta Debito/Credito'},
                 {id: 'Efectivo', name: 'Efectivo '}
             ];
             $scope.total = sharedCartService.total_amount;
 
 
-            $scope.data = {
-                payment: 'Efectivo'
-            };
+            
 
-            $scope.addManipulation = function (edit_val) {  // Takes care of address add and edit ie Address Manipulator
+            $scope.addManipulation = function () {  // Takes care of address add and edit ie Address Manipulator
 
 
-                if (edit_val != null) {
-
-                    $scope.data = edit_val; // For editing address 
-                    // poner al telefono como un numero.
-                    var title = "Editar Direccion";
-                    var sub_title = "Editar su Domicilio";
-                } else {
-                    $scope.data = {};    // For adding new address
+                     // For adding new address
                     var title = "Agregar Domicilio";
                     var sub_title = "Agregar un nuevo Domicilio";
-                }
+                
                 // An elaborate, custom popup
                 var addressPopup = $ionicPopup.show({
                     template: '<input type="text"   placeholder="Nombre Lugar"  ng-model="data.dir_nombre"> <br/> ' +
@@ -964,9 +958,6 @@ angular.module('starter.controllers', [])
 
                 addressPopup.then(function (res) {
                     createAdress(res);
-
-
-
                 });
 
             };
@@ -990,7 +981,9 @@ angular.module('starter.controllers', [])
 
                             if (res.response) {
                                 usuario.getDirecciones($scope.usuario.id).success(function (response) {
+                                  
                                     $scope.addresses = response;
+                                    $scope.data.address=$scope.addresses[0];
                                 });
 
 
@@ -1034,9 +1027,10 @@ angular.module('starter.controllers', [])
                 } else {
                     if (!(typeof payment === 'undefined') && !(typeof address === 'undefined'))
                     {
+                        debugger;
                         var pedidoEncabezado = {};
                         pedidoEncabezado.pe_idCliente = address.dir_idPersona
-                        pedidoEncabezado.pe_aclaraciones = '';
+                        pedidoEncabezado.pe_aclaraciones = sharedCartService.aclaraciones;
                         pedidoEncabezado.pe_total = sharedCartService.total_amount;
                         pedidoEncabezado.pe_idPersona = address.dir_idPersona;
                         pedidoEncabezado.pe_cli_tel = $scope.usuario.celular;
@@ -1056,7 +1050,6 @@ angular.module('starter.controllers', [])
                             if (res.response) {
                                 debugger;
                                 var idencabezado = res.result;
-
                                 var detalle = {};
                                 detalle.idPedidoEncabezado = res.result;
                                 detalle.cart = sharedCartService.cart;
