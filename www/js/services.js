@@ -723,7 +723,7 @@ angular.module('starter.services', [])
 
                         var openAt = getShiftedDate(ha).getTime();
                         var closeAt = getShiftedDate(hc).getTime();
-
+debugger;
                         if (fixedTime >= openAt && fixedTime <= closeAt) {
                             response.valor = true;
                             return response;
@@ -734,7 +734,7 @@ angular.module('starter.services', [])
                                     'EL delivery esta abierto de: ' +
                                     open.dh_horaApertura + ' a  ' +
                                     open.dh_horaCierre +
-                                    ', Ahora son las  ' + now.getHours() + ':' + now.getMinutes();
+                                    ', Ahora son las  ' + now.getHours() + ':' + (now.getMinutes()>9 ? now.getMinutes(): "0"+now.getMinutes());
                             response.valor = false;
                             return response;
                         }
