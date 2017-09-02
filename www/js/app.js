@@ -18,7 +18,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.routes', 'st
             $ionicConfigProvider.scrolling.jsScrolling(false);
             $ionicConfigProvider.tabs.position('bottom'); // other values: top
         })
-        .run(function ($ionicPlatform, $ionicHistory,$state) {
+        .run(function ($ionicPlatform, $ionicHistory, $state) {
             $ionicPlatform.ready(function () {
 
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -32,11 +32,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.routes', 'st
                     // org.apache.cordova.statusbar required
                     StatusBar.styleDefault();
                 }
-                var BackButton=0
-                 $ionicPlatform.registerBackButtonAction(function (event) {
+                var BackButton = 0
+                $ionicPlatform.registerBackButtonAction(function (event) {
 
-                    if ($state.current.name == 'home' || $state.current.name == 'login' || $state.current.name == 'register' 
-                            || $state.current.name == 'categories' || $state.current.name == 'offer' || $state.current.name == 'cart' || $state.current.name == 'last_orders' 
+                    if ($state.current.name == 'home' || $state.current.name == 'login' || $state.current.name == 'register'
+                            || $state.current.name == 'categories' || $state.current.name == 'offer' || $state.current.name == 'cart' || $state.current.name == 'last_orders'
                             || $state.current.name == 'setting' || $state.current.name == 'setting' || $state.current.name == 'about_us' || $state.current.name == 'address') {
 
                         if (BackButton == 0) {
@@ -49,17 +49,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.routes', 'st
                             }, 1500);
 
                         } else {
-                             ionic.Platform.exitApp()
+                            ionic.Platform.exitApp()
                         }
 
                     } else {
-                        $ionicHistory.backView();
+                        BackButton = 0
+                        $ionicHistory.goBack();
                     }
 
                 }, 100);
             });
 
-    
+
 
 
 
