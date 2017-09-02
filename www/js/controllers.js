@@ -428,6 +428,10 @@ angular.module('starter.controllers', [])
 
             $scope.usuario = {};
             $scope.pedidos = {};
+            $scope.refresh = function () {
+                $state.reload(true);
+            };
+
             isLogged = function () {
 
                 if (auth.hasToken())
@@ -487,7 +491,7 @@ angular.module('starter.controllers', [])
             debugger;
             $scope.item = {
                 aclaracion: sharedCartService.aclaraciones,
-                aderezos:sharedCartService.aderezos,
+                aderezos: sharedCartService.aderezos,
             };
             empresa.getParametros().success(function (response) {
 
@@ -577,7 +581,7 @@ angular.module('starter.controllers', [])
                 }
 
 
-             
+
 
 
 
@@ -921,15 +925,15 @@ angular.module('starter.controllers', [])
             $scope.total = sharedCartService.total_amount;
 
 
-            
+
 
             $scope.addManipulation = function () {  // Takes care of address add and edit ie Address Manipulator
 
 
-                     // For adding new address
-                    var title = "Agregar Domicilio";
-                    var sub_title = "Agregar un nuevo Domicilio";
-                
+                // For adding new address
+                var title = "Agregar Domicilio";
+                var sub_title = "Agregar un nuevo Domicilio";
+
                 // An elaborate, custom popup
                 var addressPopup = $ionicPopup.show({
                     template: '<input type="text"   placeholder="Nombre Lugar"  ng-model="data.dir_nombre"> <br/> ' +
@@ -981,9 +985,9 @@ angular.module('starter.controllers', [])
 
                             if (res.response) {
                                 usuario.getDirecciones($scope.usuario.id).success(function (response) {
-                                  
+
                                     $scope.addresses = response;
-                                    $scope.data.address=$scope.addresses[0];
+                                    $scope.data.address = $scope.addresses[0];
                                 });
 
 
@@ -1379,24 +1383,23 @@ angular.module('starter.controllers', [])
 
                 } else {
                     debugger;
-                    if($scope.usuario.password==$scope.usuario.passwordValidator){
+                    if ($scope.usuario.password == $scope.usuario.passwordValidator) {
 
-                    data.per_password =$scope.usuario.password ;
-                    usuario.save(id, data).success(function (res) {
-                        debugger;
-                        if (res.response) {
-                            var alertPopup = $ionicPopup.alert({
-                                title: 'Informacion',
-                                template: 'Los cambio se Guardaron Correctamente'
-                            });
+                        data.per_password = $scope.usuario.password;
+                        usuario.save(id, data).success(function (res) {
+                            debugger;
+                            if (res.response) {
+                                var alertPopup = $ionicPopup.alert({
+                                    title: 'Informacion',
+                                    template: 'Los cambio se Guardaron Correctamente'
+                                });
 
-                        }
-                    });
-                }
-                else{
-                    sharedUtils.showAlert("Atencion", "Los Password no coinciden ingrese nuevamente");
-                    
-                }
+                            }
+                        });
+                    } else {
+                        sharedUtils.showAlert("Atencion", "Los Password no coinciden ingrese nuevamente");
+
+                    }
 
                 }
 
