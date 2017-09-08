@@ -14,6 +14,7 @@
                <ion-slide-box auto-play="true">
                     <ion-slide ng-repeat="item in promos"  ng-init="updateSlider()">
                         <img class="full-image" ng-src="{{ item.slider }}" ui-sref="itemoffer({id: item.pro_id})" alt=""/>
+                        
                     </ion-slide>
                 </ion-slide-box> 
 
