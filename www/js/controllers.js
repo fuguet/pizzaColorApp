@@ -939,7 +939,7 @@ angular.module('starter.controllers', [])
                     template: '<input type="text"   placeholder="Nombre Lugar"  ng-model="data.dir_nombre"> <br/> ' +
                             '<input type="text"   placeholder="Direccion" ng-model="data.dir_direccion"> <br/> ' +
                             '<textarea placeholder="Aclaraciones" cols="40" rows="3" ng-model="data.dir_aclaracion"></textarea> <br/> ' +
-                            '<input type="number" placeholder="Telefono Fijo" ng-model="data.dir_telefonoFijo">',
+                            '<input type="number" placeholder="Telefono Fijo (Opcional)" ng-model="data.dir_telefonoFijo">',
                     title: title,
                     subTitle: sub_title,
                     scope: $scope,
@@ -950,7 +950,7 @@ angular.module('starter.controllers', [])
                             type: 'button-positive',
                             onTap: function (e) {
 
-                                if (!$scope.data.dir_nombre || !$scope.data.dir_direccion || !$scope.data.dir_telefonoFijo || !$scope.data.dir_aclaracion) {
+                                if (!$scope.data.dir_nombre || !$scope.data.dir_direccion ) {
                                     e.preventDefault(); //don't allow the user to close unless he enters full details
                                 } else {
                                     return $scope.data;
@@ -1229,7 +1229,7 @@ angular.module('starter.controllers', [])
                     template: '<input type="text"   placeholder="Nombre Lugar"  ng-model="data.dir_nombre"> <br/> ' +
                             '<input type="text"   placeholder="Direccion" ng-model="data.dir_direccion"> <br/> ' +
                             '<textarea placeholder="Aclaraciones" cols="40" rows="3" ng-model="data.dir_aclaracion"></textarea> <br/> ' +
-                            '<input type="text" placeholder="Telefono Fijo" ng-model="data.dir_telefonoFijo">',
+                            '<input type="text" placeholder="Telefono Fijo (Opcional)" ng-model="data.dir_telefonoFijo">',
                     title: title,
                     subTitle: sub_title,
                     scope: $scope,
@@ -1241,7 +1241,7 @@ angular.module('starter.controllers', [])
                             onTap: function (e) {
 
 
-                                if (!$scope.data.dir_nombre || !$scope.data.dir_direccion || !$scope.data.dir_telefonoFijo) {
+                                if (!$scope.data.dir_nombre || !$scope.data.dir_direccion ) {
                                     e.preventDefault(); //don't allow the user to close unless he enters full details
                                 } else {
                                     return $scope.data;
