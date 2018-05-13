@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 var API = {
     'token_name': 'APP-TOKEN', // EL NOMBRE DEL TOKEN QUE HAN DEFINIDO PARA SU API
-    'base_url': 'http://104.197.181.159/delApi/public/' // LA URL DE SU API
+    'base_url': 'http://35.192.221.124/delApi/public/' // LA URL DE SU API
 };
 
 
