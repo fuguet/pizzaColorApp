@@ -11,7 +11,6 @@ angular.module('starter.controllers', [])
             });
             if (auth.hasToken()) {
                 $state.go('home', {}, {location: "replace"});
-
             }
 
             $scope.user = {
@@ -33,11 +32,7 @@ angular.module('starter.controllers', [])
                         Correo: cred.email,
                         Password: cred.password
                     };
-
-
-
                     sharedUtils.showLoading();
-
                     credenciales.login(data).success(function (r) {
 
                         if (r.response)
@@ -46,7 +41,7 @@ angular.module('starter.controllers', [])
                             $ionicHistory.nextViewOptions({
                                 historyRoot: true
                             });
-                            $ionicSideMenuDelegate.canDragContent(true);  // Sets up the sideMenu dragable
+                            $ionicSideMenuDelegate.canDragContent(true); // Sets up the sideMenu dragable
                             sharedUtils.hideLoading();
                             $state.go('home', {}, {location: "replace"});
                         } else
@@ -59,10 +54,6 @@ angular.module('starter.controllers', [])
                         sharedUtils.hideLoading();
                         sharedUtils.showAlert("Atencion", err.message);
                     });
-
-
-
-
                 } else {
                     sharedUtils.showAlert("Atencion", "Los datos no son validos");
                 }
@@ -78,7 +69,6 @@ angular.module('starter.controllers', [])
                     debugger;
                     if (passwordValidator == $scope.user.per_password) {
                         sharedUtils.showLoading();
-
                         credenciales.sigup(user).success(function (r) {
 
 
@@ -88,9 +78,8 @@ angular.module('starter.controllers', [])
                                 $ionicHistory.nextViewOptions({
                                     historyRoot: true
                                 });
-                                $ionicSideMenuDelegate.canDragContent(true);  // Sets up the sideMenu dragable
+                                $ionicSideMenuDelegate.canDragContent(true); // Sets up the sideMenu dragable
                                 sharedUtils.hideLoading();
-
                                 $state.go('login', {"correo": user.per_email, "password": user.per_password}, {location: "replace"});
                             } else
                             {
@@ -116,11 +105,9 @@ angular.module('starter.controllers', [])
             $scope.loginFb = function () {
                 //Facebook Login
             };
-
             $scope.loginGmail = function () {
                 //Gmail Login
             };
-
         })
 
 // Home controller
@@ -135,8 +122,6 @@ angular.module('starter.controllers', [])
                 var respuesta = openHours.isOpen($scope.days);
                 $rootScope.open = respuesta.valor;
                 $scope.message = respuesta.message;
-
-
             });
             incialite = function () {
 
@@ -169,20 +154,10 @@ angular.module('starter.controllers', [])
                         sharedUtils.hideLoading();
                     });
                 });
-
-
             }
 
 //            $scope.slides = [];
             incialite();
-
-
-
-
-
-
-
-
             //actualizar slider
             $scope.updateSlider = function () {
                 $ionicSlideBoxDelegate.update(); //or just return the function
@@ -200,18 +175,12 @@ angular.module('starter.controllers', [])
                 categoria.getCategorias().success(function (response) {
                     $scope.categories = response.data;
                     sharedUtils.hideLoading();
-
                 }).error(function (err) {
                     sharedUtils.hideLoading();
-
                 });
-
             }
 
             initialice();
-
-
-
         })
 
 
@@ -231,23 +200,14 @@ angular.module('starter.controllers', [])
                         sharedUtils.hideLoading();
                     }).error(function (err) {
                         sharedUtils.hideLoading();
-
                     });
-
                 }).error(function (err) {
                     sharedUtils.hideLoading();
-
                 });
                 ;
             }
 
             initialice();
-
-
-
-
-
-
             // get all items from service by category id
 //            $scope.category = Categories.get(1);
         })
@@ -255,20 +215,15 @@ angular.module('starter.controllers', [])
 // Item controller
         .controller('ItemCtrl', function ($scope, $state, $stateParams, $ionicPopup, $ionicNavBarDelegate, sharedUtils, producto, sharedCartService) {
             var id = $stateParams.id;
-
-
             var initialice = function () {
                 sharedUtils.showLoading();
                 producto.getProducto(id).success(function (response) {
                     debugger;
                     $scope.item = response;
                     sharedUtils.hideLoading();
-
                 }).error(function (err) {
                     sharedUtils.hideLoading();
-
                 });
-
             }
 
             initialice();
@@ -308,7 +263,6 @@ angular.module('starter.controllers', [])
                                         if (!$scope.data.quantity) {
                                             //don't allow the user to close unless he enters note
                                             e.preventDefault();
-
                                         } else {
 
                                             return $scope.data.quantity;
@@ -351,7 +305,6 @@ angular.module('starter.controllers', [])
                             $scope.data.quantity = res;
                             var productoPedido = {};
                             var detalle = {};
-
                             productoPedido.precioBase = ((typeof item.selectedVariedad === 'undefined') ? item.producto.prod_precioBase : item.selectedVariedad.var_precio);
                             productoPedido.idProducto = item.producto.prod_id;
                             productoPedido.idVariedad = ((typeof item.selectedVariedad === 'undefined') ? -1 : item.selectedVariedad.var_id);
@@ -364,33 +317,25 @@ angular.module('starter.controllers', [])
                             productoPedido.componentestxt = '';
                             productoPedido.componentes = [];
                             productoPedido.aderezo = parseInt(item.producto.prod_isAderezo);
-
                             detalle.productoP = productoPedido;
                             detalle.cantidad = parseFloat(res);
                             sharedCartService.cart.add(detalle);
-
-
                             if (detalle.cantidad == 0.5) {
                                 debugger;
-
                                 item = {
                                     variedad: productoPedido.nombreVariedad,
                                     categoria: productoPedido.idCategoria
                                 }
                                 sharedCartService.cartMitad.add(item);
-
-
                             }
 
 
                             sharedUtils.hideLoading();
                             $ionicNavBarDelegate.back();
-
                         }
 
 
                     });
-
                 }
 
 
@@ -411,7 +356,6 @@ angular.module('starter.controllers', [])
                             type: 'button-assertive',
                             onTap: function (e) {
                                 return item.aclaracion;
-
                             }
                         },
                     ]
@@ -419,7 +363,6 @@ angular.module('starter.controllers', [])
                 myPopup2.then(function (res) {
                     item.aclaracion = res;
                 });
-
             };
         })
 
@@ -431,34 +374,25 @@ angular.module('starter.controllers', [])
             $scope.refresh = function () {
                 $state.reload(true);
             };
-
             isLogged = function () {
 
                 if (auth.hasToken())
 
                 {
                     $scope.usuario = auth.datosUsuario();
-
-
                 } else {
 
                     $state.go('login', {}, {location: "replace"});
-
                 }
             };
             //inicilizacion
             isLogged();
-
             usuario.getPedidos($scope.usuario.id).success(function (response) {
 
 
 
                 $scope.pedidos = response;
-
             });
-
-
-
             // get all favorite items
 
         })
@@ -487,7 +421,6 @@ angular.module('starter.controllers', [])
             $scope.llevaAderezo = (sharedCartService.qtyAderezo > 0)
             $scope.parametros = {};
             $scope.aderezos = {};
-
             debugger;
             $scope.item = {
                 aclaracion: sharedCartService.aclaraciones,
@@ -503,16 +436,11 @@ angular.module('starter.controllers', [])
                 var respuesta = openHours.isOpen($scope.days);
                 $rootScope.open = respuesta.valor;
                 $scope.message = respuesta.message;
-
-
             });
-
             empresa.getAderezos().success(function (response) {
 
                 $scope.aderezos = response.data;
             });
-
-
             // plus quantity
             $scope.addAclaracion = function (item) {
                 var myPopup2 = $ionicPopup.show({
@@ -526,7 +454,6 @@ angular.module('starter.controllers', [])
                             type: 'button-assertive',
                             onTap: function (e) {
                                 return item.aclaracion;
-
                             }
                         },
                     ]
@@ -534,11 +461,8 @@ angular.module('starter.controllers', [])
                 myPopup2.then(function (res) {
                     item.aclaracion = res;
                     sharedCartService.aclaraciones = item.aclaracion;
-
                 });
-
             };
-
             $scope.selAderezos = function (item) {
                 if ($scope.aderezos.length > 0) {
                     var myPopup = $ionicPopup.show({
@@ -571,13 +495,11 @@ angular.module('starter.controllers', [])
 
                             item.aderezos = res;
                             sharedCartService.aderezos = item.aderezos;
-
                         } else {
                             item.aderezos = 'Sin Aderezos'
                             sharedCartService.aderezos = item.aderezos;
                         }
                     });
-
                 }
 
 
@@ -590,24 +512,18 @@ angular.module('starter.controllers', [])
                 // An elaborate, custom popup
 
             };
-
             // remove item from cart
             $scope.removeProd = function (index) {
 
                 sharedCartService.cart.drop(index);
                 $scope.total = sharedCartService.total_amount;
                 $scope.cart = sharedCartService.cart;
-
-
             }
             $scope.removePro = function (index) {
 
                 sharedCartService.cartPromo.drop(index);
                 $scope.total = sharedCartService.total_amount;
                 $scope.promos = sharedCartService.cartPromo;
-
-
-
             }
 
             $scope.checkOut = function () {
@@ -641,7 +557,6 @@ angular.module('starter.controllers', [])
                             title: 'Atencion',
                             template: "Debe completar el Pedido Minimo"
                         });
-
                     }
                 }
 
@@ -652,7 +567,7 @@ angular.module('starter.controllers', [])
                 $ionicHistory.nextViewOptions({
                     historyRoot: true
                 });
-                $ionicSideMenuDelegate.canDragContent(true);  // Sets up the sideMenu dragable      
+                $ionicSideMenuDelegate.canDragContent(true); // Sets up the sideMenu dragable      
                 $state.go('home', {}, {location: "replace"})
 
             }
@@ -667,24 +582,16 @@ angular.module('starter.controllers', [])
                 promo.getPromos().success(function (response) {
                     $scope.promos = response.data;
                     sharedUtils.hideLoading();
-
-
                 }).error(function (err) {
                     sharedUtils.hideLoading();
-
                 });
                 ;
             }
 
             initialice();
-
-
             promo.getPromos().success(function (response) {
                 $scope.promos = response.data;
-
-
             });
-
             //actualizar slider
             $scope.updateSlider = function () {
                 $ionicSlideBoxDelegate.update(); //or just return the function
@@ -714,24 +621,17 @@ angular.module('starter.controllers', [])
                     promo.getProductoPromo(id).success(function (response) {
                         $scope.items = response;
                         sharedUtils.hideLoading();
-
                     }).error(function (err) {
                         sharedUtils.hideLoading();
-
                     })
 
                 }).error(function (err) {
                     sharedUtils.hideLoading();
-
                 });
                 ;
             }
 
             initialice();
-
-
-
-
             $scope.toggleFav = function () {
                 $scope.item.faved = !$scope.item.faved;
             }
@@ -757,8 +657,6 @@ angular.module('starter.controllers', [])
                                             e.preventDefault();
                                         } else {
                                             return $scope.selectedVariedad;
-
-
 //                                    return $scope.data.quantity;
                                         }
                                     }
@@ -771,27 +669,17 @@ angular.module('starter.controllers', [])
                                 if ((typeof optionO.selectedVariedad === 'undefined')) {
                                     optionO.selectedVariedad = res;
                                     cantidadVariedadesSel += 1;
-
                                 } else {
                                     optionO.selectedVariedad = res;
-
                                 }
                             }
                         });
-
                     }
                 });
-
                 $scope.SelectedVariedadChange = function (variedad) {
 
                     $scope.selectedVariedad = variedad;
-
                 };
-
-
-
-
-
                 // An elaborate, custom popup
 
             };
@@ -812,12 +700,8 @@ angular.module('starter.controllers', [])
                     promoPedido.detallePp = promo.pro_descripcion;
                     promoPedido.aclaracion = '';
                     promoPedido.aderezos = 0;
-
-
                     angular.forEach(items, function (value, key) {
                         var prodPedido = {};
-
-
                         prodPedido.precioBase = value.prod_precioBase;
                         prodPedido.idProducto = value.prod_id;
                         prodPedido.idVariedad = ((typeof value.selectedVariedad === 'undefined') ? -1 : value.selectedVariedad.var_id);
@@ -826,8 +710,6 @@ angular.module('starter.controllers', [])
                         prodPedido.aclaracion = '';
                         promoPedido.productosP.push(prodPedido);
                         promoPedido.aderezos += parseInt(value.prod_isAderezo);
-
-
                     });
                     //promoPedido.aclaracion= 
                     // An elaborate, custom popup
@@ -859,7 +741,6 @@ angular.module('starter.controllers', [])
                             sharedCartService.cartPromo.add(promoPedido);
                             sharedUtils.hideLoading();
                             $ionicNavBarDelegate.back();
-
                         }
 
 
@@ -870,7 +751,6 @@ angular.module('starter.controllers', [])
                         title: 'Atencion',
                         template: 'Falta Seleccionar algo'
                     });
-
                 }
 
             }
@@ -886,29 +766,21 @@ angular.module('starter.controllers', [])
             $scope.data = {
                 payment: 'Efectivo'
             };
-
             isLogged = function () {
 
                 if (auth.hasToken())
 
                 {
                     $scope.usuario = auth.datosUsuario();
-
-
                 } else {
 
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     });
-                    $ionicSideMenuDelegate.canDragContent(true);  // Sets up the sideMenu dragable
+                    $ionicSideMenuDelegate.canDragContent(true); // Sets up the sideMenu dragable
                     $state.go('login', {}, {location: "replace"});
-
-
-
                 }
             };
-
-
             //inicilizacion
             isLogged();
             empresa.getParametros().success(function (response) {
@@ -923,17 +795,12 @@ angular.module('starter.controllers', [])
                 {id: 'Efectivo', name: 'Efectivo '}
             ];
             $scope.total = sharedCartService.total_amount;
-
-
-
-
             $scope.addManipulation = function () {  // Takes care of address add and edit ie Address Manipulator
 
 
                 // For adding new address
                 var title = "Agregar Domicilio";
                 var sub_title = "Agregar un nuevo Domicilio";
-
                 // An elaborate, custom popup
                 var addressPopup = $ionicPopup.show({
                     template: '<input type="text"   placeholder="Nombre Lugar"  ng-model="data.dir_nombre"> <br/> ' +
@@ -950,7 +817,7 @@ angular.module('starter.controllers', [])
                             type: 'button-positive',
                             onTap: function (e) {
 
-                                if (!$scope.data.dir_nombre || !$scope.data.dir_direccion ) {
+                                if (!$scope.data.dir_nombre || !$scope.data.dir_direccion) {
                                     e.preventDefault(); //don't allow the user to close unless he enters full details
                                 } else {
                                     return $scope.data;
@@ -959,23 +826,18 @@ angular.module('starter.controllers', [])
                         }
                     ]
                 });
-
                 addressPopup.then(function (res) {
                     createAdress(res);
                 });
-
             };
-
             createAdress = function (res) {
 
                 var direccion = {};
-
                 if (res != null) {
                     direccion.dir_nombre = res.dir_nombre;
                     direccion.dir_telefonoFijo = res.dir_telefonoFijo;
                     direccion.dir_direccion = res.dir_direccion;
                     direccion.dir_aclaracion = res.dir_aclaracion;
-
                     if (res.dir_idPersona) {
                         //par actualizar
 
@@ -989,16 +851,11 @@ angular.module('starter.controllers', [])
                                     $scope.addresses = response;
                                     $scope.data.address = $scope.addresses[0];
                                 });
-
-
-
                             } else {
                                 var alertPopup = $ionicPopup.alert({
                                     title: 'Atencion',
                                     template: res.message
                                 });
-
-
                             }
                         }).error(function (err) {
 
@@ -1006,28 +863,20 @@ angular.module('starter.controllers', [])
                                 title: 'Atencion',
                                 template: err.message
                             });
-
                         });
-
-
                     }
                 }
 
             };
-
-
             $scope.pay = function () {
                 var payment = $scope.data.payment;
                 var address = $scope.data.address;
-
-
                 if (sharedCartService.total_qty < 1 && sharedCartService.total_qty < 1) {
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     });
-                    $ionicSideMenuDelegate.canDragContent(true);  // Sets up the sideMenu dragable
+                    $ionicSideMenuDelegate.canDragContent(true); // Sets up the sideMenu dragable
                     $state.go('home', {}, {location: "replace"});
-
                 } else {
                     if (!(typeof payment === 'undefined') && !(typeof address === 'undefined'))
                     {
@@ -1044,12 +893,8 @@ angular.module('starter.controllers', [])
                         pedidoEncabezado.pe_resumen = sharedCartService.generarResumen();
                         pedidoEncabezado.pe_aderezos = sharedCartService.aderezos;
                         pedidoEncabezado.pe_cantAderezos = sharedCartService.qtyAderezo;
-
                         debugger;
-
-
                         sharedUtils.showLoading();
-
                         pedido.setEncabezado(pedidoEncabezado).success(function (res) {
                             if (res.response) {
                                 debugger;
@@ -1076,9 +921,8 @@ angular.module('starter.controllers', [])
                                                 $ionicHistory.nextViewOptions({
                                                     historyRoot: true
                                                 });
-                                                $ionicSideMenuDelegate.canDragContent(true);  // Sets up the sideMenu dragable
+                                                $ionicSideMenuDelegate.canDragContent(true); // Sets up the sideMenu dragable
                                                 $state.go('last_orders', {}, {location: "replace"});
-
                                             } else {
                                                 sharedUtils.hideLoading();
                                             }
@@ -1087,7 +931,6 @@ angular.module('starter.controllers', [])
                                         })
                                                 .error(function (err) {
                                                     sharedUtils.hideLoading();
-
                                                     var alertPopup = $ionicPopup.alert({
                                                         title: 'Atencion',
                                                         template: 'No se pudo pedir algunas promos intente mas tarde nuevamente'
@@ -1098,12 +941,10 @@ angular.module('starter.controllers', [])
                                     }
                                 }).error(function (err) {
                                     sharedUtils.hideLoading();
-
                                     var alertPopup = $ionicPopup.alert({
                                         title: 'Atencion',
                                         template: 'No se pudo pedir algunos productos intente mas tarde nuevamente'
                                     });
-
                                 })
                             } else
                             {
@@ -1117,13 +958,10 @@ angular.module('starter.controllers', [])
                         }).error(function (err) {
                             debugger;
                             sharedUtils.hideLoading();
-
                             var alertPopup = $ionicPopup.alert({
                                 title: 'Atencion',
                                 template: err.message
                             });
-
-
                         });
                     } else
                     {
@@ -1150,13 +988,11 @@ angular.module('starter.controllers', [])
                 // set up begining position
                 var myLatlng = new google.maps.LatLng(-25.5984759, -54.5749279);
                 var image = 'img/marker.jpg';
-
                 var marker = new google.maps.Marker({
                     position: myLatlng,
                     title: "Pizza Color Delivery!",
                     icon: image
                 });
-
                 // set option for map
                 var mapOptions = {
                     center: myLatlng,
@@ -1181,15 +1017,24 @@ angular.module('starter.controllers', [])
             }
         })
 
-
 // Setting Controller
-        .controller('SettingCtrl', function ($scope, $ionicPopup, $state, auth, usuario, sharedUtils, $window) {
+        .controller('SettingCtrl', function ($scope, $ionicPopup, $ionicModal, $state, auth, usuario, sharedUtils, $window) {
             //$scope.usuario = {};
             $scope.addresses = [];
             $scope.passwordValidator = '';
-
-
             $scope.usuario = {};
+            $ionicModal.fromTemplateUrl('templates/modaladresshotel.html', {
+                scope: $scope,
+                animation: 'slide-in-up'
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.openModal = function () {
+                $scope.modal.show();
+            };
+            $scope.closeModal = function () {
+                $scope.modal.hide();
+            };
             isLogged = function () {
 
                 if (auth.hasToken())
@@ -1199,10 +1044,8 @@ angular.module('starter.controllers', [])
                     usuario.getDirecciones($scope.usuario.id).success(function (response) {
                         $scope.addresses = response;
                         sharedUtils.hideLoading();
-
                     }).error(function (err) {
                         sharedUtils.hideLoading();
-
                     });
                 } else {
                     $state.go('login', {}, {location: "replace"});
@@ -1211,8 +1054,6 @@ angular.module('starter.controllers', [])
             //inicilizacion
             isLogged();
             $scope.addManipulation = function (edit_val) {  // Takes care of address add and edit ie Address Manipulator
-
-
                 if (edit_val != null) {
 
                     $scope.data = edit_val; // For editing address 
@@ -1220,7 +1061,7 @@ angular.module('starter.controllers', [])
                     var title = "Editar Direccion";
                     var sub_title = "Editar su Domicilio";
                 } else {
-                    $scope.data = {};    // For adding new address
+                    $scope.data = {}; // For adding new address
                     var title = "Agregar Domicilio";
                     var sub_title = "Agregar un nuevo Domicilio";
                 }
@@ -1241,7 +1082,7 @@ angular.module('starter.controllers', [])
                             onTap: function (e) {
 
 
-                                if (!$scope.data.dir_nombre || !$scope.data.dir_direccion ) {
+                                if (!$scope.data.dir_nombre || !$scope.data.dir_direccion) {
                                     e.preventDefault(); //don't allow the user to close unless he enters full details
                                 } else {
                                     return $scope.data;
@@ -1250,26 +1091,26 @@ angular.module('starter.controllers', [])
                         }
                     ]
                 });
-
                 addressPopup.then(function (res) {
                     createAdress(res);
-
-
-
                 });
-
             };
+            $scope.addManipulation2 = function (edit_val) {
+
+// Takes care of address add and edit ie Address Manipulator
+
+                $scope.openModal();
+            };
+
+
             createAdress = function (res) {
 
                 var direccion = {};
-
-
                 if (res != null) {
                     direccion.dir_nombre = res.dir_nombre;
                     direccion.dir_telefonoFijo = res.dir_telefonoFijo;
                     direccion.dir_direccion = res.dir_direccion;
                     direccion.dir_aclaracion = res.dir_aclaracion;
-
                     if (res.dir_idPersona) {
 
 
@@ -1279,18 +1120,12 @@ angular.module('starter.controllers', [])
 
                                 usuario.getDirecciones($scope.usuario.id).success(function (response) {
                                     $scope.addresses = response;
-
                                 });
-
-
-
                             } else {
                                 var alertPopup = $ionicPopup.alert({
                                     title: 'Atencion',
                                     template: res.message
                                 });
-
-
                             }
                         }).error(function (err) {
 
@@ -1298,9 +1133,7 @@ angular.module('starter.controllers', [])
                                 title: 'Atencion',
                                 template: err.message
                             });
-
                         });
-
                     } else {
 
                         direccion.dir_idPersona = $scope.usuario.id;
@@ -1311,19 +1144,12 @@ angular.module('starter.controllers', [])
 
                                         usuario.getDirecciones($scope.usuario.id).success(function (response) {
                                             $scope.addresses = response;
-
                                         });
-
-
-
-
                                     } else {
                                         var alertPopup = $ionicPopup.alert({
                                             title: 'Atencion',
                                             template: res.message
                                         });
-
-
                                     }
                                 })
                                 .error(function (err) {
@@ -1332,10 +1158,7 @@ angular.module('starter.controllers', [])
                                         title: 'Atencion',
                                         template: err.message
                                     });
-
                                 });
-
-
                     }
                 }
 
@@ -1351,7 +1174,6 @@ angular.module('starter.controllers', [])
                             }}
                     ]
                 });
-
                 confirmPopup.then(function (res) {
                     if (res) {
 
@@ -1360,25 +1182,19 @@ angular.module('starter.controllers', [])
 
                                 usuario.getDirecciones($scope.usuario.id).success(function (response) {
                                     $scope.addresses = response;
-
                                 });
-
                             }
                         });
-
-
                         //eliminar direccion de la base
 
                     }
                 });
             };
-
             $scope.guardar = function () {
                 debugger;
                 var data = {}
                 var id = $scope.usuario.id;
                 data.per_celular = $scope.usuario.celular;
-
                 if ((typeof $scope.usuario.password === 'undefined')) {
 
                 } else {
@@ -1393,12 +1209,10 @@ angular.module('starter.controllers', [])
                                     title: 'Informacion',
                                     template: 'Los cambio se Guardaron Correctamente'
                                 });
-
                             }
                         });
                     } else {
                         sharedUtils.showAlert("Atencion", "Los Password no coinciden ingrese nuevamente");
-
                     }
 
                 }
@@ -1421,11 +1235,6 @@ angular.module('starter.controllers', [])
         .controller('AboutCtrl', function ($scope, $state, empresa, openHours, externalAppsService) {
             // working hours
             $scope.dias = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
-
-
-
-
-
 //            $scope.days = [
 //                {
 //                    'name': 'Monday',
@@ -1461,16 +1270,12 @@ angular.module('starter.controllers', [])
 
             empresa.getHorarios().success(function (response) {
                 $scope.days = response.data;
-
             });
             empresa.getTelefonos().success(function (response) {
                 $scope.tel = response;
-
             });
             empresa.getDatosContacto().success(function (response) {
                 $scope.contac = response;
-
-
             });
             $scope.openFacebookPage = function () {
                 externalAppsService.openExternalUrl($scope.contac.dcon_facebook);
@@ -1493,7 +1298,6 @@ angular.module('starter.controllers', [])
         .controller('LogoutCtrl', function ($scope, $state, auth) {
             // get all posts from services
             auth.logout();
-
             $state.go('login', {}, {location: "replace"})
 
         })

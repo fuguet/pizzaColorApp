@@ -1,6 +1,8 @@
 {
   "name": "ionic_restaurant",
-  "app_id": "286b6a3e",
+  "integrations": {
+    "cordova": {}
+  },
   "gulpStartupTasks": [
     "sass",
     "watch"
@@ -9,8 +11,6 @@
     "www/**/*",
     "!www/lib/**/*"
   ],
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "ionic1"
+  "type": "ionic1",
+  "pro_id": "286b6a3e"
 }

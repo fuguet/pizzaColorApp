@@ -537,6 +537,46 @@ angular.module('starter.services', [])
 
                 return dataCategoria;
             }])
+        
+        .factory('hotel', ['$http', 'auth', function ($http, auth) {
+                // Might use a resource here that returns a JSON array
+
+                var headers = {};
+                headers[API.token_name] = auth.getToken();
+                var dataCategoria = {};
+
+                dataCategoria.getCategorias = function () {
+                    return($http({
+                        url: API.base_url + 'public/hotlistar2',
+                        method: "GET",
+                        headers: headers
+                    }).success(function (data, status, headers, config) {
+                        datos = data.data;
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
+
+                dataCategoria.getCategoria = function (idHotel) {
+                    return($http({
+                        url: API.base_url + 'public/hotobtener/' + idHotel,
+                        method: "GET",
+                        headers: headers
+                    }).success(function (data, status, headers, config) {
+                        datos = data.data;
+                        return datos;
+                    }).error(function (err) {
+                        error = err;
+                    })
+                            )
+
+                };
+
+                return dataCategoria;
+            }])
 
         .factory('producto', ['$http', 'auth', function ($http, auth) {
                 // Might use a resource here that returns a JSON array
@@ -965,9 +1005,8 @@ debugger;
 
                 var headers = {};
                 headers[API.token_name] = auth.getToken();
+  
                 var dataCredencial = {};
-
-
                 dataCredencial.login = function (data) {
 
                     return($http({
