@@ -5,21 +5,31 @@
         <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
     </ion-header-bar>
     <ion-content class="padding">
+
+
         <label class="item item-input ic-selected">
             <a class="icon icon-right ion-android-call" style="margin-right: 10px;"></a>
             <input style="color: #000;" ng-model="data.dir_nombre" type="text" placeholder="Hotel" >
         </label>
-        <br/>
+
+        <br>
+<ion-checkbox ng-model="choice1" style="margin-right: 10px;">El hotel no esta en la lista</ion-checkbox>
+
+ <br>
         <label class="item item-input ic-selected">
             <a class="icon icon-right ion-email" style="margin-right: 10px;"></a>
             <input style="color: #000;" ng-model="data.dir_nombre" type="text"  placeholder="Numero de Habitacion" >
         </label>
-        <br/>
+        <br>
+
+
         <label class="item item-input ic-selected">
             <a class="icon icon-right ion-email" style="margin-right: 10px;"></a>
             <textarea style="color: #000;" cols="40" rows="3" ng-model="data.dir_nombre" type="text"  placeholder="Aclaraciones" >
-</textarea>
+            </textarea>
         </label>
-   <button class="button button-full button-positive" ng-click="createContact(newUser)">Guardar</button>
+
+
+        <button class="button button-full button-positive" ng-click="createContact(newUser)">Guardar</button>
     </ion-content>
 </ion-modal-view>
