@@ -11,7 +11,7 @@ var API = {
 };
 
 
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.routes', 'starter.services', 'nl2br', 'monospaced.elastic'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.routes', 'starter.services','starter.directives','nl2br', 'monospaced.elastic'])
         .config(function ($ionicConfigProvider) {
             //Added config
             $ionicConfigProvider.views.maxCache(5);

@@ -543,9 +543,9 @@ angular.module('starter.services', [])
 
                 var headers = {};
                 headers[API.token_name] = auth.getToken();
-                var dataCategoria = {};
+                var dataHotel = {};
 
-                dataCategoria.getCategorias = function () {
+                dataHotel.getHoteles = function () {
                     return($http({
                         url: API.base_url + 'public/hotlistar2',
                         method: "GET",
@@ -560,7 +560,7 @@ angular.module('starter.services', [])
 
                 };
 
-                dataCategoria.getCategoria = function (idHotel) {
+                dataHotel.getHotel = function (idHotel) {
                     return($http({
                         url: API.base_url + 'public/hotobtener/' + idHotel,
                         method: "GET",
@@ -575,7 +575,7 @@ angular.module('starter.services', [])
 
                 };
 
-                return dataCategoria;
+                return dataHotel;
             }])
 
         .factory('producto', ['$http', 'auth', function ($http, auth) {

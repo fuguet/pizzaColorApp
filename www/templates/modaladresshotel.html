@@ -6,30 +6,79 @@
     </ion-header-bar>
     <ion-content class="padding">
 
-
-        <label class="item item-input ic-selected">
-            <a class="icon icon-right ion-android-call" style="margin-right: 10px;"></a>
-            <input style="color: #000;" ng-model="data.dir_nombre" type="text" placeholder="Hotel" >
-        </label>
-
+        <div class="item">
+            <ion-search-select title="Buscar un Hotel" key-property="hotel_id" value-property="hotel_nombre" options="editHotel.hoteles" option-selected="editHotel.hotel">
+                <label class="item item-input-inset" style="border:none;padding: 0px;cursor: pointer;">
+                    <div class="item-input-wrapper">
+                        <i class="icon ion-ios-search"></i>
+                        <input type="text" ng-model="data.hotel.hotel_nombre" placeholder="Buscar" disabled>
+                    </div>
+                </label>
+            </ion-search-select>
+        </div>
+        
         <br>
-<ion-checkbox ng-model="choice1" style="margin-right: 10px;">El hotel no esta en la lista</ion-checkbox>
+       
+                <h4 ng-if="editHotel.hotel.hotel_id == 0">Complete los datos</h4>
+         <div class="item"  ng-if="editHotel.hotel.hotel_id == 0">
+            <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
+                <div class="item-input-wrapper">
+                    <i class="icon ion-ios-email"></i>
+                    <input style="color: #000;" ng-model="newdir.dir_nombre" type="text"  placeholder="Nombre del Hotel" >  
+                </div>           
+            </label>
+        </div>
+     
+          <div class="item"  ng-if="editHotel.hotel.hotel_id != 0">
+            <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
+                <div class="item-input-wrapper">
+                    <i class="icon ion-ios-email"></i>
+                    <input style="color: #000;" ng-model="newdir.dir_nombre" ng-value="editHotel.hotel.hotel_nombre" type="text"  placeholder="Nombre del Hotel" ng-disabled="true">
+                    
+                </div>           
+            </label>
+        </div>
 
- <br>
-        <label class="item item-input ic-selected">
-            <a class="icon icon-right ion-email" style="margin-right: 10px;"></a>
-            <input style="color: #000;" ng-model="data.dir_nombre" type="text"  placeholder="Numero de Habitacion" >
-        </label>
+  <div class="item" ng-if="editHotel.hotel.hotel_id == 0">
+            <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
+                <div class="item-input-wrapper">
+                    <i class="icon ion-ios-email"></i>
+                    <input row=3 style="color: #000;" ng-model="newdir.dir_direccion" type="text"  placeholder="Direccion" >  
+                </div>
+
+            </label>
+        </div>
+        <div class="item" ng-if="editHotel.hotel.hotel_id != 0">
+            <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
+                <div class="item-input-wrapper">
+                    <i class="icon ion-ios-email"></i>
+                    <input row=3 style="color: #000;" ng-model="newdir.dir_direccion" ng-value="editHotel.hotel.hotel_direccion" type="text"  placeholder="Direccion" ng-disabled="true" >  
+                </div>
+
+            </label>
+        </div>
         <br>
+        <div class="item">
+            <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
+                <div class="item-input-wrapper">
+                    <i class="icon ion-ios-email"></i>
+                    <input style="color: #000;" ng-model="newdir.dir_habitacion" type="text"  placeholder="Numero de Habitacion" >  
+                </div>           
+            </label>
+        </div>
+
+        <div class="item">
+            <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
+                <div class="item-input-wrapper">
+                    <i class="icon ion-ios-email"></i>
+                    <input row=3 style="color: #000;" ng-model="newdir.dir_aclaracion" type="text"  placeholder="Aclaracion" >  
+                </div>
+
+            </label>
+        </div>
 
 
-        <label class="item item-input ic-selected">
-            <a class="icon icon-right ion-email" style="margin-right: 10px;"></a>
-            <textarea style="color: #000;" cols="40" rows="3" ng-model="data.dir_nombre" type="text"  placeholder="Aclaraciones" >
-            </textarea>
-        </label>
 
-
-        <button class="button button-full button-positive" ng-click="createContact(newUser)">Guardar</button>
+        <button class="button button-full button-positive" ng-click="createAdressHotel(newdir)">Guardar</button>
     </ion-content>
 </ion-modal-view>
