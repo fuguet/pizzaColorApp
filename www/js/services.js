@@ -112,14 +112,14 @@ angular.module('starter.services', [])
                     for (var i = 0, len = cartObj.cart.length; i < len; i++) {
                         cartObj.total_qty += cartObj.cart[i].cantidad;
                         cartObj.total_amount += parseFloat(parseFloat(cartObj.cart[i].cantidad) * parseFloat(cartObj.cart[i].productoP.precioBase))
-                        debugger
+                        
 
                     }
                     for (var i = 0, len = cartObj.cartPromo.length; i < len; i++) {
 
                         cartObj.total_qty += cartObj.cartPromo[i].cantidad;
                         cartObj.total_amount += parseFloat(parseFloat(cartObj.cartPromo[i].cantidad) * parseFloat(cartObj.cartPromo[i].precioUnitario));
-                        debugger;
+                       
 
 
 
@@ -155,7 +155,7 @@ angular.module('starter.services', [])
                     }
 
                     cartObj.resumen = cartObj.resumen + resumentxt
-                    debugger;
+                  
 
                     return  cartObj.resumen;
 
@@ -177,7 +177,7 @@ angular.module('starter.services', [])
                         cartObj.total_amount += parseFloat(parseFloat(detalle.cantidad) * parseFloat(detalle.productoP.precioBase));
 
                     }
-                    debugger;
+                    
                     cartObj.qtyAderezo += detalle.productoP.aderezo;
                     $rootScope.totalCart = cartObj.total_qty;
                 };
@@ -201,7 +201,7 @@ angular.module('starter.services', [])
                     cartObj.qtyAderezo -= temp.productoP.aderezo;
                     cartObj.cart.splice(ind, 1);
                     $rootScope.totalCart = cartObj.total_qty;
-                    debugger;
+                  
                     if (!(temp.cantidad % 1 == 0)) {
                         var item = {
                             variedad: temp.productoP.nombreVariedad,
@@ -259,7 +259,7 @@ angular.module('starter.services', [])
 
                     var temp = cartObj.cartPromo[ind];
 
-                    debugger;
+                
                     cartObj.total_qty -= parseFloat(temp.cantidad);
                     cartObj.total_amount -= parseFloat(parseFloat(temp.cantidad) * parseFloat(temp.precioUnitario));
                     cartObj.qtyAderezo -= temp.aderezos;
@@ -267,7 +267,7 @@ angular.module('starter.services', [])
                     $rootScope.totalCart = cartObj.total_qty;
                 };
                 cartObj.cartPromo.add = function (promoPedido) {
-                    debugger;
+                    
                     cartObj.cartPromo.push(promoPedido);
                     cartObj.total_qty += promoPedido.cantidad;
                     cartObj.total_amount += parseFloat(parseFloat(promoPedido.cantidad) * parseFloat(promoPedido.precioUnitario));
@@ -312,7 +312,7 @@ angular.module('starter.services', [])
                         //                                                                        $state.go('login');
                     },
                     hasToken: function () {
-                        debugger;
+                      
                         return (!(typeof localStorage[API.token_name] === 'undefined') && (localStorage[API.token_name] !== ''));
                     },
                     redirectIfNotExists: function () {
@@ -321,8 +321,7 @@ angular.module('starter.services', [])
                         }
                     },
                     datosUsuario: function () {
-                        debugger;
-
+                 
 
                         usuario = {"id": "", "nombre": "", "celular": "", "email": ""};
 
@@ -763,7 +762,7 @@ angular.module('starter.services', [])
 
                         var openAt = getShiftedDate(ha).getTime();
                         var closeAt = getShiftedDate(hc).getTime();
-debugger;
+
                         if (fixedTime >= openAt && fixedTime <= closeAt) {
                             response.valor = true;
                             return response;
@@ -832,7 +831,7 @@ debugger;
 
                 };
                 dataUsuario.addDireccion = function (data) {
-                    debugger;
+                   
                     return($http({
                         url: API.base_url + 'loginpublic/dirinsertar',
                         method: "POST",
@@ -851,7 +850,7 @@ debugger;
 
                 };
                 dataUsuario.deleteDireccion = function (id) {
-                    debugger;
+                 
                     return($http({
                         url: API.base_url + 'loginpublic/direliminar/' + id,
                         method: "DELETE",
@@ -867,7 +866,7 @@ debugger;
 
                 };
                 dataUsuario.updateDireccion = function (data) {
-                    debugger;
+              
                     return($http({
                         url: API.base_url + 'loginpublic/diractualizar/' + data.dir_id,
                         method: "PUT",
@@ -875,29 +874,29 @@ debugger;
                         data: data
 
                     }).success(function (data, status, headers, config) {
-                        debugger;
+                   
                         datos = data.data;
                         return datos;
                     }).error(function (err) {
-                        debugger;
+                    
                         error = err;
                     })
                             )
 
                 };
                 dataUsuario.getPedidos = function (id) {
-                    debugger;
+                 
                     return($http({
                         url: API.base_url + 'loginpublic/pelistarcliente/' + id,
                         method: "GET",
                         headers: headers
 
                     }).success(function (data, status, headers, config) {
-                        debugger;
+                    
                         datos = data.data;
                         return datos;
                     }).error(function (err) {
-                        debugger;
+                    
                         error = err;
                     })
                             )
@@ -905,8 +904,7 @@ debugger;
                 };
 
                 dataUsuario.save = function (id, data) {
-                    debugger;
-
+                   
                     return($http({
                         url: API.base_url + 'loginpublic/peractualizar/' + id,
                         method: "PUT",
@@ -917,7 +915,7 @@ debugger;
                         datos = data.data;
                         return datos;
                     }).error(function (err) {
-                        debugger;
+                      
                         error = err;
                     })
                             )
@@ -936,7 +934,7 @@ debugger;
 
 
                 dataPedido.setEncabezado = function (data) {
-                    debugger;
+                 
 
                     return($http({
                         url: API.base_url + 'loginpublic/peinsertar',
@@ -948,7 +946,7 @@ debugger;
 
                         return data;
                     }).error(function (error, status) {
-                        debugger;
+                     
 
                         return error;
 
@@ -957,7 +955,7 @@ debugger;
 
                 };
                 dataPedido.addDetallePedido = function (data) {
-                    debugger;
+                    
                     return($http({
                         url: API.base_url + 'loginpublic/peinsertarcart',
                         method: "POST",
@@ -965,10 +963,10 @@ debugger;
                         data: data
 
                     }).success(function (data, status, headers, config) {
-                        debugger;
+                        
                         return data;
                     }).error(function (error, status) {
-                        debugger;
+                       
                         return error;
 
                     })
@@ -976,7 +974,7 @@ debugger;
 
                 };
                 dataPedido.addPromoPedido = function (data) {
-                    debugger;
+                 
                     return($http({
                         url: API.base_url + 'loginpublic/peinsertarcartpromo',
                         method: "POST",
@@ -984,10 +982,10 @@ debugger;
                         data: data
 
                     }).success(function (data, status, headers, config) {
-                        debugger;
+                      
                         return data;
                     }).error(function (error, status) {
-                        debugger;
+                       
                         return error;
 
                     })
@@ -1019,7 +1017,7 @@ debugger;
 
                         return data;
                     }).error(function (error, status) {
-                        debugger;
+                     
 
                         return error;
 
@@ -1028,7 +1026,7 @@ debugger;
 
                 };
                 dataCredencial.sigup = function (data) {
-                    debugger;
+                   
                     return($http({
                         url: API.base_url + 'auth/registrar',
                         method: "POST",
@@ -1039,7 +1037,7 @@ debugger;
 
                         return data;
                     }).error(function (error, status) {
-                        debugger;
+                       
 
                         return error;
 
@@ -1073,7 +1071,7 @@ debugger;
                 }
 
                 function openMapsApp(coords) {
-                    debugger;
+                    
                     var q;
                     if (ionic.Platform.isAndroid()) {
                         q = 'geo:' + coords + '?q=' + coords;
