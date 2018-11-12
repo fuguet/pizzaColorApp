@@ -2,7 +2,7 @@
 <ion-modal-view>
     <ion-header-bar class="bar-assertive" align-title="center">
         <h1 class="title">Nuevo Hotel </h1>
-        <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+        <button class="button button-clear button-primary" ng-click="closeModal()">Cancel</button>
     </ion-header-bar>
     <ion-content class="padding">
 
@@ -32,7 +32,6 @@
         </div>
         <h4 ng-if="editHotel.hotel.hotel_id == 0">Complete los datos</h4>
 
-
         <div class="item"  ng-if="editHotel.hotel.hotel_id == 0">
             <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
                 <div class="item-input-wrapper">
@@ -54,7 +53,7 @@
             <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
                 <div class="item-input-wrapper">
                     <i class="icon ion-ios-email"></i>
-                    <input style="color: #000;" ng-model="newHotel.dir_nombre" ng-value="editHotel.hotel.hotel_nombre" type="text"  placeholder="Nombre del Hotel" ng-disabled="true">
+                    <input style="color: #000;"  ng-value="editHotel.hotel.hotel_nombre" type="text"  placeholder="Nombre del Hotel" ng-disabled="true">
 
                 </div>           
             </label>
@@ -64,7 +63,7 @@
             <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
                 <div class="item-input-wrapper">
                     <i class="icon ion-ios-email"></i>
-                    <input row=3 style="color: #000;" ng-model="newHotel.dir_direccion" ng-value="editHotel.hotel.hotel_direccion" type="text"  placeholder="Direccion" ng-disabled="true" >  
+                    <input row=3 style="color: #000;"  ng-value="editHotel.hotel.hotel_direccion" type="text"  placeholder="Direccion" ng-disabled="true" >  
                 </div>
 
             </label>
