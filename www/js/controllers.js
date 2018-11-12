@@ -1055,6 +1055,7 @@ angular.module('starter.controllers', [])
                     $scope.usuario = auth.datosUsuario();
                     usuario.getDirecciones($scope.usuario.id).success(function (response) {
                         $scope.addresses = response;
+                        debugger;
                         sharedUtils.hideLoading();
                     }).error(function (err) {
                         sharedUtils.hideLoading();
@@ -1103,13 +1104,40 @@ angular.module('starter.controllers', [])
                         direccion.dir_aclaracion = res.dir_aclaracion;
                         direccion.dir_nombreHotel=$scope.editHotel.hotel.hotel_nombre;
                         direccion.dir_habitacion=res.dir_habitacion;
-                        direccion.dir_tipodireccion=2;//tipo 2 Hotel 1 Particular
+                        direccion.dir_tipoDireccion=2;//tipo 2 Hotel 1 Particular
                         direccion.dir_idPersona = $scope.usuario.id;
                     }
                
                     
                     debugger;
                     direccion;
+                    
+                    debugger;
+                    usuario.addDireccion(direccion).success(function (res) {
+                            if (res.response) {
+                                debugger;
+                                
+                                usuario.getDirecciones($scope.usuario.id).success(function (response) {
+                                    $scope.addresses = response;
+                                });
+                                 $scope.closeModal();
+                            } else {
+                                debugger;
+                                var alertPopup = $ionicPopup.alert({
+                                    title: 'Atencion',
+                                    template: res.message
+                                });
+                            }
+                        }).error(function (err) {
+                            
+                             debugger;
+
+                            var alertPopup = $ionicPopup.alert({
+                                title: 'Atencion',
+                                template: err.message
+                            });
+                        });
+                    
                 }else{
                     sharedUtils.showAlert("Atencion", "Debe completar los campos obligatorios");
                     
@@ -1230,6 +1258,43 @@ angular.module('starter.controllers', [])
 // Takes care of address add and edit ie Address Manipulator
 
                 $scope.openModal();
+            };
+                 $scope.addManipulation3 = function (edit_val) {
+                     
+                
+                    var title = "Editar hotel";
+                    var sub_title = "Editar su hotel";
+               $scope.data = edit_val; // For editing address 
+                // An elaborate, custom popup
+                var addressPopup = $ionicPopup.show({
+                    template: '<input type="text"   placeholder="Nombre Lugar"  ng-model="data.dir_nombre" ng-disabled="true"> <br/> ' +
+                            '<input type="text"   placeholder="Direccion" ng-model="data.dir_direccion" ng-disabled="true"> <br/> ' +
+                            '<input type="text"   placeholder="Habitacion o Departamento" ng-model="data.dir_habitacion" > <br/>' +
+                             '<textarea placeholder="Aclaraciones" cols="40" rows="3" ng-model="data.dir_aclaracion"></textarea> <br/> ',
+                    title: title,
+                    subTitle: sub_title,
+                    scope: $scope,
+                    buttons: [
+                        {text: 'Cancelar'},
+                        {
+                            text: '<b>Guardar</b>',
+                            type: 'button-positive',
+                            onTap: function (e) {
+
+
+                                if (!$scope.data.dir_nombre || !$scope.data.dir_direccion || !$scope.data.dir_habitacion) {
+                                    e.preventDefault(); //don't allow the user to close unless he enters full details
+                                } else {
+                                    return $scope.data;
+                                }
+                            }
+                        }
+                    ]
+                });
+
+
+
+               
             };
 
 
