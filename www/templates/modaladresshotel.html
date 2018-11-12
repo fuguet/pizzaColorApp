@@ -18,17 +18,20 @@
         </div>
 
         <br>
+        
+        
+        <form name="loginForm" class="list " id="login-form1">
+            
         <div class="item" ng-show="false">
             <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
                 <div class="item-input-wrapper">
                     <i class="icon ion-ios-email"></i>
-                    <input row=3 style="color: #000;" ng-model="newHotel.id = editHotel.hotel.hotel_id" type="text"  placeholder="Aclaracion" >  
+                    <input row=3 style="color: #000;" ng-model="newHotel.id = editHotel.hotel.hotel_id" type="text"  placeholder="Aclaracion" ng-required="true" >  
                 </div>
             </label>
         </div>
         <h4 ng-if="editHotel.hotel.hotel_id == 0">Complete los datos</h4>
 
-        <form name="loginForm" class="list " id="login-form1">
 
         <div class="item"  ng-if="editHotel.hotel.hotel_id == 0">
             <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
@@ -38,7 +41,6 @@
                 </div>           
             </label>
         </div>
-
         <div class="item" ng-if="editHotel.hotel.hotel_id == 0">
             <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
                 <div class="item-input-wrapper">
@@ -48,8 +50,6 @@
 
             </label>
         </div>
-
-</form>
         <div class="item"  ng-if="editHotel.hotel.hotel_id != 0">
             <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
                 <div class="item-input-wrapper">
@@ -76,7 +76,7 @@
             <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
                 <div class="item-input-wrapper">
                     <i class="icon ion-ios-email"></i>
-                    <input style="color: #000;" ng-model="newHotel.dir_habitacion" type="text"  placeholder="Numero de Habitacion" >  
+                    <input style="color: #000;" ng-model="newHotel.dir_habitacion" type="text"  placeholder="Numero de Habitacion" ng-required="true">  
                 </div>           
             </label>
         </div>
@@ -92,7 +92,7 @@
         </div>
 
 
-
+</form>
 
 
 

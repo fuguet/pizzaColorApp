@@ -1080,9 +1080,10 @@ angular.module('starter.controllers', [])
 
             $scope.addAdressHotel = function (formName,res) {
                 debugger;
-                 formName.$valid
+             
                 var direccion = {};
-                if (res != null) {
+                if (res.id) {
+                    if (formName.$valid){
                     if (res.id == 0) {
                         direccion.dir_nombre = res.dir_nombre;
                         direccion.dir_telefonoFijo =0;
@@ -1105,10 +1106,20 @@ angular.module('starter.controllers', [])
                         direccion.dir_tipodireccion=2;//tipo 2 Hotel 1 Particular
                         direccion.dir_idPersona = $scope.usuario.id;
                     }
+               
                     
                     debugger;
                     direccion;
-
+                }else{
+                    sharedUtils.showAlert("Atencion", "Debe completar los campos obligatorios");
+                    
+                }
+                
+                }
+                
+                else{
+                    sharedUtils.showAlert("Atencion", "Debe Seleccionar una Opcion");
+                    
                 }
 
 
