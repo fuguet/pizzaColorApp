@@ -19,11 +19,11 @@
             <div class="item item-divider">
                 Direcciones de Envio
             </div> 
-           <!-- <div class="padding-left padding-right">
-                <a class="pull-right" ui-sref="address">
-                    <i class="ion-edit"></i>
-                </a>
-            </div>-->
+            <!-- <div class="padding-left padding-right">
+                 <a class="pull-right" ui-sref="address">
+                     <i class="ion-edit"></i>
+                 </a>
+             </div>-->
             <ion-radio
                 ng-repeat="item in addresses"  
                 ng-model="data.address" 
@@ -45,6 +45,9 @@
         <button class="button button-block button-positive"  ng-click="addManipulation()">
             Agregar una Direcci&oacuten
         </button>
+        <button class="button button-block button-positive"  ng-click="addManipulation2()">
+            Agregar un Hotel
+        </button>
     </ion-content>
 
     <ion-footer-bar  class="bar-assertive">
@@ -52,7 +55,7 @@
             <div class="button" >Relizar Pedido</div>
 
             <div class="button text-2x">
-                 Total : ${{total}}
+                Total : ${{total}}
             </div>
         </div>
     </ion-footer-bar>

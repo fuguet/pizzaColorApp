@@ -759,12 +759,17 @@ angular.module('starter.controllers', [])
         )
 
 // Checkout controller
-        .controller('CheckoutCtrl', function ($scope, $state, $ionicPopup, $window, $ionicSideMenuDelegate, $ionicHistory, auth, usuario, sharedCartService, pedido, empresa, sharedUtils) {
+        .controller('CheckoutCtrl', function ($scope, $state, $ionicPopup, $window, $ionicSideMenuDelegate, $ionicHistory, $ionicModal, auth, usuario, sharedCartService, pedido, empresa, sharedUtils,hotel) {
             $scope.addresses = [];
             $scope.usuario = {};
             $scope.parametros = {};
             $scope.data = {
                 payment: 'Efectivo'
+            };
+            $scope.newHotel = {};
+            $scope.editHotel = {
+                hoteles: [{hotel_id: "0", hotel_nombre: "Ninguno de la lista", selected: false}],
+                hotel: null
             };
             isLogged = function () {
 
@@ -783,6 +788,32 @@ angular.module('starter.controllers', [])
             };
             //inicilizacion
             isLogged();
+
+            $ionicModal.fromTemplateUrl('templates/modaladresshotel.html', {
+                scope: $scope,
+                animation: 'slide-in-up'
+            }).then(function (modal) {
+                $scope.modal = modal;
+                debugger;
+            });
+            $scope.openModal = function () {
+                $scope.modal.show();
+            };
+
+            $scope.closeModal = function () {
+                $scope.modal.hide();
+                $scope.editHotel.hotel = null;
+            };
+             hotel.getHoteles().success(function (response) {
+                        debugger;
+                        $scope.editHotel.hoteles = $scope.editHotel.hoteles.concat(response.data);
+
+                        debugger;
+
+                        sharedUtils.hideLoading();
+                    }).error(function (err) {
+                        sharedUtils.hideLoading();
+                    });
             empresa.getParametros().success(function (response) {
 
                 $scope.parametros = response;
@@ -829,6 +860,12 @@ angular.module('starter.controllers', [])
                 addressPopup.then(function (res) {
                     createAdress(res);
                 });
+            };
+            $scope.addManipulation2 = function (edit_val) {
+
+// Takes care of address add and edit ie Address Manipulator
+
+                $scope.openModal();
             };
             createAdress = function (res) {
 
@@ -1043,8 +1080,12 @@ angular.module('starter.controllers', [])
             $scope.openModal = function () {
                 $scope.modal.show();
             };
+
             $scope.closeModal = function () {
                 $scope.modal.hide();
+                $scope.editHotel.hotel = null;
+
+
             };
             isLogged = function () {
 
@@ -1079,48 +1120,48 @@ angular.module('starter.controllers', [])
             isLogged();
 
 
-            $scope.addAdressHotel = function (formName,res) {
+            $scope.addAdressHotel = function (formName, res) {
                 debugger;
-             
+
                 var direccion = {};
                 if (res.id) {
-                    if (formName.$valid){
-                    if (res.id == 0) {
-                        direccion.dir_nombre = res.dir_nombre;
-                        direccion.dir_telefonoFijo =0;
-                        direccion.dir_direccion = res.dir_direccion;
-                        direccion.dir_idHotel = res.id;
-                        direccion.dir_aclaracion = res.dir_aclaracion;
-                        direccion.dir_nombreHotel=res.dir_nombre;
-                        direccion.dir_habitacion=res.dir_habitacion;
-                        direccion.dir_tipodireccion=2;//tipo 2 Hotel 1 Particular  
-                        direccion.dir_idPersona = $scope.usuario.id;
-                    }                   
-                    if (res.id != 0) {
-                        direccion.dir_nombre = $scope.editHotel.hotel.hotel_nombre;
-                        direccion.dir_telefonoFijo =$scope.editHotel.hotel.hotel_telefono;
-                        direccion.dir_direccion = $scope.editHotel.hotel.hotel_direccion;
-                        direccion.dir_idHotel =$scope.editHotel.hotel.hotel_id;
-                        direccion.dir_aclaracion = res.dir_aclaracion;
-                        direccion.dir_nombreHotel=$scope.editHotel.hotel.hotel_nombre;
-                        direccion.dir_habitacion=res.dir_habitacion;
-                        direccion.dir_tipoDireccion=2;//tipo 2 Hotel 1 Particular
-                        direccion.dir_idPersona = $scope.usuario.id;
-                    }
-               
-                    
-                    debugger;
-                    direccion;
-                    
-                    debugger;
-                    usuario.addDireccion(direccion).success(function (res) {
+                    if (formName.$valid) {
+                        if (res.id == 0) {
+                            direccion.dir_nombre = res.dir_nombre;
+                            direccion.dir_telefonoFijo = 0;
+                            direccion.dir_direccion = res.dir_direccion;
+                            direccion.dir_idHotel = res.id;
+                            direccion.dir_aclaracion = res.dir_aclaracion;
+                            direccion.dir_nombreHotel = res.dir_nombre;
+                            direccion.dir_habitacion = res.dir_habitacion;
+                            direccion.dir_tipodireccion = 2;//tipo 2 Hotel 1 Particular  
+                            direccion.dir_idPersona = $scope.usuario.id;
+                        }
+                        if (res.id != 0) {
+                            direccion.dir_nombre = $scope.editHotel.hotel.hotel_nombre;
+                            direccion.dir_telefonoFijo = $scope.editHotel.hotel.hotel_telefono;
+                            direccion.dir_direccion = $scope.editHotel.hotel.hotel_direccion;
+                            direccion.dir_idHotel = $scope.editHotel.hotel.hotel_id;
+                            direccion.dir_aclaracion = res.dir_aclaracion;
+                            direccion.dir_nombreHotel = $scope.editHotel.hotel.hotel_nombre;
+                            direccion.dir_habitacion = res.dir_habitacion;
+                            direccion.dir_tipoDireccion = 2;//tipo 2 Hotel 1 Particular
+                            direccion.dir_idPersona = $scope.usuario.id;
+                        }
+
+
+                        debugger;
+                        direccion;
+
+                        debugger;
+                        usuario.addDireccion(direccion).success(function (res) {
                             if (res.response) {
                                 debugger;
-                                
+
                                 usuario.getDirecciones($scope.usuario.id).success(function (response) {
                                     $scope.addresses = response;
                                 });
-                                 $scope.closeModal();
+                                $scope.closeModal();
                             } else {
                                 debugger;
                                 var alertPopup = $ionicPopup.alert({
@@ -1129,25 +1170,23 @@ angular.module('starter.controllers', [])
                                 });
                             }
                         }).error(function (err) {
-                            
-                             debugger;
+
+                            debugger;
 
                             var alertPopup = $ionicPopup.alert({
                                 title: 'Atencion',
                                 template: err.message
                             });
                         });
-                    
-                }else{
-                    sharedUtils.showAlert("Atencion", "Debe completar los campos obligatorios");
-                    
-                }
-                
-                }
-                
-                else{
+
+                    } else {
+                        sharedUtils.showAlert("Atencion", "Debe completar los campos obligatorios");
+
+                    }
+
+                } else {
                     sharedUtils.showAlert("Atencion", "Debe Seleccionar una Opcion");
-                    
+
                 }
 
 
@@ -1259,18 +1298,18 @@ angular.module('starter.controllers', [])
 
                 $scope.openModal();
             };
-                 $scope.addManipulation3 = function (edit_val) {
-                     
-                
-                    var title = "Editar hotel";
-                    var sub_title = "Editar su hotel";
-               $scope.data = edit_val; // For editing address 
+            $scope.addManipulation3 = function (edit_val) {
+
+
+                var title = "Editar hotel";
+                var sub_title = "Editar su hotel";
+                $scope.data = edit_val; // For editing address 
                 // An elaborate, custom popup
                 var addressPopup = $ionicPopup.show({
                     template: '<input type="text"   placeholder="Nombre Lugar"  ng-model="data.dir_nombre" ng-disabled="true"> <br/> ' +
                             '<input type="text"   placeholder="Direccion" ng-model="data.dir_direccion" ng-disabled="true"> <br/> ' +
                             '<input type="text"   placeholder="Habitacion o Departamento" ng-model="data.dir_habitacion" > <br/>' +
-                             '<textarea placeholder="Aclaraciones" cols="40" rows="3" ng-model="data.dir_aclaracion"></textarea> <br/> ',
+                            '<textarea placeholder="Aclaraciones" cols="40" rows="3" ng-model="data.dir_aclaracion"></textarea> <br/> ',
                     title: title,
                     subTitle: sub_title,
                     scope: $scope,
@@ -1294,7 +1333,7 @@ angular.module('starter.controllers', [])
 
 
 
-               
+
             };
 
 
