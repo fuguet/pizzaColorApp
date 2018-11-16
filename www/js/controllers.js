@@ -867,6 +867,77 @@ angular.module('starter.controllers', [])
 
                 $scope.openModal();
             };
+            $scope.addAdressHotel = function (formName, res) {
+                debugger;
+
+                var direccion = {};
+                if (res.id) {
+                    if (formName.$valid) {
+                        if (res.id == 0) {
+                            direccion.dir_nombre = res.dir_nombre;
+                            direccion.dir_telefonoFijo = 0;
+                            direccion.dir_direccion = res.dir_direccion;
+                            direccion.dir_idHotel = res.id;
+                            direccion.dir_aclaracion = res.dir_aclaracion;
+                            direccion.dir_nombreHotel = res.dir_nombre;
+                            direccion.dir_habitacion = res.dir_habitacion;
+                            direccion.dir_tipodireccion = 2;//tipo 2 Hotel 1 Particular  
+                            direccion.dir_idPersona = $scope.usuario.id;
+                        }
+                        if (res.id != 0) {
+                            direccion.dir_nombre = $scope.editHotel.hotel.hotel_nombre;
+                            direccion.dir_telefonoFijo = $scope.editHotel.hotel.hotel_telefono;
+                            direccion.dir_direccion = $scope.editHotel.hotel.hotel_direccion;
+                            direccion.dir_idHotel = $scope.editHotel.hotel.hotel_id;
+                            direccion.dir_aclaracion = res.dir_aclaracion;
+                            direccion.dir_nombreHotel = $scope.editHotel.hotel.hotel_nombre;
+                            direccion.dir_habitacion = res.dir_habitacion;
+                            direccion.dir_tipoDireccion = 2;//tipo 2 Hotel 1 Particular
+                            direccion.dir_idPersona = $scope.usuario.id;
+                        }
+
+
+                        debugger;
+                        direccion;
+
+                        debugger;
+                        usuario.addDireccion(direccion).success(function (res) {
+                            if (res.response) {
+                                debugger;
+
+                                usuario.getDirecciones($scope.usuario.id).success(function (response) {
+                                    $scope.addresses = response;
+                                });
+                                $scope.closeModal();
+                            } else {
+                                debugger;
+                                var alertPopup = $ionicPopup.alert({
+                                    title: 'Atencion',
+                                    template: res.message
+                                });
+                            }
+                        }).error(function (err) {
+
+                            debugger;
+
+                            var alertPopup = $ionicPopup.alert({
+                                title: 'Atencion',
+                                template: err.message
+                            });
+                        });
+
+                    } else {
+                        sharedUtils.showAlert("Atencion", "Debe completar los campos obligatorios");
+
+                    }
+
+                } else {
+                    sharedUtils.showAlert("Atencion", "Debe Seleccionar una Opcion");
+
+                }
+
+
+            };
             createAdress = function (res) {
 
                 var direccion = {};
@@ -1018,8 +1089,6 @@ angular.module('starter.controllers', [])
 
 // Address controller
         .controller('AddressCtrl', function ($scope, $state, $ionicPopup, externalAppsService, sharedCartService) {
-
-
 
             function initialize() {
                 // set up begining position

@@ -30,9 +30,11 @@
                 ng-value="item"
                 name="address"
                 >
-                <a class="icon icon-right ion-ios-location"></a>
-                <span> {{item.dir_nombre}} : {{item.dir_direccion}} </span>         
-                <span>Tel: {{item.dir_telefonoFijo}}</span>
+                <a ng-if="item.dir_tipoDireccion==2" class="icon icon-right ion-ios-navigate"></a>
+                <a ng-if="item.dir_tipoDireccion!=2" class="icon icon-right ion-ios-location"></a>
+                <span> {{item.dir_nombre}} : {{item.dir_direccion}} </span>  <br>       
+                <span ng-if="item.dir_tipoDireccion!=2">Tel: {{item.dir_telefonoFijo}}</span>
+                <span ng-if="item.dir_tipoDireccion==2">Habitacion: {{item.dir_habitacion}}</span>
             </ion-radio>
         </div>
 
