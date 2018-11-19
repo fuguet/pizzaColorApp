@@ -1,0 +1,71 @@
+<ion-view view-title="Login" hide-nav-bar="true" class="login-bg">
+    <ion-content class="login-bg">
+
+        <div class="login-content">
+
+            <!-- Logo -->
+            <div class="padding text-center">
+                <div class="logo assertive-bg">
+                    <i class="light ion-ios-home-outline"></i>
+                </div>
+                <h2 class="light">
+                    Pizza Color Delivery
+                </h2>
+            </div>
+
+            <!-- Login form -->
+            <form name="sigupForm" class="list " id="login-form1">
+                <div class="list">
+
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Nombre y Apellido</span>
+                        <input ng-model="user.per_nombre" type="text" required>
+                    </label>
+  
+                     <label class="item item-input item-stacked-label">
+                        <span class="input-label">Pais</span>
+                       <select ng-model="country" ng-init="country = countries[0]" ng-options="country.name for country in countries"></select>
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Telefono Movil</span>
+                        <input ng-model="user.per_celular" type="number" required>
+                    </label>
+                 
+                   
+                    
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Email</span>
+                        <input ng-model="user.per_email" type="email" required>
+                    </label>
+
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Ingrese Password</span>
+                        <input ng-model="user.per_password" type="password" required>
+                    </label>
+
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Ingrese Password nuevamente</span>
+                        <input ng-model="passwordValidator" type="password" required>
+                    </label>
+
+
+                </div>
+            </form>
+
+            <div class="padding-top">
+                <button class="button button-block button-assertive" ng-click="sigup(sigupForm, user, passwordValidator)">
+                    Registrar
+                </button>
+            </div>
+
+
+            <!-- Other links -->
+            <div class="text-center">
+                <a ui-sref="login" class="light" style="font-size:large"  ><span>Ya tiene Cuenta?</span></a>
+            </div>
+
+        </div>
+
+    </ion-content>
+</ion-view>
+
