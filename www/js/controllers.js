@@ -3,9 +3,9 @@ angular.module('starter.controllers', [])
 
 // Authentication controller
 // Put your login, register functions here
-        .controller('AuthCtrl', function ($scope, $rootScope, $ionicHistory, sharedUtils, $state, $stateParams, $ionicSideMenuDelegate, auth, credenciales,Countrie, $filter) {
+        .controller('AuthCtrl', function ($scope, $rootScope, $ionicHistory, sharedUtils, $state, $stateParams, $ionicSideMenuDelegate, auth, credenciales, Countrie, $filter) {
             $scope.selectedCountry = {}
-           
+
             // hide back butotn in next view
             $ionicHistory.nextViewOptions({
                 disableBack: true
@@ -18,7 +18,7 @@ angular.module('starter.controllers', [])
                 email: $stateParams.correo,
                 password: $stateParams.password
             };
-            $scope.countries=Countrie.all();
+            $scope.countries = Countrie.all();
 
 
 
@@ -65,17 +65,22 @@ angular.module('starter.controllers', [])
             }
 
             $scope.sigup = function (formName, user, passwordValidator) {
-                
+
                 debugger;
-                var numeroMovil=user.Pais.dial_code + user.per_prefijo +user.per_celular
-                
+                var numeroMovil = user.Pais.dial_code + user.per_prefijo + user.per_celular
+                var data = {};
+                data.per_email = user.per_email
+                data.per_password = user.per_password
+                data.per_celular = numeroMovil
+                data.per_nacionalidad = user.Pais.name
+                debugger;
                 if (formName.$valid)
 
                 {  // Check if the form data is valid or not
 
                     if (passwordValidator == $scope.user.per_password) {
                         sharedUtils.showLoading();
-                        credenciales.sigup(user).success(function (r) {
+                        credenciales.sigup(data).success(function (r) {
                             if (r.response)
                             {
                                 $ionicHistory.nextViewOptions({
@@ -806,6 +811,7 @@ angular.module('starter.controllers', [])
             $scope.closeModal = function () {
                 $scope.modal.hide();
                 $scope.editHotel.hotel = null;
+                $scope.newHotel = {};
             };
             hotel.getHoteles().success(function (response) {
                 debugger;
@@ -874,20 +880,20 @@ angular.module('starter.controllers', [])
                 debugger;
 
                 var direccion = {};
-                if (res.id) {
+                if ($scope.editHotel.hotel != null) {
                     if (formName.$valid) {
-                        if (res.id == 0) {
+                        if ($scope.editHotel.hotel.hotel_id == 0) {
                             direccion.dir_nombre = res.dir_nombre;
                             direccion.dir_telefonoFijo = 0;
                             direccion.dir_direccion = res.dir_direccion;
-                            direccion.dir_idHotel = res.id;
+                            direccion.dir_idHotel = 0;
                             direccion.dir_aclaracion = res.dir_aclaracion;
                             direccion.dir_nombreHotel = res.dir_nombre;
                             direccion.dir_habitacion = res.dir_habitacion;
                             direccion.dir_tipodireccion = 2;//tipo 2 Hotel 1 Particular  
                             direccion.dir_idPersona = $scope.usuario.id;
                         }
-                        if (res.id != 0) {
+                        if ($scope.editHotel.hotel.hotel_id != 0) {
                             direccion.dir_nombre = $scope.editHotel.hotel.hotel_nombre;
                             direccion.dir_telefonoFijo = $scope.editHotel.hotel.hotel_telefono;
                             direccion.dir_direccion = $scope.editHotel.hotel.hotel_direccion;
@@ -1156,6 +1162,7 @@ angular.module('starter.controllers', [])
             $scope.closeModal = function () {
                 $scope.modal.hide();
                 $scope.editHotel.hotel = null;
+                $scope.newHotel = {};
 
 
             };
@@ -1196,20 +1203,20 @@ angular.module('starter.controllers', [])
                 debugger;
 
                 var direccion = {};
-                if (res.id) {
+                if ($scope.editHotel.hotel != null) {
                     if (formName.$valid) {
-                        if (res.id == 0) {
+                        if ($scope.editHotel.hotel.hotel_id == 0) {
                             direccion.dir_nombre = res.dir_nombre;
                             direccion.dir_telefonoFijo = 0;
                             direccion.dir_direccion = res.dir_direccion;
-                            direccion.dir_idHotel = res.id;
+                            direccion.dir_idHotel = 0;
                             direccion.dir_aclaracion = res.dir_aclaracion;
                             direccion.dir_nombreHotel = res.dir_nombre;
                             direccion.dir_habitacion = res.dir_habitacion;
                             direccion.dir_tipodireccion = 2;//tipo 2 Hotel 1 Particular  
                             direccion.dir_idPersona = $scope.usuario.id;
                         }
-                        if (res.id != 0) {
+                        if ($scope.editHotel.hotel.hotel_id != 0) {
                             direccion.dir_nombre = $scope.editHotel.hotel.hotel_nombre;
                             direccion.dir_telefonoFijo = $scope.editHotel.hotel.hotel_telefono;
                             direccion.dir_direccion = $scope.editHotel.hotel.hotel_direccion;

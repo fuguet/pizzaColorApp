@@ -11,7 +11,7 @@
                 <label class="item item-input-inset" style="border:none;padding: 0px;cursor: pointer;">
                     <div class="item-input-wrapper">
                         <i class="icon ion-ios-search"></i>
-                        <input type="text" ng-model="editHotel.hotel.hotel_nombre" placeholder="Buscar" disabled >
+                        <input type="text" ng-model="editHotel.hotel.hotel_nombre" placeholder="Buscar" disabled>
                     </div>
                 </label>
             </ion-search-select>
@@ -22,20 +22,13 @@
         
         <form name="loginForm" class="list " id="login-form1">
             
-        <div class="item" ng-show="false">
-            <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
-                <div class="item-input-wrapper">
-                    <i class="icon ion-ios-email"></i>
-                    <input row=3 style="color: #000;" ng-model="newHotel.id = editHotel.hotel.hotel_id" type="text"  placeholder="Aclaracion" ng-required="true" >  
-                </div>
-            </label>
-        </div>
+     
         <h4 ng-if="editHotel.hotel.hotel_id == 0">Complete los datos</h4>
 
         <div class="item"  ng-if="editHotel.hotel.hotel_id == 0">
-            <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
+            <label class="item item-input-inset" style="border:none;padding: 0px;cursor: pointer;">
                 <div class="item-input-wrapper">
-                    <i class="icon ion-ios-email"></i>
+                    <i class="icon ion-ios-home"></i>
                     <input style="color: #000;" ng-model="newHotel.dir_nombre" type="text"  placeholder="Nombre del Hotel" ng-required="true">  
                 </div>           
             </label>
@@ -43,7 +36,7 @@
         <div class="item" ng-if="editHotel.hotel.hotel_id == 0">
             <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
                 <div class="item-input-wrapper">
-                    <i class="icon ion-ios-email"></i>
+                    <i class="icon ion-ios-navigate"></i>
                     <input row=3 style="color: #000;" ng-model="newHotel.dir_direccion" type="text"  placeholder="Direccion" ng-required="true" >  
                 </div>
 
@@ -52,7 +45,7 @@
         <div class="item"  ng-if="editHotel.hotel.hotel_id != 0">
             <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
                 <div class="item-input-wrapper">
-                    <i class="icon ion-ios-email"></i>
+                    <i class="icon ion-ios-home"></i>
                     <input style="color: #000;"  ng-value="editHotel.hotel.hotel_nombre" type="text"  placeholder="Nombre del Hotel" ng-disabled="true">
 
                 </div>           
@@ -62,7 +55,7 @@
         <div class="item" ng-if="editHotel.hotel.hotel_id != 0">
             <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
                 <div class="item-input-wrapper">
-                    <i class="icon ion-ios-email"></i>
+                    <i class="icon ion-ios-navigate"></i>
                     <input row=3 style="color: #000;"  ng-value="editHotel.hotel.hotel_direccion" type="text"  placeholder="Direccion" ng-disabled="true" >  
                 </div>
 
@@ -74,7 +67,7 @@
         <div class="item">
             <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
                 <div class="item-input-wrapper">
-                    <i class="icon ion-ios-email"></i>
+                    <i class="icon ion-pound"></i>
                     <input style="color: #000;" ng-model="newHotel.dir_habitacion" type="text"  placeholder="Numero de Habitacion" ng-required="true">  
                 </div>           
             </label>
@@ -83,7 +76,7 @@
         <div class="item">
             <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
                 <div class="item-input-wrapper">
-                    <i class="icon ion-ios-email"></i>
+                    <i class="icon ion-ios-compose"></i>
                     <input row=3 style="color: #000;" ng-model="newHotel.dir_aclaracion" type="text"  placeholder="Aclaracion (Opcional)" >  
                 </div>
 
