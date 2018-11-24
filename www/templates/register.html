@@ -16,8 +16,6 @@
             <!-- Login form -->
             <form name="sigupForm" class="list " id="login-form1">
                 <div class="list">
-
-
                     <div class="item" style="background-color: transparent;" >
                         <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
                             <div class="item-input-wrapper">
@@ -29,21 +27,21 @@
                     <div class="item" style="background-color: transparent;" >
                         <span class="input-label light" ><b>Prefijo Pais</b></span>
                         <div class="item-input-wrapper">
-                            <select ng-model="country" ng-init="country = countries[10]" placeholder="Seleccionar Pais" ng-options="country.name +   country.dial_code for country in countries"></select>
+                            <select ng-model="user.Pais=country" ng-init="country = countries[10]" placeholder="Seleccionar Pais" ng-options="country.name + country.dial_code for country in countries"></select>
                         </div>
 
                     </div>
                     <div class="item" style="color: transparent  ;background-color: transparent;">
                         <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
                             <div class="item-input-wrapper">
-                                <input  style="color: #000;" ng-model="user.per_celular" type="text"   maxlength="4" size="10" placeholder="Prefijo Local" required >  
+                                <input  style="color: #000;" ng-model="user.per_prefijo" type="text"   maxlength="4" size="10" placeholder="Prefijo Local" required >  
 
                             </div>
                         </label>
                         <br>
                         <label class="item item-input-inset"  style="border:none;padding: 0px;cursor: pointer;">
                             <div class="item-input-wrapper">
-                                <input  style="color: #000;" ng-model="user.per_prefijo"  type="text"   placeholder="Numero" required >  
+                                <input  style="color: #000;" ng-model="user.per_celular"  type="text"   placeholder="Numero" required >  
                             </div>
                         </label>
                     </div>
