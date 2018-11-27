@@ -451,6 +451,10 @@ angular.module('starter.services', [])
 
             // Some fake testing data
            var countries = [{
+                    name: "Otro",
+                    dial_code: "+0",
+                    code: "OT"
+                },{
                     name: "United States",
                     dial_code: "+1",
                     code: "US"
@@ -470,11 +474,7 @@ angular.module('starter.services', [])
                     name: "Algeria",
                     dial_code: "+213",
                     code: "DZ"
-                }, {
-                    name: "AmericanSamoa",
-                    dial_code: "+1 684",
-                    code: "AS"
-                }, {
+                },{
                     name: "Andorra",
                     dial_code: "+376",
                     code: "AD"
@@ -486,10 +486,6 @@ angular.module('starter.services', [])
                     name: "Anguilla",
                     dial_code: "+1 264",
                     code: "AI"
-                }, {
-                    name: "Antigua and Barbuda",
-                    dial_code: "+1268",
-                    code: "AG"
                 }, {
                     name: "Argentina",
                     dial_code: "+54",
@@ -519,22 +515,6 @@ angular.module('starter.services', [])
                     dial_code: "+1 242",
                     code: "BS"
                 }, {
-                    name: "Bahrain",
-                    dial_code: "+973",
-                    code: "BH"
-                }, {
-                    name: "Bangladesh",
-                    dial_code: "+880",
-                    code: "BD"
-                }, {
-                    name: "Barbados",
-                    dial_code: "+1 246",
-                    code: "BB"
-                }, {
-                    name: "Belarus",
-                    dial_code: "+375",
-                    code: "BY"
-                }, {
                     name: "Belgium",
                     dial_code: "+32",
                     code: "BE"
@@ -551,14 +531,6 @@ angular.module('starter.services', [])
                     dial_code: "+1 441",
                     code: "BM"
                 }, {
-                    name: "Bhutan",
-                    dial_code: "+975",
-                    code: "BT"
-                }, {
-                    name: "Bosnia and Herzegovina",
-                    dial_code: "+387",
-                    code: "BA"
-                }, {
                     name: "Botswana",
                     dial_code: "+267",
                     code: "BW"
@@ -567,10 +539,6 @@ angular.module('starter.services', [])
                     dial_code: "+55",
                     code: "BR"
                 }, {
-                    name: "British Indian Ocean Territory",
-                    dial_code: "+246",
-                    code: "IO"
-                }, {
                     name: "Bulgaria",
                     dial_code: "+359",
                     code: "BG"
@@ -578,10 +546,6 @@ angular.module('starter.services', [])
                     name: "Burkina Faso",
                     dial_code: "+226",
                     code: "BF"
-                }, {
-                    name: "Burundi",
-                    dial_code: "+257",
-                    code: "BI"
                 }, {
                     name: "Cambodia",
                     dial_code: "+855",
@@ -608,10 +572,6 @@ angular.module('starter.services', [])
                     dial_code: "+236",
                     code: "CF"
                 }, {
-                    name: "Chad",
-                    dial_code: "+235",
-                    code: "TD"
-                }, {
                     name: "Chile",
                     dial_code: "+56",
                     code: "CL"
@@ -619,26 +579,14 @@ angular.module('starter.services', [])
                     name: "China",
                     dial_code: "+86",
                     code: "CN"
-                }, {
-                    name: "Christmas Island",
-                    dial_code: "+61",
-                    code: "CX"
-                }, {
+                },, {
                     name: "Colombia",
                     dial_code: "+57",
                     code: "CO"
                 }, {
-                    name: "Comoros",
-                    dial_code: "+269",
-                    code: "KM"
-                }, {
                     name: "Congo",
                     dial_code: "+242",
                     code: "CG"
-                }, {
-                    name: "Cook Islands",
-                    dial_code: "+682",
-                    code: "CK"
                 }, {
                     name: "Costa Rica",
                     dial_code: "+506",
@@ -652,10 +600,6 @@ angular.module('starter.services', [])
                     dial_code: "+53",
                     code: "CU"
                 }, {
-                    name: "Cyprus",
-                    dial_code: "+537",
-                    code: "CY"
-                }, {
                     name: "Czech Republic",
                     dial_code: "+420",
                     code: "CZ"
@@ -663,10 +607,6 @@ angular.module('starter.services', [])
                     name: "Denmark",
                     dial_code: "+45",
                     code: "DK"
-                }, {
-                    name: "Djibouti",
-                    dial_code: "+253",
-                    code: "DJ"
                 }, {
                     name: "Dominica",
                     dial_code: "+1 767",
@@ -692,10 +632,6 @@ angular.module('starter.services', [])
                     dial_code: "+240",
                     code: "GQ"
                 }, {
-                    name: "Eritrea",
-                    dial_code: "+291",
-                    code: "ER"
-                }, {
                     name: "Estonia",
                     dial_code: "+372",
                     code: "EE"
@@ -703,10 +639,6 @@ angular.module('starter.services', [])
                     name: "Ethiopia",
                     dial_code: "+251",
                     code: "ET"
-                }, {
-                    name: "Faroe Islands",
-                    dial_code: "+298",
-                    code: "FO"
                 }, {
                     name: "Fiji",
                     dial_code: "+679",
@@ -723,10 +655,6 @@ angular.module('starter.services', [])
                     name: "French Guiana",
                     dial_code: "+594",
                     code: "GF"
-                }, {
-                    name: "French Polynesia",
-                    dial_code: "+689",
-                    code: "PF"
                 }, {
                     name: "Gabon",
                     dial_code: "+241",
@@ -763,14 +691,6 @@ angular.module('starter.services', [])
                     name: "Grenada",
                     dial_code: "+1 473",
                     code: "GD"
-                }, {
-                    name: "Guadeloupe",
-                    dial_code: "+590",
-                    code: "GP"
-                }, {
-                    name: "Guam",
-                    dial_code: "+1 671",
-                    code: "GU"
                 }, {
                     name: "Guatemala",
                     dial_code: "+502",
@@ -856,18 +776,6 @@ angular.module('starter.services', [])
                     dial_code: "+965",
                     code: "KW"
                 }, {
-                    name: "Kyrgyzstan",
-                    dial_code: "+996",
-                    code: "KG"
-                }, {
-                    name: "Latvia",
-                    dial_code: "+371",
-                    code: "LV"
-                }, {
-                    name: "Lebanon",
-                    dial_code: "+961",
-                    code: "LB"
-                }, {
                     name: "Lesotho",
                     dial_code: "+266",
                     code: "LS"
@@ -892,10 +800,6 @@ angular.module('starter.services', [])
                     dial_code: "+261",
                     code: "MG"
                 }, {
-                    name: "Malawi",
-                    dial_code: "+265",
-                    code: "MW"
-                }, {
                     name: "Malaysia",
                     dial_code: "+60",
                     code: "MY"
@@ -911,11 +815,7 @@ angular.module('starter.services', [])
                     name: "Malta",
                     dial_code: "+356",
                     code: "MT"
-                }, {
-                    name: "Marshall Islands",
-                    dial_code: "+692",
-                    code: "MH"
-                }, {
+                },  {
                     name: "Martinique",
                     dial_code: "+596",
                     code: "MQ"
@@ -923,14 +823,6 @@ angular.module('starter.services', [])
                     name: "Mauritania",
                     dial_code: "+222",
                     code: "MR"
-                }, {
-                    name: "Mauritius",
-                    dial_code: "+230",
-                    code: "MU"
-                }, {
-                    name: "Mayotte",
-                    dial_code: "+262",
-                    code: "YT"
                 }, {
                     name: "Mexico",
                     dial_code: "+52",
@@ -947,10 +839,6 @@ angular.module('starter.services', [])
                     name: "Montenegro",
                     dial_code: "+382",
                     code: "ME"
-                }, {
-                    name: "Montserrat",
-                    dial_code: "+1664",
-                    code: "MS"
                 }, {
                     name: "Morocco",
                     dial_code: "+212",
@@ -975,15 +863,7 @@ angular.module('starter.services', [])
                     name: "Netherlands",
                     dial_code: "+31",
                     code: "NL"
-                }, {
-                    name: "Netherlands Antilles",
-                    dial_code: "+599",
-                    code: "AN"
-                }, {
-                    name: "New Caledonia",
-                    dial_code: "+687",
-                    code: "NC"
-                }, {
+                },  {
                     name: "New Zealand",
                     dial_code: "+64",
                     code: "NZ"
@@ -991,26 +871,10 @@ angular.module('starter.services', [])
                     name: "Nicaragua",
                     dial_code: "+505",
                     code: "NI"
-                }, {
-                    name: "Niger",
-                    dial_code: "+227",
-                    code: "NE"
-                }, {
+                },  {
                     name: "Nigeria",
                     dial_code: "+234",
                     code: "NG"
-                }, {
-                    name: "Niue",
-                    dial_code: "+683",
-                    code: "NU"
-                }, {
-                    name: "Norfolk Island",
-                    dial_code: "+672",
-                    code: "NF"
-                }, {
-                    name: "Northern Mariana Islands",
-                    dial_code: "+1 670",
-                    code: "MP"
                 }, {
                     name: "Norway",
                     dial_code: "+47",
@@ -1031,11 +895,7 @@ angular.module('starter.services', [])
                     name: "Panama",
                     dial_code: "+507",
                     code: "PA"
-                }, {
-                    name: "Papua New Guinea",
-                    dial_code: "+675",
-                    code: "PG"
-                }, {
+                },{
                     name: "Paraguay",
                     dial_code: "+595",
                     code: "PY"
@@ -1067,11 +927,7 @@ angular.module('starter.services', [])
                     name: "Romania",
                     dial_code: "+40",
                     code: "RO"
-                }, {
-                    name: "Rwanda",
-                    dial_code: "+250",
-                    code: "RW"
-                }, {
+                },  {
                     name: "Samoa",
                     dial_code: "+685",
                     code: "WS"
@@ -1091,22 +947,10 @@ angular.module('starter.services', [])
                     name: "Serbia",
                     dial_code: "+381",
                     code: "RS"
-                }, {
-                    name: "Seychelles",
-                    dial_code: "+248",
-                    code: "SC"
-                }, {
-                    name: "Sierra Leone",
-                    dial_code: "+232",
-                    code: "SL"
-                }, {
+                } , {
                     name: "Singapore",
                     dial_code: "+65",
                     code: "SG"
-                }, {
-                    name: "Slovakia",
-                    dial_code: "+421",
-                    code: "SK"
                 }, {
                     name: "Slovenia",
                     dial_code: "+386",
@@ -1119,11 +963,7 @@ angular.module('starter.services', [])
                     name: "South Africa",
                     dial_code: "+27",
                     code: "ZA"
-                }, {
-                    name: "South Georgia and the South Sandwich Islands",
-                    dial_code: "+500",
-                    code: "GS"
-                }, {
+                },{
                     name: "Spain",
                     dial_code: "+34",
                     code: "ES"
@@ -1136,10 +976,6 @@ angular.module('starter.services', [])
                     dial_code: "+249",
                     code: "SD"
                 }, {
-                    name: "Suriname",
-                    dial_code: "+597",
-                    code: "SR"
-                }, {
                     name: "Swaziland",
                     dial_code: "+268",
                     code: "SZ"
@@ -1147,10 +983,6 @@ angular.module('starter.services', [])
                     name: "Sweden",
                     dial_code: "+46",
                     code: "SE"
-                }, {
-                    name: "Switzerland",
-                    dial_code: "+41",
-                    code: "CH"
                 }, {
                     name: "Tajikistan",
                     dial_code: "+992",
@@ -1163,10 +995,6 @@ angular.module('starter.services', [])
                     name: "Togo",
                     dial_code: "+228",
                     code: "TG"
-                }, {
-                    name: "Tokelau",
-                    dial_code: "+690",
-                    code: "TK"
                 }, {
                     name: "Tonga",
                     dial_code: "+676",
@@ -1183,19 +1011,7 @@ angular.module('starter.services', [])
                     name: "Turkey",
                     dial_code: "+90",
                     code: "TR"
-                }, {
-                    name: "Turkmenistan",
-                    dial_code: "+993",
-                    code: "TM"
-                }, {
-                    name: "Turks and Caicos Islands",
-                    dial_code: "+1 649",
-                    code: "TC"
-                }, {
-                    name: "Tuvalu",
-                    dial_code: "+688",
-                    code: "TV"
-                }, {
+                },  {
                     name: "Uganda",
                     dial_code: "+256",
                     code: "UG"
@@ -1219,15 +1035,7 @@ angular.module('starter.services', [])
                     name: "Uzbekistan",
                     dial_code: "+998",
                     code: "UZ"
-                }, {
-                    name: "Vanuatu",
-                    dial_code: "+678",
-                    code: "VU"
-                }, {
-                    name: "Wallis and Futuna",
-                    dial_code: "+681",
-                    code: "WF"
-                }, {
+                },  {
                     name: "Yemen",
                     dial_code: "+967",
                     code: "YE"
@@ -1244,17 +1052,9 @@ angular.module('starter.services', [])
                     dial_code: "",
                     code: "AX"
                 }, {
-                    name: "Antarctica",
-                    dial_code: null,
-                    code: "AQ"
-                }, {
                     name: "Bolivia, Plurinational State of",
                     dial_code: "+591",
                     code: "BO"
-                }, {
-                    name: "Brunei Darussalam",
-                    dial_code: "+673",
-                    code: "BN"
                 }, {
                     name: "Cocos (Keeling) Islands",
                     dial_code: "+61",
@@ -1264,22 +1064,6 @@ angular.module('starter.services', [])
                     dial_code: "+243",
                     code: "CD"
                 }, {
-                    name: "Cote d'Ivoire",
-                    dial_code: "+225",
-                    code: "CI"
-                }, {
-                    name: "Falkland Islands (Malvinas)",
-                    dial_code: "+500",
-                    code: "FK"
-                }, {
-                    name: "Guernsey",
-                    dial_code: "+44",
-                    code: "GG"
-                }, {
-                    name: "Holy See (Vatican City State)",
-                    dial_code: "+379",
-                    code: "VA"
-                }, {
                     name: "Hong Kong",
                     dial_code: "+852",
                     code: "HK"
@@ -1287,11 +1071,7 @@ angular.module('starter.services', [])
                     name: "Iran, Islamic Republic of",
                     dial_code: "+98",
                     code: "IR"
-                }, {
-                    name: "Isle of Man",
-                    dial_code: "+44",
-                    code: "IM"
-                }, {
+                },  {
                     name: "Jersey",
                     dial_code: "+44",
                     code: "JE"
@@ -1303,47 +1083,15 @@ angular.module('starter.services', [])
                     name: "Korea, Republic of",
                     dial_code: "+82",
                     code: "KR"
-                }, {
-                    name: "Lao People's Democratic Republic",
-                    dial_code: "+856",
-                    code: "LA"
-                }, {
-                    name: "Libyan Arab Jamahiriya",
-                    dial_code: "+218",
-                    code: "LY"
-                }, {
-                    name: "Macao",
-                    dial_code: "+853",
-                    code: "MO"
-                }, {
-                    name: "Macedonia, The Former Yugoslav Republic of",
-                    dial_code: "+389",
-                    code: "MK"
-                }, {
+                },  {
                     name: "Micronesia, Federated States of",
                     dial_code: "+691",
                     code: "FM"
-                }, {
-                    name: "Moldova, Republic of",
-                    dial_code: "+373",
-                    code: "MD"
-                }, {
-                    name: "Mozambique",
-                    dial_code: "+258",
-                    code: "MZ"
-                }, {
+                },  {
                     name: "Palestinian Territory, Occupied",
                     dial_code: "+970",
                     code: "PS"
-                }, {
-                    name: "Pitcairn",
-                    dial_code: "+872",
-                    code: "PN"
-                }, {
-                    name: "Réunion",
-                    dial_code: "+262",
-                    code: "RE"
-                }, {
+                },  {
                     name: "Russia",
                     dial_code: "+7",
                     code: "RU"
@@ -1352,29 +1100,9 @@ angular.module('starter.services', [])
                     dial_code: "+590",
                     code: "BL"
                 }, {
-                    name: "Saint Helena, Ascension and Tristan Da Cunha",
-                    dial_code: "+290",
-                    code: "SH"
-                }, {
-                    name: "Saint Kitts and Nevis",
-                    dial_code: "+1 869",
-                    code: "KN"
-                }, {
                     name: "Saint Lucia",
                     dial_code: "+1 758",
                     code: "LC"
-                }, {
-                    name: "Saint Martin",
-                    dial_code: "+590",
-                    code: "MF"
-                }, {
-                    name: "Saint Pierre and Miquelon",
-                    dial_code: "+508",
-                    code: "PM"
-                }, {
-                    name: "Saint Vincent and the Grenadines",
-                    dial_code: "+1 784",
-                    code: "VC"
                 }, {
                     name: "Sao Tome and Principe",
                     dial_code: "+239",
@@ -1383,10 +1111,6 @@ angular.module('starter.services', [])
                     name: "Somalia",
                     dial_code: "+252",
                     code: "SO"
-                }, {
-                    name: "Svalbard and Jan Mayen",
-                    dial_code: "+47",
-                    code: "SJ"
                 }, {
                     name: "Syrian Arab Republic",
                     dial_code: "+963",
@@ -1399,11 +1123,7 @@ angular.module('starter.services', [])
                     name: "Tanzania, United Republic of",
                     dial_code: "+255",
                     code: "TZ"
-                }, {
-                    name: "Timor-Leste",
-                    dial_code: "+670",
-                    code: "TL"
-                }, {
+                },{
                     name: "Venezuela, Bolivarian Republic of",
                     dial_code: "+58",
                     code: "VE"

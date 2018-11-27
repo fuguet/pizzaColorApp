@@ -73,6 +73,7 @@ angular.module('starter.controllers', [])
                 data.per_password = user.per_password
                 data.per_celular = numeroMovil
                 data.per_nacionalidad = user.Pais.name
+                data.per_nombre=user.per_nombre
                 debugger;
                 if (formName.$valid)
 
@@ -83,6 +84,7 @@ angular.module('starter.controllers', [])
                         credenciales.sigup(data).success(function (r) {
                             if (r.response)
                             {
+                                debugger;
                                 $ionicHistory.nextViewOptions({
                                     historyRoot: true
                                 });
@@ -95,7 +97,7 @@ angular.module('starter.controllers', [])
                                 sharedUtils.showAlert("Atención", r.message);
                             }
                         }).error(function (err) {
-
+                            debugger;
                             sharedUtils.hideLoading();
                             sharedUtils.showAlert("Atención", err.message);
                         });
