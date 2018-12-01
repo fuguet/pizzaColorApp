@@ -14,6 +14,9 @@ angular.module('starter.controllers', [])
                 $state.go('home', {}, {location: "replace"});
             }
 
+
+
+
             $scope.user = {
                 email: $stateParams.correo,
                 password: $stateParams.password
@@ -73,7 +76,7 @@ angular.module('starter.controllers', [])
                 data.per_password = user.per_password
                 data.per_celular = numeroMovil
                 data.per_nacionalidad = user.Pais.name
-                data.per_nombre=user.per_nombre
+                data.per_nombre = user.per_nombre
                 debugger;
                 if (formName.$valid)
 
@@ -377,13 +380,37 @@ angular.module('starter.controllers', [])
         })
 
 // LastOrder controller
-        .controller('LastoCtrl', function ($scope, $state, usuario, auth) {
+        .controller('LastoCtrl', function ($scope, $state, $interval, usuario, auth) {
 
             $scope.usuario = {};
             $scope.pedidos = {};
             $scope.refresh = function () {
                 $state.reload(true);
             };
+            $scope.estadoInicial = {};
+
+
+
+            var notification = function () {
+                usuario.getPedidos($scope.usuario.id).success(function (response) {
+                    $scope.pedidos = response;
+
+                });
+                
+                if ($scope.pedidos) {
+                    debugger;
+                    if ($scope.pedidos[0].pe_idEstado != $scope.estadoInicial) {
+                        debugger;
+                        cordova.plugins.notification.local.schedule({
+                            title: 'Su Pedido se esta ' + $scope.pedidos[0].descripcion ,
+                            text: 'Espere un poco mas',
+                            foreground: true
+                        });
+                        $scope.estadoInicial = $scope.pedidos[0].pe_idEstado
+                    }
+
+                }
+            }
             isLogged = function () {
 
                 if (auth.hasToken())
@@ -399,10 +426,15 @@ angular.module('starter.controllers', [])
             isLogged();
             usuario.getPedidos($scope.usuario.id).success(function (response) {
 
-
+                debugger;
 
                 $scope.pedidos = response;
+                $scope.estadoInicial = $scope.pedidos[0].pe_idEstado;
+                $interval(notification, 10000);
             });
+
+
+
             // get all favorite items
 
         })
@@ -1065,6 +1097,8 @@ angular.module('starter.controllers', [])
                                         template: 'No se pudo pedir algunos productos intente mas tarde nuevamente'
                                     });
                                 })
+
+
                             } else
                             {
 
