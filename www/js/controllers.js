@@ -404,6 +404,8 @@ angular.module('starter.controllers', [])
                         cordova.plugins.notification.local.schedule({
                             title: 'Su Pedido se esta ' + $scope.pedidos[0].descripcion ,
                             text: 'Espere un poco mas',
+                            icon:  "file://img/marker.jpg",
+                            smallIcon:  "file://img/marker.jpg",
                             foreground: true
                         });
                         $scope.estadoInicial = $scope.pedidos[0].pe_idEstado
