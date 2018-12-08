@@ -404,7 +404,7 @@ angular.module('starter.controllers', [])
                         if($scope.pedidos[0].pe_idEstado==2 || $scope.pedidos[0].pe_idEstado==3){
                         cordova.plugins.notification.local.schedule({
                             title: 'Su pedido se esta ' + $scope.pedidos[0].descripcion ,
-                            text: 'Espere un poco mas',
+                            text: 'Muchas Gracias por esperar',
                             icon:  "file://img/marker.jpg",
                             smallIcon:  "file://img/marker.jpg",
                             foreground: true
