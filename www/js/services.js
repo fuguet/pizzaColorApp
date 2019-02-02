@@ -450,11 +450,11 @@ angular.module('starter.services', [])
             // Might use a resource here that returns a JSON array
 
             // Some fake testing data
-           var countries = [{
+            var countries = [{
                     name: "Otro",
                     dial_code: "+0",
                     code: "OT"
-                },{
+                }, {
                     name: "United States",
                     dial_code: "+1",
                     code: "US"
@@ -474,7 +474,7 @@ angular.module('starter.services', [])
                     name: "Algeria",
                     dial_code: "+213",
                     code: "DZ"
-                },{
+                }, {
                     name: "Andorra",
                     dial_code: "+376",
                     code: "AD"
@@ -550,7 +550,7 @@ angular.module('starter.services', [])
                     name: "Cambodia",
                     dial_code: "+855",
                     code: "KH"
-                }, 
+                },
                 {
                     name: "Cameroon",
                     dial_code: "+237",
@@ -579,7 +579,7 @@ angular.module('starter.services', [])
                     name: "China",
                     dial_code: "+86",
                     code: "CN"
-                },, {
+                }, , {
                     name: "Colombia",
                     dial_code: "+57",
                     code: "CO"
@@ -815,7 +815,7 @@ angular.module('starter.services', [])
                     name: "Malta",
                     dial_code: "+356",
                     code: "MT"
-                },  {
+                }, {
                     name: "Martinique",
                     dial_code: "+596",
                     code: "MQ"
@@ -863,7 +863,7 @@ angular.module('starter.services', [])
                     name: "Netherlands",
                     dial_code: "+31",
                     code: "NL"
-                },  {
+                }, {
                     name: "New Zealand",
                     dial_code: "+64",
                     code: "NZ"
@@ -871,7 +871,7 @@ angular.module('starter.services', [])
                     name: "Nicaragua",
                     dial_code: "+505",
                     code: "NI"
-                },  {
+                }, {
                     name: "Nigeria",
                     dial_code: "+234",
                     code: "NG"
@@ -895,7 +895,7 @@ angular.module('starter.services', [])
                     name: "Panama",
                     dial_code: "+507",
                     code: "PA"
-                },{
+                }, {
                     name: "Paraguay",
                     dial_code: "+595",
                     code: "PY"
@@ -927,7 +927,7 @@ angular.module('starter.services', [])
                     name: "Romania",
                     dial_code: "+40",
                     code: "RO"
-                },  {
+                }, {
                     name: "Samoa",
                     dial_code: "+685",
                     code: "WS"
@@ -947,7 +947,7 @@ angular.module('starter.services', [])
                     name: "Serbia",
                     dial_code: "+381",
                     code: "RS"
-                } , {
+                }, {
                     name: "Singapore",
                     dial_code: "+65",
                     code: "SG"
@@ -963,7 +963,7 @@ angular.module('starter.services', [])
                     name: "South Africa",
                     dial_code: "+27",
                     code: "ZA"
-                },{
+                }, {
                     name: "Spain",
                     dial_code: "+34",
                     code: "ES"
@@ -1011,7 +1011,7 @@ angular.module('starter.services', [])
                     name: "Turkey",
                     dial_code: "+90",
                     code: "TR"
-                },  {
+                }, {
                     name: "Uganda",
                     dial_code: "+256",
                     code: "UG"
@@ -1035,7 +1035,7 @@ angular.module('starter.services', [])
                     name: "Uzbekistan",
                     dial_code: "+998",
                     code: "UZ"
-                },  {
+                }, {
                     name: "Yemen",
                     dial_code: "+967",
                     code: "YE"
@@ -1071,7 +1071,7 @@ angular.module('starter.services', [])
                     name: "Iran, Islamic Republic of",
                     dial_code: "+98",
                     code: "IR"
-                },  {
+                }, {
                     name: "Jersey",
                     dial_code: "+44",
                     code: "JE"
@@ -1083,15 +1083,15 @@ angular.module('starter.services', [])
                     name: "Korea, Republic of",
                     dial_code: "+82",
                     code: "KR"
-                },  {
+                }, {
                     name: "Micronesia, Federated States of",
                     dial_code: "+691",
                     code: "FM"
-                },  {
+                }, {
                     name: "Palestinian Territory, Occupied",
                     dial_code: "+970",
                     code: "PS"
-                },  {
+                }, {
                     name: "Russia",
                     dial_code: "+7",
                     code: "RU"
@@ -1123,7 +1123,7 @@ angular.module('starter.services', [])
                     name: "Tanzania, United Republic of",
                     dial_code: "+255",
                     code: "TZ"
-                },{
+                }, {
                     name: "Venezuela, Bolivarian Republic of",
                     dial_code: "+58",
                     code: "VE"
@@ -1145,8 +1145,8 @@ angular.module('starter.services', [])
                 all: function () {
                     return countries;
                 }
-             
-               
+
+
             };
         })
 
@@ -1744,6 +1744,20 @@ angular.module('starter.services', [])
 
                         return error;
 
+                    })
+                            )
+
+                };
+                dataCredencial.recovery = function (data) {
+                    return($http({
+                        url: API.base_url + 'auth/recuperar' + data,
+                        method: "GET",
+                        headers: headers
+                    }).success(function (data, status, headers, config) {
+
+                        return data;
+                    }).error(function (error, status) {
+                        return error;
                     })
                             )
 

@@ -21,6 +21,11 @@ angular.module('starter.routes', [])
                         templateUrl: 'templates/register.html',
                         controller: 'AuthCtrl'
                     })
+                    .state('recovery', {
+                        url: '/recovery',
+                        templateUrl: 'templates/recovery.html',
+                        controller: 'AuthCtrl'
+                    })
 
                     // Home screen
                     .state('home', {

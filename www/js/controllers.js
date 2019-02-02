@@ -113,7 +113,40 @@ angular.module('starter.controllers', [])
 
             }
 
+            $scope.recovery = function (formName, user ) {
+                debugger;
+                var data = {};
+                data.per_email = user.per_email
+                debugger;
+                if (formName.$valid)
 
+                {  // Check if the form data is valid or not
+                    sharedUtils.showLoading();
+                    credenciales.recovery(data.per_email).success(function (r) {
+                        if (r.response)
+                        {
+                            debugger;
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true
+                            });
+                            $ionicSideMenuDelegate.canDragContent(true); // Sets up the sideMenu dragable
+                            sharedUtils.hideLoading();
+                            $state.go('login', {"correo": user.per_email, "password": ""}, {location: "replace"});
+                        } else
+                        {
+                            sharedUtils.hideLoading();
+                            sharedUtils.showAlert("Atención", r.message);
+                        }
+                    }).error(function (err) {
+                        debugger;
+                        sharedUtils.hideLoading();
+                        sharedUtils.showAlert("Atención", err.message);
+                    });
+                } else {
+                    sharedUtils.showAlert("Atención", "Los datos no son validos");
+                }
+
+            }
 
             $scope.loginFb = function () {
                 //Facebook Login
@@ -396,22 +429,22 @@ angular.module('starter.controllers', [])
                     $scope.pedidos = response;
 
                 });
-                
+
                 if ($scope.pedidos) {
-                    debugger; 
+                    debugger;
                     if ($scope.pedidos[0].pe_idEstado != $scope.estadoInicial) {
-                        
-                        if($scope.pedidos[0].pe_idEstado==2 || $scope.pedidos[0].pe_idEstado==3){
-                        cordova.plugins.notification.local.schedule({
-                            title: 'Su pedido se esta ' + $scope.pedidos[0].descripcion ,
-                            text: 'Muchas Gracias por esperar',
-                            icon:  "file://img/marker.jpg",
-                            smallIcon:  "file://img/marker.jpg",
-                            foreground: true
-                        });
-                        
-                    }
-                    
+
+                        if ($scope.pedidos[0].pe_idEstado == 2 || $scope.pedidos[0].pe_idEstado == 3) {
+                            cordova.plugins.notification.local.schedule({
+                                title: 'Su pedido se esta ' + $scope.pedidos[0].descripcion,
+                                text: 'Muchas Gracias por esperar',
+                                icon: "file://img/marker.jpg",
+                                smallIcon: "file://img/marker.jpg",
+                                foreground: true
+                            });
+
+                        }
+
                         $scope.estadoInicial = $scope.pedidos[0].pe_idEstado
                     }
 
