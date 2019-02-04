@@ -433,7 +433,7 @@ angular.module('starter.controllers', [])
                 });
 
                 if ($scope.pedidos) {
-                    debugger;
+                 
                     if ($scope.pedidos[0].pe_idEstado != $scope.estadoInicial) {
 
                         if ($scope.pedidos[0].pe_idEstado == 2 || $scope.pedidos[0].pe_idEstado == 3) {
