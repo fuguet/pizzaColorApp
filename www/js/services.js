@@ -1750,10 +1750,11 @@ angular.module('starter.services', [])
                 };
                 dataCredencial.recovery = function (data) {
                     return($http({
-                        url: API.base_url + 'auth/recuperar' + data,
+                        url: API.base_url + 'auth/recuperar/' + data,
                         method: "GET",
                         headers: headers
                     }).success(function (data, status, headers, config) {
+                        debugger;
 
                         return data;
                     }).error(function (error, status) {

@@ -115,13 +115,14 @@ angular.module('starter.controllers', [])
 
             $scope.recovery = function (formName, user ) {
                 debugger;
-                var data = {};
+                var data = {};             
                 data.per_email = user.per_email
                 debugger;
                 if (formName.$valid)
 
                 {  // Check if the form data is valid or not
                     sharedUtils.showLoading();
+                    debugger;
                     credenciales.recovery(data.per_email).success(function (r) {
                         if (r.response)
                         {
@@ -131,6 +132,7 @@ angular.module('starter.controllers', [])
                             });
                             $ionicSideMenuDelegate.canDragContent(true); // Sets up the sideMenu dragable
                             sharedUtils.hideLoading();
+                            sharedUtils.showAlert("Atención", r.message);
                             $state.go('login', {"correo": user.per_email, "password": ""}, {location: "replace"});
                         } else
                         {
