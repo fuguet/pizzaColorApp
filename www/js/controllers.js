@@ -114,19 +114,18 @@ angular.module('starter.controllers', [])
             }
 
             $scope.recovery = function (formName, user ) {
-                debugger;
+            
                 var data = {};             
                 data.per_email = user.per_email
-                debugger;
+           
                 if (formName.$valid)
 
                 {  // Check if the form data is valid or not
                     sharedUtils.showLoading();
-                    debugger;
+                 
                     credenciales.recovery(data.per_email).success(function (r) {
                         if (r.response)
                         {
-                            debugger;
                             $ionicHistory.nextViewOptions({
                                 historyRoot: true
                             });
