@@ -125,8 +125,7 @@ angular.module('starter.controllers', [])
                  
                     credenciales.recovery(data.per_email).success(function (r) {
                         if (r.response)
-                        {
-                            $ionicHistory.nextViewOptions({
+                        { $ionicHistory.nextViewOptions({
                                 historyRoot: true
                             });
                             $ionicSideMenuDelegate.canDragContent(true); // Sets up the sideMenu dragable
