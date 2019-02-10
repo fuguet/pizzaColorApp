@@ -21,7 +21,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.routes', 'st
         .run(function ($ionicPlatform, $ionicHistory, $state) {
             $ionicPlatform.ready(function () {
                 
+              cordova.plugins.notification.local.hasPermission(function (granted) {
+                  
+                    alert("Mantenga la aplicacion abierta o minimizada para recibir notificaciones del estado de su pedido");
+//                  alert({
+//                        title: 'Importante',
+//                        template: "Mantenga la aplicacion abierta para recibir notificaciones del estado de su pedido"
+//                    });
+     
               
+              });
 
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
