@@ -23,7 +23,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.routes', 'st
                 
               cordova.plugins.notification.local.hasPermission(function (granted) {
                   
-                    alert("Mantenga la aplicacion abierta o minimizada para recibir notificaciones del estado de su pedido");
+                    alert("Mantenga la aplicación abierta o minimizada para recibir notificaciones del estado de su pedido");
 //                  alert({
 //                        title: 'Importante',
 //                        template: "Mantenga la aplicacion abierta para recibir notificaciones del estado de su pedido"
