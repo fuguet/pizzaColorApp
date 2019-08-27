@@ -11,7 +11,7 @@ var API = {
 };
 
 
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.routes', 'starter.services','starter.directives','nl2br', 'monospaced.elastic'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.routes', 'starter.services', 'starter.directives', 'nl2br', 'monospaced.elastic'])
         .config(function ($ionicConfigProvider) {
             //Added config
             $ionicConfigProvider.views.maxCache(5);
@@ -20,24 +20,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.routes', 'st
         })
         .run(function ($ionicPlatform, $ionicHistory, $state) {
             $ionicPlatform.ready(function () {
-                
-              cordova.plugins.notification.local.hasPermission(function (granted) {
-                  
-                    alert("Mantenga la aplicación abierta o minimizada para recibir notificaciones del estado de su pedido");
-//                  alert({
-//                        title: 'Importante',
-//                        template: "Mantenga la aplicacion abierta para recibir notificaciones del estado de su pedido"
-//                    });
-     
-              
-              });
 
+                cordova.plugins.notification.local.hasPermission(function (granted) {
+
+                    alert("Mantenga la aplicación abierta o minimizada para recibir notificaciones del estado de su pedido");
+//                                
+                });
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
                 if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
                     cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                     cordova.plugins.Keyboard.disableScroll(true);
-
                 }
                 if (window.StatusBar) {
                     // org.apache.cordova.statusbar required
@@ -54,11 +47,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.routes', 'st
 
                             BackButton++;
                             window.plugins.toast.showLongCenter('Presione nuevamente para salir');
-
                             $timeout(function () {
                                 BackButton = 0;
                             }, 1500);
-
                         } else {
                             ionic.Platform.exitApp()
                         }
@@ -70,11 +61,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.routes', 'st
 
                 }, 100);
             });
-
-
-
-
-
         })
 
 

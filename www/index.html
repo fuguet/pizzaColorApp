@@ -9,7 +9,7 @@
 
         <!-- compiled css output -->
         <link href="css/ionic.app.css" rel="stylesheet">
-           <link href="css/style.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
 
         <!-- ionic/angularjs js -->
         <script src="lib/ionic/js/ionic.bundle.js"></script>
@@ -25,7 +25,10 @@
 
         <!-- google maps javascript -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB16sGmIekuGIvYOfNoW9T44377IU2d2Es&amp;sensor=true"></script>
+        
+        <!-- Mercado Pago javascript -->
 
+        <script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
         <!-- your app's js -->
         <script src="js/app.js"></script>
         <script src="js/controllers.js"></script>
@@ -57,9 +60,9 @@
                 <!-- Cart button -->
                 <ion-nav-buttons side="right">
                     <button ui-sref="cart" class="button button-icon button-clear ion-ios-cart-outline">
-                    {{totalCart}}
-                </button>
-                  
+                        {{totalCart}}
+                    </button>
+
                 </ion-nav-buttons>
             </ion-nav-bar>
 
@@ -108,10 +111,10 @@
                         Ultimos Pedidos
                     </div>
 
-                  <!--   <div class="item item-icon-left" ui-sref="favorite">
-                        <i class="icon ion-ios-star-outline"></i>
-                        Favorite
-                    </div> -->
+                    <!--   <div class="item item-icon-left" ui-sref="favorite">
+                          <i class="icon ion-ios-star-outline"></i>
+                          Favorite
+                      </div> -->
 
                     <div class="item item-icon-left" ui-sref="setting">
                         <i class="icon ion-ios-person-outline"></i>
@@ -132,10 +135,10 @@
                         Ubicaci&oacuten
                     </div>
 
-                       <!-- <div class="item item-icon-left" ui-sref="chats">
-                        <i class="icon ion-ios-help-outline"></i>
-                        Supports
-                    </div>-->
+                    <!-- <div class="item item-icon-left" ui-sref="chats">
+                     <i class="icon ion-ios-help-outline"></i>
+                     Supports
+                 </div>-->
 
                     <div class="item item-icon-left" ui-sref="logout">
                         <i class="icon ion-log-out"></i>

@@ -17,9 +17,15 @@
                         
                     </ion-slide>
                 </ion-slide-box> 
+            <br>
+              <ion-slide-box auto-play="true">
+                    <ion-slide ng-repeat="item in publicidad"  ng-init="updateSlider()">
+                        <img class="full-image" ng-src="{{ item.slider }}" ui-sref="itemoffer({id: item.pub_id})" alt=""/>
+                        
+                    </ion-slide>
+                </ion-slide-box>
 
-            <h3 class="text-center">Pizza Color Delivery</h3>
-        
+        <br>
             <div class="list no-padding">
                 <div class="item item-menu" ng-repeat="category in categories" ui-sref="category({id: category.cat_id})">
 

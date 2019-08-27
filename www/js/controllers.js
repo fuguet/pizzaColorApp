@@ -113,19 +113,20 @@ angular.module('starter.controllers', [])
 
             }
 
-            $scope.recovery = function (formName, user ) {
-            
-                var data = {};             
+            $scope.recovery = function (formName, user) {
+
+                var data = {};
                 data.per_email = user.per_email
-           
+
                 if (formName.$valid)
 
                 {  // Check if the form data is valid or not
                     sharedUtils.showLoading();
-                 
+
                     credenciales.recovery(data.per_email).success(function (r) {
                         if (r.response)
-                        { $ionicHistory.nextViewOptions({
+                        {
+                            $ionicHistory.nextViewOptions({
                                 historyRoot: true
                             });
                             $ionicSideMenuDelegate.canDragContent(true); // Sets up the sideMenu dragable
@@ -157,7 +158,7 @@ angular.module('starter.controllers', [])
         })
 
 // Home controller
-        .controller('HomeCtrl', function ($scope, $ionicPopup, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $state, $rootScope, promo, categoria, empresa, openHours, sharedUtils) {
+        .controller('HomeCtrl', function ($scope, $ionicPopup, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $state, $rootScope, promo, categoria, empresa,publicidad, openHours, sharedUtils) {
             // get all categories from service
 //            $scope.categories = Menu.all();
 
@@ -172,32 +173,17 @@ angular.module('starter.controllers', [])
             incialite = function () {
 
 
-//                window.plugins.sim.requestReadPermission();
-//                window.plugins.sim.getSimInfo(
-//                        function (result) {
-//                            var alertPopup = $ionicPopup.alert({
-//                                title: 'Atencion',
-//                                template: 'Provedor : ' + result.carrierName + ' Telefono: ' + result.phoneNumber +
-//                                        'IME: ' + result.deviceId
-//
-//                            });
-//
-//                        },
-//                        function (error) {
-//                            var alertPopup = $ionicPopup.alert({
-//                                title: 'Atencion',
-//                                template: "me dio error"
-//                            });
-//                        }
-//                );
-
                 sharedUtils.showLoading();
                 categoria.getCategorias().success(function (response) {
 
                     $scope.categories = response.data;
                     promo.getPromos().success(function (response) {
                         $scope.promos = response.data;
-                        sharedUtils.hideLoading();
+                        publicidad.getPub().success(function (response) {
+                            $scope.publicidad = response.data;
+                            sharedUtils.hideLoading();
+                        });
+
                     });
                 });
             }
@@ -431,7 +417,7 @@ angular.module('starter.controllers', [])
                 });
 
                 if ($scope.pedidos) {
-                 
+
                     if ($scope.pedidos[0].pe_idEstado != $scope.estadoInicial) {
 
                         if ($scope.pedidos[0].pe_idEstado == 2 || $scope.pedidos[0].pe_idEstado == 3) {
@@ -1228,7 +1214,7 @@ angular.module('starter.controllers', [])
                 animation: 'slide-in-up'
             }).then(function (modal) {
                 $scope.modal = modal;
-                debugger;
+
             });
             $scope.openModal = function () {
                 $scope.modal.show();
@@ -1248,6 +1234,7 @@ angular.module('starter.controllers', [])
                     debugger;
                     sharedUtils.showLoading();
                     $scope.usuario = auth.datosUsuario();
+
                     usuario.getDirecciones($scope.usuario.id).success(function (response) {
                         $scope.addresses = response;
                         debugger;
@@ -1259,9 +1246,7 @@ angular.module('starter.controllers', [])
                     hotel.getHoteles().success(function (response) {
                         debugger;
                         $scope.editHotel.hoteles = $scope.editHotel.hoteles.concat(response.data);
-
                         debugger;
-
                         sharedUtils.hideLoading();
                     }).error(function (err) {
                         sharedUtils.hideLoading();
