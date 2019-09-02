@@ -179,6 +179,7 @@ angular.module('starter.controllers', [])
                     $scope.categories = response.data;
                     promo.getPromos().success(function (response) {
                         $scope.promos = response.data;
+                        sharedUtils.hideLoading();
                         publicidad.getPub().success(function (response) {
                             $scope.publicidad = response.data;
                             sharedUtils.hideLoading();

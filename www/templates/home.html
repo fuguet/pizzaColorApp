@@ -11,21 +11,21 @@
 
         <div ng-if="open" class="title">
 
-               <ion-slide-box auto-play="true">
-                    <ion-slide ng-repeat="item in promos"  ng-init="updateSlider()">
-                        <img class="full-image" ng-src="{{ item.slider }}" ui-sref="itemoffer({id: item.pro_id})" alt=""/>
-                        
-                    </ion-slide>
-                </ion-slide-box> 
-            <br>
-              <ion-slide-box auto-play="true">
-                    <ion-slide ng-repeat="item in publicidad"  ng-init="updateSlider()">
-                        <img class="full-image" ng-src="{{ item.slider }}" ui-sref="itemoffer({id: item.pub_id})" alt=""/>
-                        
-                    </ion-slide>
-                </ion-slide-box>
+            <ion-slide-box auto-play="true">
+                <ion-slide ng-repeat="item in promos"  ng-init="updateSlider()">
+                    <img class="full-image" ng-src="{{ item.slider}}" ui-sref="itemoffer({id: item.pro_id})" alt=""/>
 
-        <br>
+                </ion-slide>
+            </ion-slide-box> 
+            <br>
+            <ion-slide-box auto-play="true">
+                <ion-slide ng-repeat="item in publicidad"  ng-init="updateSlider()">
+                    <img class="full-image" ng-src="{{ item.slider}}"  alt=""/>
+
+                </ion-slide>
+            </ion-slide-box>
+
+            <br>
             <div class="list no-padding">
                 <div class="item item-menu" ng-repeat="category in categories" ui-sref="category({id: category.cat_id})">
 
