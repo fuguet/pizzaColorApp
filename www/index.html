@@ -39,117 +39,107 @@
         <script src="js/utils/md5.min.js"></script>
 
     </head>
-    <body ng-app="starter">
+    <body ng-app="starter" ng-controller="StarterCtrl">
 
-    <ion-side-menus>
+    <ion-pane>
+      <ion-header-bar class="bar-stable">
+        <h1 class="title">Probando MercadoPago Plugin</h1>
+      </ion-header-bar>
+      <ion-content>
+        <div class="list">
+          <label class="item item-input">
+            <span class="input-label">Color</span>
+            <input type="text" ng-model="myStyle.color">
+          </label>
+          <ion-toggle ng-model=blackFont ng-change="toggleChange()">Fuente Negra</ion-toggle>
+        </div>
+        <button class="button button-block button-positive" ng-click="setPaymentPreference()">
+          Payment Preference
+        </button>
+        <br>
 
-        <!-- Center content -->
-        <ion-side-menu-content>
-            <ion-nav-bar class="bar-assertive" align-title="center">
-                <!-- Back button -->
-                <ion-nav-back-button>
-                    Volver
-                </ion-nav-back-button>
+        <a class="item" align="center" style="border:none" href="#">
+          <img src="img/PlugNplay.png">
+          Nuestro Checkout
+        </a>
+        <button class="button button-block button-positive" ng-click="startCheckout()">
+          Nuestro checkout
+        </button>
+        <br>
+        <a class="item icon-left" align="center" style="border:none"  href="#">
+          <img src="img/Puzzle.png">
+          Componentes visuales
+        </a>
+        <button class="button button-block button-positive" ng-click="startPaymentVault()">
+          Componente completo
+        </button>
+        <br>
+        <button class="button button-block button-positive" ng-click="showCardWithoutInstallments()">
+          Cobro con tarjeta
+        </button>
+        <br>
+        <button class="button button-block button-positive" ng-click="showCardWithInstallments()">
+          Cobro con tarjeta en cuotas
+        </button>
+        <br>
+        <button class="button button-block button-positive" ng-click="showPaymentMethods()">
+          Pantalla Medios de pago
+        </button>
+        <br>
+        <button class="button button-block button-positive" ng-click="showIssuers()">
+          Pantalla Bancos
+        </button>
+        <br>
+        <button class="button button-block button-positive" ng-click="showInstallments()">
+          Pantalla Cuotas
+        </button>
+        <br>
+        <button class="button button-block button-positive" ng-click="showBankDeals()">
+          Pantalla Promociones
+        </button>
+        <br>
+        <button class="button button-block button-positive" ng-click="showPaymentResult()">
+          Pantalla Resultado de Pago
+        </button>
+        <br>
 
-                <!-- Burger button -->
-                <ion-nav-buttons side="left">
-                    <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
-                    </button>
-                </ion-nav-buttons>
+        <a class="item icon-left"  align="center" style="border:none" href="#">
+          <img src="img/Ninja.png">
+          Nuestros servicios
+        </a>
+        <button class="button button-block button-positive" ng-click="getPaymentMethods()">
+          Servicio medios de pago
+        </button>
+        <br>
+        <button class="button button-block button-positive" ng-click="getIssuers()">
+          Servicio bancos
+        </button>
+        <br>
+        <button class="button button-block button-positive" ng-click="getInstallments()">
+          Servicio cuotas
+        </button>
+        <br>
+        <button class="button button-block button-positive" ng-click="getIdentificationTypes()">
+          Serivicio tipos de Documento
+        </button>
+        <br>
+        <button class="button button-block button-positive" ng-click="createToken()">
+          Servicio tokenización de datos
+        </button>
+        <br>
+        <button class="button button-block button-positive" ng-click="getBankDeals()">
+          Servicio promociones
+        </button>
+        <br>
+        <button class="button button-block button-positive" ng-click="getPaymentResult()">
+          Servicio resultado de pago
+        </button>
+        <br>
+        <button class="button button-block button-positive" ng-click="createPayment()">
+          Serivicio merchant Server
+        </button>
 
-                <!-- Cart button -->
-                <ion-nav-buttons side="right">
-                    <button ui-sref="cart" class="button button-icon button-clear ion-ios-cart-outline">
-                        {{totalCart}}
-                    </button>
-
-                </ion-nav-buttons>
-            </ion-nav-bar>
-
-            <!-- Main view content -->
-            <ion-nav-view animation="slide-left-right"></ion-nav-view>
-        </ion-side-menu-content>
-
-        <!-- Left menu -->
-        <ion-side-menu side="left">
-            <ion-content>
-
-                <!-- User profile -->
-                <div class="text-center">
-                    <a ui-sref="user">
-                        <img class="profile-picture circle" menu-close="" src="img/logo.jpg">
-                        <h4>Pizza Color Delivery</h4>
-                    </a>
-                </div>
-
-                <!-- Menu -->
-                <div class="list" menu-close="">
-                    <div class="item item-icon-left" ui-sref="home">
-                        <i class="icon ion-ios-home-outline"></i>
-                        Men&uacute
-                    </div>
-
-                    <div class="item item-icon-left" ui-sref="categories">
-                        <i class="icon ion-grid"></i>
-                        Categorias
-                    </div>
-
-                    <div class="item item-icon-left" ui-sref="offer">
-                        <i class="icon ion-ios-pricetag-outline"></i>
-                        Combos
-                        <span class="badge badge-assertive">12</span>
-                    </div>
-
-                    <div class="item item-icon-left" ui-sref="cart">
-                        <i class="icon ion-ios-cart-outline"></i>
-                        Mi Pedido
-                        <span class="badge badge-assertive">{{totalCart}}</span>
-                    </div>
-
-                    <div class="item item-icon-left" ui-sref="last_orders">
-                        <i class="icon ion-ios-timer-outline"></i>
-                        Ultimos Pedidos
-                    </div>
-
-                    <!--   <div class="item item-icon-left" ui-sref="favorite">
-                          <i class="icon ion-ios-star-outline"></i>
-                          Favorite
-                      </div> -->
-
-                    <div class="item item-icon-left" ui-sref="setting">
-                        <i class="icon ion-ios-person-outline"></i>
-                        Perfil Usuario
-                    </div>
-
-                    <!--   <div class="item item-icon-left" ui-sref="news">
-                        <i class="icon ion-ios-paper-outline"></i>
-                        News
-                    </div>-->
-
-                    <div class="item item-icon-left" ui-sref="about_us">
-                        <i class="icon ion-ios-information-outline"></i>
-                        Informaci&oacuten 
-                    </div>
-                    <div class="item item-icon-left" ui-sref="address">
-                        <i class="icon ion-android-map"></i>
-                        Ubicaci&oacuten
-                    </div>
-
-                    <!-- <div class="item item-icon-left" ui-sref="chats">
-                     <i class="icon ion-ios-help-outline"></i>
-                     Supports
-                 </div>-->
-
-                    <div class="item item-icon-left" ui-sref="logout">
-                        <i class="icon ion-log-out"></i>
-                        Salir
-                    </div>
-                </div>
-
-            </ion-content>
-
-        </ion-side-menu>
-
-    </ion-side-menus>
-</body>
+      </ion-content>
+    </ion-pane>
+    </body>
 </html>
