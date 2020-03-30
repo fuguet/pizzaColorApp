@@ -11,19 +11,37 @@ var API = {
 };
 
 
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.routes', 'starter.services', 'starter.directives', 'nl2br', 'monospaced.elastic'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.routes', 'starter.services', 'starter.directives', 'nl2br', 'monospaced.elastic','lexacode.mercadopago'])
         .config(function ($ionicConfigProvider) {
             //Added config
             $ionicConfigProvider.views.maxCache(5);
             $ionicConfigProvider.scrolling.jsScrolling(false);
             $ionicConfigProvider.tabs.position('bottom'); // other values: top
         })
-        .run(function ($ionicPlatform, $ionicHistory, $state) {
-            $ionicPlatform.ready(function () {
+        .run(function ($ionicPlatform, $ionicHistory, $ionicPopup, $state) {
 
+            $ionicPlatform.ready(function () {
+                if (window.Connection) {
+
+                    if (navigator.connection.type == Connection.NONE) {
+                        alert('No hay conexion a internet disponible');
+                         ionic.Platform.exitApp()
+                        
+                    } else {
+                        //alert('Usted esta conectado con: '+ navigator.connection.type);
+                    }
+                } else {
+                    alert('Cannot find Window.Connection');
+                }
                 cordova.plugins.notification.local.hasPermission(function (granted) {
 
-                    alert("Mantenga la aplicación abierta o minimizada para recibir notificaciones del estado de su pedido");
+                    //alert("Mantenga la aplicación abierta o minimizada para recibir notificaciones del estado de su pedido");
+                    $ionicPopup.alert({
+                        title: 'Importante',
+                        content: 'Mantenga la aplicación abierta o minimizada para recibir notificaciones del estado de su pedido'
+                    })
+
+
 //                                
                 });
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

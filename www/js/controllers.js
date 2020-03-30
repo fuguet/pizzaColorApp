@@ -14,18 +14,11 @@ angular.module('starter.controllers', [])
                 $state.go('home', {}, {location: "replace"});
             }
 
-
-
-
             $scope.user = {
                 email: $stateParams.correo,
                 password: $stateParams.password
             };
             $scope.countries = Countrie.all();
-
-
-
-
             //chekear si ya esta logeado
 
             $scope.login = function (formName, cred) {
@@ -122,7 +115,6 @@ angular.module('starter.controllers', [])
 
                 {  // Check if the form data is valid or not
                     sharedUtils.showLoading();
-
                     credenciales.recovery(data.per_email).success(function (r) {
                         if (r.response)
                         {
@@ -158,9 +150,10 @@ angular.module('starter.controllers', [])
         })
 
 // Home controller
-        .controller('HomeCtrl', function ($scope, $ionicPopup, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $state, $rootScope, promo, categoria, empresa,publicidad, openHours, sharedUtils) {
-            // get all categories from service
-//            $scope.categories = Menu.all();
+        .controller('HomeCtrl', function ($scope, $ionicPopup, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $state, $rootScope, promo, categoria, empresa, publicidad, openHours, sharedUtils) {
+
+// get all categories from service
+// $rootScope.BrowserNetworkType = "BROWSER";
 
 
             empresa.getHorarios().success(function (response) {
@@ -184,10 +177,10 @@ angular.module('starter.controllers', [])
                             $scope.publicidad = response.data;
                             sharedUtils.hideLoading();
                         });
-
                     });
                 });
             }
+
 
 //            $scope.slides = [];
             incialite();
@@ -318,7 +311,6 @@ angular.module('starter.controllers', [])
                                         if (!$scope.data.quantity) {
                                             //don't allow the user to close unless he enters note
                                             e.preventDefault();
-
                                         } else {
 
                                             return $scope.data.quantity;
@@ -408,15 +400,10 @@ angular.module('starter.controllers', [])
                 $state.reload(true);
             };
             $scope.estadoInicial = {};
-
-
-
             var notification = function () {
                 usuario.getPedidos($scope.usuario.id).success(function (response) {
                     $scope.pedidos = response;
-
                 });
-
                 if ($scope.pedidos) {
 
                     if ($scope.pedidos[0].pe_idEstado != $scope.estadoInicial) {
@@ -429,7 +416,6 @@ angular.module('starter.controllers', [])
                                 smallIcon: "file://img/marker.jpg",
                                 foreground: true
                             });
-
                         }
 
                         $scope.estadoInicial = $scope.pedidos[0].pe_idEstado
@@ -453,14 +439,10 @@ angular.module('starter.controllers', [])
             usuario.getPedidos($scope.usuario.id).success(function (response) {
 
                 debugger;
-
                 $scope.pedidos = response;
                 $scope.estadoInicial = $scope.pedidos[0].pe_idEstado;
                 $interval(notification, 10000);
             });
-
-
-
             // get all favorite items
 
         })
@@ -489,7 +471,6 @@ angular.module('starter.controllers', [])
             $scope.llevaAderezo = (sharedCartService.qtyAderezo > 0)
             $scope.parametros = {};
             $scope.aderezos = {};
-
             $scope.item = {
                 aclaracion: sharedCartService.aclaraciones,
                 aderezos: sharedCartService.aderezos,
@@ -597,7 +578,6 @@ angular.module('starter.controllers', [])
             $scope.checkOut = function () {
 
                 $scope.total = sharedCartService.total_amount;
-
                 if (!($rootScope.open && ($scope.parametros.par_habilitado == 1))) {
                     var alertPopup = $ionicPopup.alert({
                         title: 'Atencion',
@@ -856,7 +836,6 @@ angular.module('starter.controllers', [])
             };
             //inicilizacion
             isLogged();
-
             $ionicModal.fromTemplateUrl('templates/modaladresshotel.html', {
                 scope: $scope,
                 animation: 'slide-in-up'
@@ -867,7 +846,6 @@ angular.module('starter.controllers', [])
             $scope.openModal = function () {
                 $scope.modal.show();
             };
-
             $scope.closeModal = function () {
                 $scope.modal.hide();
                 $scope.editHotel.hotel = null;
@@ -876,9 +854,7 @@ angular.module('starter.controllers', [])
             hotel.getHoteles().success(function (response) {
                 debugger;
                 $scope.editHotel.hoteles = $scope.editHotel.hoteles.concat(response.data);
-
                 debugger;
-
                 sharedUtils.hideLoading();
             }).error(function (err) {
                 sharedUtils.hideLoading();
@@ -938,7 +914,6 @@ angular.module('starter.controllers', [])
             };
             $scope.addAdressHotel = function (formName, res) {
                 debugger;
-
                 var direccion = {};
                 if ($scope.editHotel.hotel != null) {
                     if (formName.$valid) {
@@ -950,7 +925,7 @@ angular.module('starter.controllers', [])
                             direccion.dir_aclaracion = res.dir_aclaracion;
                             direccion.dir_nombreHotel = res.dir_nombre;
                             direccion.dir_habitacion = res.dir_habitacion;
-                            direccion.dir_tipodireccion = 2;//tipo 2 Hotel 1 Particular  
+                            direccion.dir_tipodireccion = 2; //tipo 2 Hotel 1 Particular  
                             direccion.dir_idPersona = $scope.usuario.id;
                         }
                         if ($scope.editHotel.hotel.hotel_id != 0) {
@@ -961,19 +936,17 @@ angular.module('starter.controllers', [])
                             direccion.dir_aclaracion = res.dir_aclaracion;
                             direccion.dir_nombreHotel = $scope.editHotel.hotel.hotel_nombre;
                             direccion.dir_habitacion = res.dir_habitacion;
-                            direccion.dir_tipoDireccion = 2;//tipo 2 Hotel 1 Particular
+                            direccion.dir_tipoDireccion = 2; //tipo 2 Hotel 1 Particular
                             direccion.dir_idPersona = $scope.usuario.id;
                         }
 
 
                         debugger;
                         direccion;
-
                         debugger;
                         usuario.addDireccion(direccion).success(function (res) {
                             if (res.response) {
                                 debugger;
-
                                 usuario.getDirecciones($scope.usuario.id).success(function (response) {
                                     $scope.addresses = response;
                                 });
@@ -988,21 +961,17 @@ angular.module('starter.controllers', [])
                         }).error(function (err) {
 
                             debugger;
-
                             var alertPopup = $ionicPopup.alert({
                                 title: 'Atencion',
                                 template: err.message
                             });
                         });
-
                     } else {
                         sharedUtils.showAlert("Atencion", "Debe completar los campos obligatorios");
-
                     }
 
                 } else {
                     sharedUtils.showAlert("Atencion", "Debe Seleccionar una Opcion");
-
                 }
 
 
@@ -1070,7 +1039,6 @@ angular.module('starter.controllers', [])
                         pedidoEncabezado.pe_resumen = sharedCartService.generarResumen();
                         pedidoEncabezado.pe_aderezos = sharedCartService.aderezos;
                         pedidoEncabezado.pe_cantAderezos = sharedCartService.qtyAderezo;
-
                         sharedUtils.showLoading();
                         pedido.setEncabezado(pedidoEncabezado).success(function (res) {
                             if (res.response) {
@@ -1153,10 +1121,11 @@ angular.module('starter.controllers', [])
 
 
 
-            }
+            };
+            $scope.payMP = function ( ){
 
-        }
-        )
+            }
+        })
 
 // Address controller
         .controller('AddressCtrl', function ($scope, $state, $ionicPopup, externalAppsService, sharedCartService) {
@@ -1202,31 +1171,24 @@ angular.module('starter.controllers', [])
             $scope.usuario = {};
             $scope.direccion = {};
             $scope.newHotel = {};
-
             $scope.editHotel = {
                 hoteles: [{hotel_id: "0", hotel_nombre: "Ninguno de la lista", selected: false}],
                 hotel: null
             };
-
-
             debugger;
             $ionicModal.fromTemplateUrl('templates/modaladresshotel.html', {
                 scope: $scope,
                 animation: 'slide-in-up'
             }).then(function (modal) {
                 $scope.modal = modal;
-
             });
             $scope.openModal = function () {
                 $scope.modal.show();
             };
-
             $scope.closeModal = function () {
                 $scope.modal.hide();
                 $scope.editHotel.hotel = null;
                 $scope.newHotel = {};
-
-
             };
             isLogged = function () {
 
@@ -1235,7 +1197,6 @@ angular.module('starter.controllers', [])
                     debugger;
                     sharedUtils.showLoading();
                     $scope.usuario = auth.datosUsuario();
-
                     usuario.getDirecciones($scope.usuario.id).success(function (response) {
                         $scope.addresses = response;
                         debugger;
@@ -1243,7 +1204,6 @@ angular.module('starter.controllers', [])
                     }).error(function (err) {
                         sharedUtils.hideLoading();
                     });
-
                     hotel.getHoteles().success(function (response) {
                         debugger;
                         $scope.editHotel.hoteles = $scope.editHotel.hoteles.concat(response.data);
@@ -1258,11 +1218,8 @@ angular.module('starter.controllers', [])
             };
             //inicilizacion
             isLogged();
-
-
             $scope.addAdressHotel = function (formName, res) {
                 debugger;
-
                 var direccion = {};
                 if ($scope.editHotel.hotel != null) {
                     if (formName.$valid) {
@@ -1274,7 +1231,7 @@ angular.module('starter.controllers', [])
                             direccion.dir_aclaracion = res.dir_aclaracion;
                             direccion.dir_nombreHotel = res.dir_nombre;
                             direccion.dir_habitacion = res.dir_habitacion;
-                            direccion.dir_tipodireccion = 2;//tipo 2 Hotel 1 Particular  
+                            direccion.dir_tipodireccion = 2; //tipo 2 Hotel 1 Particular  
                             direccion.dir_idPersona = $scope.usuario.id;
                         }
                         if ($scope.editHotel.hotel.hotel_id != 0) {
@@ -1285,19 +1242,17 @@ angular.module('starter.controllers', [])
                             direccion.dir_aclaracion = res.dir_aclaracion;
                             direccion.dir_nombreHotel = $scope.editHotel.hotel.hotel_nombre;
                             direccion.dir_habitacion = res.dir_habitacion;
-                            direccion.dir_tipoDireccion = 2;//tipo 2 Hotel 1 Particular
+                            direccion.dir_tipoDireccion = 2; //tipo 2 Hotel 1 Particular
                             direccion.dir_idPersona = $scope.usuario.id;
                         }
 
 
                         debugger;
                         direccion;
-
                         debugger;
                         usuario.addDireccion(direccion).success(function (res) {
                             if (res.response) {
                                 debugger;
-
                                 usuario.getDirecciones($scope.usuario.id).success(function (response) {
                                     $scope.addresses = response;
                                 });
@@ -1312,26 +1267,21 @@ angular.module('starter.controllers', [])
                         }).error(function (err) {
 
                             debugger;
-
                             var alertPopup = $ionicPopup.alert({
                                 title: 'Atencion',
                                 template: err.message
                             });
                         });
-
                     } else {
                         sharedUtils.showAlert("Atencion", "Debe completar los campos obligatorios");
-
                     }
 
                 } else {
                     sharedUtils.showAlert("Atencion", "Debe Seleccionar una Opcion");
-
                 }
 
 
             };
-
             createAdress = function (res) {
 
                 var direccion = {};
@@ -1387,7 +1337,6 @@ angular.module('starter.controllers', [])
                 }
 
             };
-
             $scope.addManipulation = function (edit_val) {  // Takes care of address add and edit ie Address Manipulator
                 if (edit_val != null) {
 
@@ -1426,8 +1375,6 @@ angular.module('starter.controllers', [])
                         }
                     ]
                 });
-
-
                 addressPopup.then(function (res) {
                     createAdress(res);
                 });
@@ -1470,13 +1417,7 @@ angular.module('starter.controllers', [])
                         }
                     ]
                 });
-
-
-
-
             };
-
-
             $scope.deleteAddress = function (del_id) {
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'Eliminar Domicilio',
@@ -1535,14 +1476,6 @@ angular.module('starter.controllers', [])
 
             }
 
-        })
-
-
-
-// News controller
-        .controller('NewsCtrl', function ($scope, $state, Posts) {
-            // get all posts from services
-            $scope.posts = Posts.all();
         })
 
 // About controller

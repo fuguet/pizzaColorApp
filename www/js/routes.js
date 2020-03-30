@@ -108,13 +108,6 @@ angular.module('starter.routes', [])
                         controller: 'SettingCtrl'
                     })
 
-                    // News
-                    .state('news', {
-                        url: '/news',
-                        templateUrl: 'templates/news.html',
-                        controller: 'NewsCtrl'
-                    })
-
                     .state('about_us', {
                         url: '/about-us',
                         templateUrl: 'templates/about-us.html',
