@@ -1,0 +1,58 @@
+<ion-view cache-view="false" view-title="Pago Online" hide-nav-bar="true">
+
+    <ion-content class="stable-bg">
+        <div class="list list-inset">
+
+
+            <div class="item item-divider">
+                Link de pago
+            </div>
+            <button ng-show="{{!isIOS}}" class="button  button-block  button-positive icon-left ion-card" ng-click="openPage()" ng-disabled="btnPagoOnline">Pagar Link Mercado Pago</button>
+            <button ng-show="{{isIOS}}" class="button  button-block  button-positive icon-left ion-card" ng-click="openPageIos()" ng-disabled="btnPagoOnline">Pagar Link Mercado Pago</button>
+            <div class="item item-divider">
+                Efectivo
+            </div>
+            <button class="button  button-block  button-positive icon-left ion-cash" ng-click="pagarEfectivo()" ng-disabled="btnPagoEfec">Pagar en Efectivo</button>
+            <div class="item item-divider">
+                Cancelar
+            </div>
+            <button class="button  button-block  button-assertive icon-left" ng-click="cancelarPedido()" ng-disabled="btnCancel">Cancelar Pedido</button>
+        </div>
+
+        <div class="item item-divider">
+            Estado pago
+        </div>
+
+        <div class="loading">
+            <div class="list" ng-show="showEstadoPago">
+                <div class="item item-icon-right" ng-class="colorEstadoPago">
+                    {{estadoPago}}
+                    <ion-spinner ng-show="showing">
+
+                    </ion-spinner>
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </ion-content>
+
+    <ion-footer-bar class="bar-positive">
+
+        <button class="button button-full button-positive  icon-right ion-chevron-right" ng-click="irUltPed()">Ultimos
+            Pedidos</button>
+    </ion-footer-bar>
+
+</ion-view>
+
+
+<style>
+    .item-icon-right ion-spinner {
+        float: right;
+        margin-left: -3.2em;
+        margin-right: 1em;
+        margin-top: -0.2em;
+    }
+</style>

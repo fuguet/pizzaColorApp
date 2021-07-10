@@ -2,57 +2,59 @@
   This template loads for the 'about_us' state (app.js)
 -->
 <ion-view view-title="Infomaci&oacuten Sobre Nosotros">
-  <ion-content class="stable-bg">
-    <div class="padding">
+    <ion-content class="stable-bg">
+        <div class="padding">
 
-      <h2 class="dark">Pizza Color Delivery</h2>
-      <span class="dark">{{contac.dcon_direccion}} , Puerto Iguazu-Misiones</span>
+            <h2 class="dark">Pizza Color Delivery</h2>
+            <span class="dark">{{contac.dcon_direccion}} , Puerto Iguazu-Misiones</span>
 
-      <h3>Sobre Nosotros</h3>
+            <h3>Sobre Nosotros</h3>
 
-      <p>En PIZZA COLOR Delivery & Express podes pedir pizzas,empanadas y 
-          sándwiches para que te llevemos a tu casa o para disfrutarlos en el express.</p>
+            <p>En PIZZA COLOR Delivery & Express podes pedir pizzas,empanadas y sándwiches para que te llevemos a tu casa o para disfrutarlos en el express.</p>
 
-      <h3>Horario de Atenci&oacuten</h3>
+            <h3>Horario de Atenci&oacuten</h3>
 
-      <div class="list list-inset">
-        <label class="item item-input item-stacked-label" ng-repeat="day in days">
+            <div class="list list-inset">
+                <label class="item item-input item-stacked-label" ng-repeat="day in days">
           <span class="input-label">{{dias[day.dh_diaSemana]}}</span>
-          <span class="data">{{day.dh_horaApertura}} - {{day.dh_horaCierre}}</span>
+          <span ng-if="!horarioCorrido" class="data">{{day.dh_horaApertura}} - {{day.dh_horaCierre}} y de {{day.dh_horaApertura2}} - {{day.dh_horaCierre2}} </span>
+          <span ng-if="horarioCorrido" class="data">{{day.dh_horaApertura}} - {{day.dh_horaCierre}} </span>
         </label>
-      </div>
+            </div>
 
-      <h3>Comunicate con Nosotros</h3>
+            <h3>Comunicate con Nosotros</h3>
 
-      <div class="list card">
-          <a ng-repeat="item in tel" href="tel:{{item.tcon_numero}}" class="item item-icon-left">
-          <i ng-if="item.tcon_tipo == 2" class="icon ion-ios-telephone"></i> 
-           <i ng-if="item.tcon_tipo == 1" class="icon ion-social-whatsapp"></i>   
-           {{item.tcon_numero}}
-        </a>
-          
-        <ion-icon name="logo-whatsapp"></ion-icon>
-          
-        <a class="item item-icon-left">
-          <i class="icon ion-email"></i>Email: {{ contac.dcon_email}}</a>
-        <a class="item item-icon-left"  ui-sref="address">
-          <i class="icon ion-map"></i>Direcci&oacuten : {{contac.dcon_direccion}} </a>
-      </div>
+            <div class="list card">
+                <a ng-repeat="item in tel" href="tel:{{item.tcon_numero}}" class="item item-icon-left">
+                    <i ng-if="item.tcon_tipo == 2" class="icon ion-ios-telephone"></i>
+                    <i ng-if="item.tcon_tipo == 1" class="icon ion-social-whatsapp"></i> {{item.tcon_numero}}
+                </a>
 
-      <h4>Nuestras Redes Sociales</h4>
-      
-      <div class="list card">
-        <a class="item item-icon-left" ng-click="openFacebookPage()" >
-          <i class="icon ion-social-facebook"></i>  Facebook
-        </a>
-          <!--
+                <ion-icon name="logo-whatsapp"></ion-icon>
+
+                <a class="item item-icon-left">
+                    <i class="icon ion-email"></i>Email: {{ contac.dcon_email}}</a>
+                <a class="item item-icon-left" ui-sref="address">
+                    <i class="icon ion-map"></i>Direcci&oacuten : {{contac.dcon_direccion}} </a>
+            </div>
+
+            <h4>Nuestras Redes Sociales</h4>
+
+            <div class="list card">
+                <a class="item item-icon-left" ng-click="openInsta()">
+                    <i class="icon ion-social-instagram"></i> Instagram
+                </a>
+                <a class="item item-icon-left" ng-click="openFacebook()">
+                    <i class="icon ion-social-facebook"></i> Facebook
+                </a>
+                <!--
         <a class="item item-icon-left" ng-click="openTwitterPage()" >
           <i class="icon ion-social-twitter"></i> Twitter
         </a>
         <a class="item item-icon-left" ng-click="openPage()" ><i class="icon ion-social-pinterest"></i> Pagina Web
         </a>-->
-      </div>
+            </div>
 
-    </div>
-  </ion-content>
+        </div>
+    </ion-content>
 </ion-view>

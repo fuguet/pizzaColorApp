@@ -8,19 +8,20 @@
 <ion-view view-title="Men&uacute">
 
     <ion-content class="stable-bg">
-
-        <div ng-if="open" class="title">
+        <!-- ng-if="open"  -->
+        <div class="title">
+            <br>
 
             <ion-slide-box auto-play="true">
-                <ion-slide ng-repeat="item in promos"  ng-init="updateSlider()">
-                    <img class="full-image" ng-src="{{ item.slider}}" ui-sref="itemoffer({id: item.pro_id})" alt=""/>
+                <ion-slide ng-repeat="item in promos" ng-init="updateSlider()" class="image-slide">
+                    <img class="full-image" ng-src="{{ item.slider}}" ui-sref="itemoffer({id: item.pro_id})" alt="" />
 
                 </ion-slide>
-            </ion-slide-box> 
+            </ion-slide-box>
             <br>
             <ion-slide-box auto-play="true">
-                <ion-slide ng-repeat="item in publicidad"  ng-init="updateSlider()">
-                    <img class="full-image" ng-src="{{ item.slider}}"  alt=""/>
+                <ion-slide ng-repeat="item in publicidad" ng-init="updateSlider()" class="image-slide">
+                    <img class="full-image" ng-src="{{ item.slider}}" alt="" />
 
                 </ion-slide>
             </ion-slide-box>
@@ -29,7 +30,7 @@
             <div class="list no-padding">
                 <div class="item item-menu" ng-repeat="category in categories" ui-sref="category({id: category.cat_id})">
 
-                    <img ng-src="{{ category.slider}}" alt="{{ category.cat_nombre}}"/>
+                    <img ng-src="{{ category.slider}}" alt="{{ category.cat_nombre}}" />
 
                     <div class="overlay">
 
@@ -40,8 +41,8 @@
                 </div>
             </div>
         </div>
-        <div ng-if="!open" class="title">
-            <h2> {{message}}  </h2>
-        </div>
+        <!-- <div ng-if="!open" class="title">
+            <h2> {{message}} </h2>
+        </div> -->
     </ion-content>
 </ion-view>

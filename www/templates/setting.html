@@ -50,60 +50,7 @@
                 <a class="icon icon-right ion-locked" style="margin-right: 10px;"></a>
                 <input style="color: #000;" ng-model="usuario.passwordValidator" type="password" placeholder="Ingrese Nuevamente Password">
             </label>
-            <!--Address Header-->
-
-
-            <div class="item item-divider item-icon-right">           
-                Mis Direcciones  Particulares           
-                <i class="icon ion-android-add-circle assertive" ng-click="addManipulation()" ></i>  
-
-            </div>
-
-
-            <div ng-repeat="item in addresses"   >
-                <div ng-if="item.dir_tipoDireccion != 2"  class="list  list-inset" >
-                    <div class="item item-divider">
-                        <a class="icon icon-right ion-ios-location positive"></a>
-                        {{item.dir_nombre}}
-                        <div style="float: right;">
-                            <a ng-click="addManipulation(item)" class="icon icon-right ion-edit dark" ></a>
-                            <a ng-click="deleteAddress(item.dir_id)" class="icon icon-right ion-android-delete dark"></a>
-                        </div>
-                    </div>
-                    <div class="item item-body" >
-
-                        <span> Direccion: {{item.dir_direccion}} </span>         
-                        <span>Tel: {{item.dir_telefonoFijo}}</span>
-
-                    </div>
-                </div>
-               
-            </div>
-            <div class="item item-divider item-icon-right">           
-                Mis Hoteles             
-                <i class="icon ion-android-add-circle assertive"  ng-click="addManipulation2()" ></i>   
-            </div>
-            <div ng-repeat="item in addresses"   >
-                <div ng-if="item.dir_tipoDireccion == 2"  class="list  list-inset" >
-                    <div class="item item-divider">
-                        <a class="icon icon-right  ion-ios-navigate positive"></a>
-                        {{item.dir_nombre}}
-                        <div style="float: right;">
-                            <a ng-click="addManipulation3(item)" class="icon icon-right ion-edit dark" ></a>
-                            <a ng-click="deleteAddress(item.dir_id)" class="icon icon-right ion-android-delete dark"></a>
-                        </div>
-                    </div>
-                    
-                    <div class="item item-body" >
-
-                        <span> Direccion: {{item.dir_direccion}} </span>         
-                        <span>Habitacion: {{item.dir_habitacion}}</span>
-
-                    </div>
-                </div>
-
-            </div>
-           
+            <!--Address Header-->                    
         </div>
 
     </ion-content>

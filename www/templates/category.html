@@ -7,25 +7,25 @@
 -->
 <ion-view view-title="{{ category.cat_nombre }}">
 
-  <ion-content class="stable-bg">
+    <ion-content class="stable-bg">
 
-    <div class="list no-padding">
-      <div class="item item-menu" ng-repeat="item in products" ui-sref="item({id: item.prod_id})">
+        <div class="list no-padding">
+            <div class="item item-menu" ng-repeat="item in products" ui-sref="item({id: item.prod_id})">
 
-        <img ng-src="{{ item.slider }}" alt="Sin Imagen"/>
+                <img ng-src="{{ item.slider }}" alt="Sin Imagen" />
 
-        <div class="overlay">
+                <div class="overlay">
 
-          <span class="pull-left light">
-            {{ item.prod_nombre }}
-           <p>{{item.prod_descripcionProducto}}</p>
-          </span>
+                    <span class="pull-left light">
+                        {{ item.prod_nombre }} </span>
+                    <!-- <p>{{item.prod_descripcionProducto}}</p>
+          </span> -->
 
-          <span class="pull-right light">
-            ${{ item.prod_precioBase }}
-          </span>
+                    <span class="pull-right light">
+                        ${{item.prod_precioBase }}
+                    </span>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </ion-content>
+    </ion-content>
 </ion-view>

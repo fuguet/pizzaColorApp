@@ -9,8 +9,11 @@
     <ion-content class="stable-bg">
         <div ng-if="!vacio" class="title">
             <div class="item item-divider">
-                <span>Pizza Color Delivery</span>  <span class="pull-right">Total: ${{total}}</span>
-                <p>Pedido M&iacutenimo $ {{parametros.par_pedidoMinimo}}</p> 
+                <span>Pizza Color Delivery</span> <span class="pull-right">Total: ${{total}}</span>
+                <br>
+                <p class="pull-right">Descuento: ${{descuento}}</p>
+                <p>Pedido M&iacutenimo $ {{parametros.par_pedidoMinimo}}</p>
+
                 <p>Tiempo de Entrega: {{parametros.par_tiempoEntrega}} min Aprox</p>
             </div>
             <div class="list list-inset">
@@ -32,41 +35,41 @@
                         ${{ item.precioUnitario}}
                         <span class="dark">x {{ item.cantidad}}</span>
                     </h4>
-                    <button class="button button-assertive"  ng-click="removePro($index)">
+                    <button class="button button-assertive" ng-click="removePro($index)">
                         <i class="icon ion-trash-a" ></i>
                     </button>
                 </ion-item>
-                <ion-item  ng-if="llevaAderezo" ng-click="selAderezos(item)">
+                <ion-item ng-if="llevaAderezo" ng-click="selAderezos(item)">
                     <strong>Añadir Aderezos al Pedido</strong>
-                    <br>      
-                    <ion-input  type="text" ng-value="item.aderezos"> {{item.aderezos}}</ion-input>
+                    <br>
+                    <ion-input type="text" ng-value="item.aderezos"> {{item.aderezos}}</ion-input>
                 </ion-item>
-                <ion-item  ng-click="addAclaracion(item)">
+                <ion-item ng-click="addAclaracion(item)">
                     <strong>Añadir Cometario al Pedido</strong>
-                    <br>      
-                    <ion-input  type="text" ng-value="item.aclaracion"> {{item.aclaracion}}</ion-input>
+                    <br>
+                    <ion-input type="text" ng-value="item.aclaracion"> {{item.aclaracion}}</ion-input>
                 </ion-item>
 
-            </div> 
+            </div>
 
-            <button class="button button-block button-positive"  ui-sref="home">
+            <button class="button button-block button-positive" ui-sref="home">
                 Agregar m&aacutes Comida
             </button>
         </div>
         <div ng-if="vacio" class="title">
             Aun no a pedido!
-            <button class="button button-block button-positive"  ng-click="pedirComida()">
+            <button class="button button-block button-positive" ng-click="pedirComida()">
                 Pedir  Comida
             </button>
         </div>
     </ion-content>
 
-    <ion-footer-bar  class="bar-assertive">
+    <ion-footer-bar class="bar-assertive">
         <div ng-if="!vacio" class="button-bar" ng-click="checkOut()">
-            <div class="button" >Relizar Pedido </div>
+            <div class="button">Relizar Pedido </div>
 
             <div class="button text-2x">
-                 Total : ${{total}}
+                Total : ${{total}}
             </div>
         </div>
     </ion-footer-bar>

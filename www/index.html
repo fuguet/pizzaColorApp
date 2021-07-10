@@ -1,48 +1,92 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-        <meta http-equiv="Content-Security-Policy">
-        <title></title>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta http-equiv="Content-Security-Policy">
+    <title></title>
 
 
-        <!-- compiled css output -->
-        <link href="css/ionic.app.css" rel="stylesheet">
-        <link href="css/style.css" rel="stylesheet">
+    <!-- compiled css output -->
+    <link href="css/ionic.app.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
-        <!-- ionic/angularjs js -->
-        <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
 
-        <!-- angular-nl2br js -->
-        <script src="lib/angular-nl2br/angular-nl2br.min.js"></script>
+    <!-- angular-nl2br js -->
+    <script src="lib/angular-nl2br/angular-nl2br.min.js"></script>
 
-        <!-- elastic js-->
-        <script src="lib/angular-elastic/elastic.js"></script>
-  <!-- elastic js-->
-  
-  
-        <script src="lib/angular-lexacode-mercadopago/angular-lexacode-mercadopago.js"></script>
-        <!-- cordova script (this will be a 404 during development) -->
-        <script src="cordova.js"></script>
+    <!-- elastic js-->
+    <script src="lib/angular-elastic/elastic.js"></script>
+    <!-- elastic js-->
 
-        <!-- google maps javascript -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB16sGmIekuGIvYOfNoW9T44377IU2d2Es&amp;sensor=true"></script>
-        
-        <!-- Mercado Pago javascript -->
-        
-        <script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
-        <!-- your app's js -->
-        <script src="js/app.js"></script>
-        <script src="js/controllers.js"></script>
-        <script src="js/services.js"></script>
-        <script src="js/directives.js"></script>
-        <script src="js/routes.js"></script>
-        <script src="js/utils/md5.js"></script>
-        <script src="js/utils/md5.min.js"></script>
 
-    </head>
-    <body ng-app="starter">
+
+
+
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- Mercado Pago js -->
+
+    <script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
+
+    <!-- google maps javascript -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB16sGmIekuGIvYOfNoW9T44377IU2d2Es&amp;sensor=true"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+    <!-- Controllers -->
+    <script src="js/controllers/auth.js"></script>
+    <script src="js/controllers/address.js"></script>
+    <script src="js/controllers/about.js"></script>
+    <script src="js/controllers/cart.js"></script>
+    <script src="js/controllers/categories.js"></script>
+    <script src="js/controllers/category.js"></script>
+    <script src="js/controllers/checkout.js"></script>
+    <script src="js/controllers/favorite.js"></script>
+    <script src="js/controllers/home.js"></script>
+    <script src="js/controllers/item.js"></script>
+    <script src="js/controllers/itemOffers.js"></script>
+    <script src="js/controllers/lastOrders.js"></script>
+    <script src="js/controllers/logout.js"></script>
+    <script src="js/controllers/offer.js"></script>
+    <script src="js/controllers/auth.js"></script>
+    <script src="js/controllers/setting.js"></script>
+    <script src="js/controllers/userAddress.js"></script>
+    <script src="js/controllers/mp.js"></script>
+    <!-- Services -->
+    <script src="js/services/auth.js"></script>
+    <script src="js/services/cart.js"></script>
+    <script src="js/services/categoria.js"></script>
+    <script src="js/services/countrie.js"></script>
+    <script src="js/services/credenciales.js"></script>
+    <script src="js/services/empresa.js"></script>
+    <script src="js/services/externalApps.js"></script>
+    <script src="js/services/hotel.js"></script>
+    <script src="js/services/openHours.js"></script>
+    <script src="js/services/pedido.js"></script>
+    <script src="js/services/producto.js"></script>
+    <script src="js/services/promo.js"></script>
+    <script src="js/services/public.js"></script>
+    <script src="js/services/restApi.js"></script>
+    <script src="js/services/usuario.js"></script>
+    <script src="js/services/utils.js"></script>
+    <script src="js/services/mp.js"></script>
+
+    <!-- otros archivos -->
+    <script src="js/directives.js"></script>
+    <script src="js/routes.js"></script>
+    <script src="js/utils/md5.js"></script>
+    <script src="js/utils/md5.min.js"></script>
+    <script src="https://www.mercadopago.com/v2/security.js"></script>
+
+</head>
+
+<body ng-app="starter">
 
     <ion-side-menus>
 
@@ -88,30 +132,25 @@
                 <!-- Menu -->
                 <div class="list" menu-close="">
                     <div class="item item-icon-left" ui-sref="home">
-                        <i class="icon ion-ios-home-outline"></i>
-                        Men&uacute
+                        <i class="icon ion-ios-home-outline"></i> Men&uacute
                     </div>
 
                     <div class="item item-icon-left" ui-sref="categories">
-                        <i class="icon ion-grid"></i>
-                        Categorias
+                        <i class="icon ion-grid"></i> Categorias
                     </div>
 
                     <div class="item item-icon-left" ui-sref="offer">
-                        <i class="icon ion-ios-pricetag-outline"></i>
-                        Combos
+                        <i class="icon ion-ios-pricetag-outline"></i> Combos
                         <span class="badge badge-assertive">12</span>
                     </div>
 
                     <div class="item item-icon-left" ui-sref="cart">
-                        <i class="icon ion-ios-cart-outline"></i>
-                        Mi Pedido
+                        <i class="icon ion-ios-cart-outline"></i> Mi Pedido
                         <span class="badge badge-assertive">{{totalCart}}</span>
                     </div>
 
                     <div class="item item-icon-left" ui-sref="last_orders">
-                        <i class="icon ion-ios-timer-outline"></i>
-                        Ultimos Pedidos
+                        <i class="icon ion-ios-timer-outline"></i> Ultimos Pedidos
                     </div>
 
                     <!--   <div class="item item-icon-left" ui-sref="favorite">
@@ -119,9 +158,11 @@
                           Favorite
                       </div> -->
 
+                    <div class="item item-icon-left" ui-sref="userAddress">
+                        <i class="icon ion-ios-location-outline"></i> Mis Direcciones
+                    </div>
                     <div class="item item-icon-left" ui-sref="setting">
-                        <i class="icon ion-ios-person-outline"></i>
-                        Perfil Usuario
+                        <i class="icon ion-ios-person-outline"></i> Perfil Usuario
                     </div>
 
                     <!--   <div class="item item-icon-left" ui-sref="news">
@@ -130,12 +171,10 @@
                     </div>-->
 
                     <div class="item item-icon-left" ui-sref="about_us">
-                        <i class="icon ion-ios-information-outline"></i>
-                        Informaci&oacuten 
+                        <i class="icon ion-ios-information-outline"></i> Informaci&oacuten
                     </div>
                     <div class="item item-icon-left" ui-sref="address">
-                        <i class="icon ion-android-map"></i>
-                        Ubicaci&oacuten
+                        <i class="icon ion-android-map"></i> Ubicaci&oacuten
                     </div>
 
                     <!-- <div class="item item-icon-left" ui-sref="chats">
@@ -144,16 +183,16 @@
                  </div>-->
 
                     <div class="item item-icon-left" ui-sref="logout">
-                        <i class="icon ion-log-out"></i>
-                        Salir
+                        <i class="icon ion-log-out"></i> Salir
                     </div>
                 </div>
 
-      
+
             </ion-content>
 
         </ion-side-menu>
 
     </ion-side-menus>
 </body>
+
 </html>

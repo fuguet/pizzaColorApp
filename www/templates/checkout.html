@@ -10,30 +10,23 @@
             <div class="item item-divider">
                 Medio de Pago
             </div>
-            <ion-radio   ng-repeat="pay in payments"  
-                         ng-model="data.payment" 
-                         ng-value="pay.id" 
-                         name="pay">
-                {{pay.name}}
-            </ion-radio>
+            <ion-list>
+                <ion-radio ng-repeat="pay in payments" ng-model="data.payment" ng-value="pay.id" name="pay" ng-disabled="pay.disable">
+                    {{pay.name}}
+                </ion-radio>
+            </ion-list>
             <div class="item item-divider">
                 Direcciones de Envio
-            </div> 
+            </div>
             <!-- <div class="padding-left padding-right">
                  <a class="pull-right" ui-sref="address">
                      <i class="ion-edit"></i>
                  </a>
              </div>-->
-            <ion-radio
-                ng-repeat="item in addresses"  
-                ng-model="data.address" 
-                ng-value="item"
-                name="address"
-                style="font-size: 90%;"
-                >
+            <ion-radio ng-repeat="item in addresses" ng-model="data.address" ng-value="item" name="address" style="font-size: 90%;">
                 <a ng-if="item.dir_tipoDireccion==2" class="icon icon-right ion-ios-navigate"></a>
                 <a ng-if="item.dir_tipoDireccion!=2" class="icon icon-right ion-ios-location"></a>
-                <span> {{item.dir_nombre}} : {{item.dir_direccion}} </span>  <br>       
+                <span> {{item.dir_nombre}} : {{item.dir_direccion}} </span> <br>
                 <span ng-if="item.dir_tipoDireccion!=2">Tel: {{item.dir_telefonoFijo}}</span>
                 <span ng-if="item.dir_tipoDireccion==2">Habitacion: {{item.dir_habitacion}}</span>
             </ion-radio>
@@ -45,26 +38,21 @@
         <!-- Shipping address-->
 
 
-        <button class="button button-block button-positive"  ng-click="addManipulation()">
+        <button class="button button-block button-positive" ng-click="addManipulation()">
             Agregar una Direcci&oacuten
         </button>
-        <button class="button button-block button-positive"  ng-click="addManipulation2()">
+        <button class="button button-block button-positive" ng-click="addManipulation2()">
             Agregar un Hotel
         </button>
     </ion-content>
 
-    <ion-footer-bar  class="bar-assertive">
+    <ion-footer-bar class="bar-assertive">
         <div class="button-bar" ng-click="pay()">
-            <div class="button" >Relizar Pedido</div>
+            <div class="button">Relizar Pedido</div>
 
             <div class="button text-2x">
                 Total : ${{total}}
             </div>
-        </div>
-         <div class="button-bar" ng-click="payMP()">
-            <div class="button" >Pagar MP</div>
-
-            
         </div>
     </ion-footer-bar>
 
